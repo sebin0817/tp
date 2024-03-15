@@ -64,13 +64,10 @@ public class AddressBookParser {
             return new ListCommand();
 
         case ListNoteCommand.COMMAND_WORD:
-            return new ListNoteCommand();
+            return new ListNoteCommandParser().parse(arguments);
 
         case AddNoteCommand.COMMAND_WORD:
             return new AddNoteCommandParser().parse(arguments);
-
-        case EditNoteCommand.COMMAND_WORD:
-            return new EditNoteCommandParser().parse(arguments);
 
         case ExitCommand.COMMAND_WORD:
             return new ExitCommand();

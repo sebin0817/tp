@@ -97,13 +97,6 @@ public interface Model {
      */
     void addNote(Note note);
 
-    /**
-     * Replaces the given note {@code target} with {@code editedNote}.
-     * {@code target} must exist in the address book.
-     * The note date-time of {@code editedNote} must not be the same as another existing note in the address book.
-     */
-    void setNote(Note target, Note editedNote);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -117,8 +110,9 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
-     * Updates the filter of the filtered note list to filter by the given {@code predicate}.
+     * Updates the filter of the filtered note list to filter by the given {@code notes}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredNoteList(Predicate<Note> predicate);
+
 }
