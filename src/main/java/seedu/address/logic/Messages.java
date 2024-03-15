@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.note.Note;
 
 /**
  * Container for user visible messages.
@@ -48,6 +49,18 @@ public class Messages {
         builder.append("; Notes: ");
         person.getNotes().forEach(builder::append);
 
+        return builder.toString();
+    }
+
+    /**
+     * Formats the {@code note} for display to the user.
+     */
+    public static String format(Note note) {
+        final StringBuilder builder = new StringBuilder();
+        builder.append(note.getDateTime())
+                .append("; Date: ")
+                .append(note.getDescription())
+                .append("; Description: ");
         return builder.toString();
     }
 

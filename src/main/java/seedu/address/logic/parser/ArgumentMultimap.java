@@ -39,7 +39,7 @@ public class ArgumentMultimap {
      * Returns the last value of {@code prefix}.
      */
     public Optional<String> getValue(Prefix prefix) {
-        List<String> values = getAllValues(prefix);
+        List<String> values = getAllValues(prefix); // 1 1
         return values.isEmpty() ? Optional.empty() : Optional.of(values.get(values.size() - 1));
     }
 
@@ -75,4 +75,5 @@ public class ArgumentMultimap {
             throw new ParseException(Messages.getErrorMessageForDuplicatePrefixes(duplicatedPrefixes));
         }
     }
+
 }
