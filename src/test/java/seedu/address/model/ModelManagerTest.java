@@ -12,6 +12,7 @@ import static seedu.address.testutil.TypicalPersons.NOTE2;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -162,6 +163,36 @@ public class ModelManagerTest {
         int totalNotesCount = modelManager.getAddressBook().getNoteList().size();
         modelManager.addNote(NOTE1);
         modelManager.updateFilteredNoteList(Model.PREDICATE_SHOW_ALL_NOTES);
+        assertEquals(totalNotesCount + 1, modelManager.getFilteredNoteList().size());
+    }
+
+    @Test
+    public void addNote_noteAdded_noteListSizeIncreases() {
+        int initialNoteListSize = modelManager.getFilteredNoteList().size();
+        Note newNote = new Note(LocalDateTime.now(), new Description("Test Note"));
+
+        modelManager.addNote(newNote);
+
+        assertEquals(initialNoteListSize + 1, modelManager.getFilteredNoteList().size());
+    }
+
+    @Test
+    public void addNote_noteAdded_addedNoteIsInList() {
+        Note newNote = new Note(LocalDateTime.now(), new Description("Unique Test Note"));
+
+        modelManager.addNote(newNote);
+
+        assertTrue(modelManager.getFilteredNoteList().contains(newNote));
+    }
+
+    @Test
+    public void addNote_noteAdded_filteredNoteListShowsAllNotes() {
+        int totalNotesCount = modelManager.getAddressBook().getNoteList().size();
+        Note newNote = new Note(LocalDateTime.now(), new Description("Another Test Note"));
+
+        modelManager.addNote(newNote);
+        modelManager.updateFilteredNoteList(Model.PREDICATE_SHOW_ALL_NOTES);
+
         assertEquals(totalNotesCount + 1, modelManager.getFilteredNoteList().size());
     }
 }
