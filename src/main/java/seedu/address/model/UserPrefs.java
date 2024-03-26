@@ -16,7 +16,6 @@ public class UserPrefs implements ReadOnlyUserPrefs {
     private GuiSettings guiSettings = new GuiSettings();
     private String addressBookFile = "addressbook";
     private String addressBookDirectory = "data";
-    private String addressBookArchiveDirectory = "archive";
     private String addressBookType = ".json";
     private Path addressBookFilePath = Paths.get(addressBookDirectory, addressBookFile + addressBookType);
 
@@ -58,7 +57,7 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     public Path getAddressBookArchivePath() {
         String currentDateTimeString = java.time.LocalDateTime.now().toString().replace(":", "-");
-        return Paths.get(addressBookArchiveDirectory, addressBookFile + "_" + currentDateTimeString + addressBookType);
+        return Paths.get(addressBookDirectory, addressBookFile + "_" + currentDateTimeString + addressBookType);
     }
 
     public void setAddressBookFilePath(Path addressBookFilePath) {
