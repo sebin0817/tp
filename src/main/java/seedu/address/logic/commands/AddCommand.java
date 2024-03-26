@@ -19,7 +19,7 @@ import seedu.address.model.person.Person;
 /**
  * Adds a patient to the patient book.
  */
-public class AddCommand extends Command {
+public class AddCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add";
 
@@ -46,7 +46,7 @@ public class AddCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "New patient added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This patient already exists in the patient book";
-
+    public static final String MESSAGE_UNDO_ADD_SUCCESS = "Add patient medical record undone.";
     private final Person toAdd;
 
     /**
@@ -65,8 +65,16 @@ public class AddCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        savePrevState(model);
+
         model.addPerson(toAdd);
         return new CommandResult(String.format(MESSAGE_SUCCESS, Messages.format(toAdd)));
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_ADD_SUCCESS);
     }
 
     @Override

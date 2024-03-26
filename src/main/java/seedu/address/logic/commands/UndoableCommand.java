@@ -1,17 +1,23 @@
 package seedu.address.logic.commands;
 
+import seedu.address.model.AddressBook;
+import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 
 /**
  * Represents commands that can be undone by the user
  */
 public abstract class UndoableCommand extends Command {
-    protected ReadOnlyAddressBook prevState;
+    protected ReadOnlyAddressBook prevAddressBookState;
 
     /**
-     * Returns command result after undoing the command.
+     * Saves the current address book state as prev state.
      *
-     * @return CommandResult.
+     * @param model - the model of the application containing the state.
      */
-    public abstract CommandResult undo();
+    protected void savePrevState(Model model) {
+        this.prevAddressBookState = new AddressBook(model.getAddressBook());
+    }
+
+    public abstract CommandResult undo(Model model);
 }

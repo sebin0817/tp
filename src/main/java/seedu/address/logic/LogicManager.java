@@ -12,6 +12,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
@@ -23,7 +24,7 @@ import seedu.address.model.person.note.Note;
 import seedu.address.storage.Storage;
 
 /**
- * The main LogicManager of the app.
+ * The main LogicManager of the app. Also acts as invoker.
  */
 public class LogicManager implements Logic, CommandHistory {
     public static final String FILE_OPS_ERROR_FORMAT = "Could not save data due to the following error: %s";
@@ -55,6 +56,16 @@ public class LogicManager implements Logic, CommandHistory {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+
+        if (command instanceof UndoCommand) {
+            commandResult = new CommandResult(commandResult.getFeedbackToUser()
+                    + " " + undoLastCommand().getFeedbackToUser());
+        }
+
+        // add to the history deque
+        if (command instanceof UndoableCommand) {
+            addCommand((UndoableCommand) command);
+        }
 
         try {
             storage.saveAddressBook(model.getAddressBook());
@@ -113,6 +124,6 @@ public class LogicManager implements Logic, CommandHistory {
         }
 
         UndoableCommand command = commandHistoryDeque.removeFirst();
-        return command.undo();
+        return command.undo(model);
     }
 }
