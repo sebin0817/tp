@@ -73,6 +73,11 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public Path getAddressBookArchivePath() {
+        return userPrefs.getAddressBookArchivePath();
+    }
+
+    @Override
     public void setAddressBookFilePath(Path addressBookFilePath) {
         requireNonNull(addressBookFilePath);
         userPrefs.setAddressBookFilePath(addressBookFilePath);
@@ -115,7 +120,8 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Returns an unmodifiable view of the list of {@code Person} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Person} backed by the
+     * internal list of
      * {@code versionedAddressBook}
      */
     @Override
@@ -142,7 +148,8 @@ public class ModelManager implements Model {
     }
 
     /**
-     * Returns an unmodifiable view of the list of {@code Note} backed by the internal list of
+     * Returns an unmodifiable view of the list of {@code Note} backed by the
+     * internal list of
      * {@code versionedAddressBook}
      */
     @Override
@@ -163,9 +170,9 @@ public class ModelManager implements Model {
 
         ModelManager otherModelManager = (ModelManager) other;
         return addressBook.equals(otherModelManager.addressBook)
-            && userPrefs.equals(otherModelManager.userPrefs)
-            && filteredPersons.equals(otherModelManager.filteredPersons)
-            && filteredNotes.equals(otherModelManager.filteredNotes);
+                && userPrefs.equals(otherModelManager.userPrefs)
+                && filteredPersons.equals(otherModelManager.filteredPersons)
+                && filteredNotes.equals(otherModelManager.filteredNotes);
     }
 
 }

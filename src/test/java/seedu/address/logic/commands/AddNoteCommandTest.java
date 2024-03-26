@@ -74,6 +74,7 @@ public class AddNoteCommandTest {
             assertEquals(
                     new CommandResult(String.format(AddNoteCommand.MESSAGE_SUCCESS, Messages.format(VALID_NOTE_FLU)),
                             false,
+                            false,
                             false),
                     result);
         }

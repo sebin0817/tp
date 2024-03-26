@@ -76,4 +76,19 @@ public class JsonAddressBookStorage implements AddressBookStorage {
         FileUtil.createIfMissing(filePath);
         JsonUtil.saveJsonFile(new JsonSerializableAddressBook(addressBook), filePath);
     }
+
+    /**
+     * Archives the current address book to the specified target path.
+     *
+     * @param addressBook cannot be null.
+     * @param sourcePath location of the data. Cannot be null.
+     * @param targetPath location of the data. Cannot be null.
+     */
+    public void copyAddressBook(ReadOnlyAddressBook addressBook, Path sourcePath, Path targetPath) throws IOException {
+        requireNonNull(addressBook);
+        requireNonNull(filePath);
+
+        FileUtil.copyFile(sourcePath, targetPath);
+        JsonUtil.saveJsonFile(new JsonSerializableAddressBook(addressBook), filePath);
+    }
 }
