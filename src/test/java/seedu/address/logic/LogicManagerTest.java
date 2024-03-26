@@ -197,6 +197,12 @@ public class LogicManagerTest {
                     throws IOException {
                 throw e;
             }
+
+            @Override
+            public void copyAddressBook(ReadOnlyAddressBook addressBook, Path sourcePath, Path targetPath)
+                    throws IOException {
+                throw e;
+            }
         };
 
         JsonUserPrefsStorage userPrefsStorage =

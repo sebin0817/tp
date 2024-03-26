@@ -107,4 +107,22 @@ public class JsonAddressBookStorageTest {
     public void saveAddressBook_nullFilePath_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> saveAddressBook(new AddressBook(), null));
     }
+
+    /**
+     * Saves {@code addressBook} at the specified {@code filePath}.
+     */
+    private void copyAddressBook(ReadOnlyAddressBook addressBook, String sourcePath, String targetPath) {
+        try {
+            new JsonAddressBookStorage(Paths.get(sourcePath))
+                    .copyAddressBook(addressBook, addToTestDataPathIfNotNull(sourcePath),
+                            addToTestDataPathIfNotNull(targetPath));
+        } catch (IOException ioe) {
+            throw new AssertionError("There should not be an error writing to the file.", ioe);
+        }
+    }
+
+    @Test
+    public void copyAddressBook_nullAddressBook_throwsNullPointerException() {
+        assertThrows(NullPointerException.class, () -> copyAddressBook(null, "SomeFile.json", "SomeFile.json"));
+    }
 }
