@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.collections.ObservableList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
@@ -28,6 +29,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Description;
 import seedu.address.model.person.note.Note;
 import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
+import seedu.address.testutil.EditNoteDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -43,8 +45,8 @@ public class CommandTestUtil {
     public static final String VALID_GENDER_BOB = "M";
     public static final String VALID_BIRTHDATE_AMY = "01-05-2000";
     public static final String VALID_BIRTHDATE_BOB = "02-03-1999";
-    public static final String VALID_PHONE_AMY = "11111111";
-    public static final String VALID_PHONE_BOB = "22222222";
+    public static final String VALID_PHONE_AMY = "94505321";
+    public static final String VALID_PHONE_BOB = "84505322";
     public static final String VALID_EMAIL_AMY = "amy@example.com";
     public static final String VALID_EMAIL_BOB = "bob@example.com";
     public static final String VALID_DRUG_ALLERGY_AMY = "Penicillin";
@@ -53,7 +55,8 @@ public class CommandTestUtil {
     public static final String VALID_ILLNESS_INFECTIOUS = "Infectious Disease";
     public static final String VALID_DATE = "19-02-2024";
     public static final String VALID_TIME = "2130";
-    public static final String VALID_NOTE = "General Flu";
+    public static final String VALID_NOTE1 = "General Flu";
+    public static final String VALID_NOTE2 = "Headache";
     public static final Note VALID_NOTE_FLU =
         new Note(LocalDateTime.of(2024, 2, 19, 21, 30),
                 new Description("General Flu"));
@@ -76,7 +79,7 @@ public class CommandTestUtil {
     public static final String ILLNESS_DESC_GENETIC = " " + PREFIX_ILLNESS + VALID_ILLNESS_GENETIC;
     public static final String DATE_DESC = " " + PREFIX_DATE + VALID_DATE;
     public static final String TIME_DESC = " " + PREFIX_TIME + VALID_TIME;
-    public static final String NOTE_DESC = " " + PREFIX_NOTE + VALID_NOTE;
+    public static final String NOTE_DESC = " " + PREFIX_NOTE + VALID_NOTE1;
 
     public static final String INVALID_NRIC_DESC = " " + PREFIX_NRIC + "G3424GH";
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
@@ -95,12 +98,22 @@ public class CommandTestUtil {
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditNoteCommand.EditNoteDescriptor DESC_NOTE1;
+    public static final EditNoteCommand.EditNoteDescriptor DESC_NOTE2;
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
-            .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).build();
+                .withGender(VALID_GENDER_AMY).withBirthDate(VALID_BIRTHDATE_AMY)
+                .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
+                .withDrugAllergy(VALID_DRUG_ALLERGY_AMY).build();
         DESC_BOB = new EditPersonDescriptorBuilder().withName(VALID_NAME_BOB)
-            .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).build();
+                .withGender(VALID_GENDER_BOB).withBirthDate(VALID_BIRTHDATE_BOB)
+                .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
+                .withDrugAllergy(VALID_DRUG_ALLERGY_BOB).build();
+        DESC_NOTE1 = new EditNoteDescriptorBuilder().withDateTime(VALID_NOTE_FLU.getDateTime())
+                .withDescription(VALID_NOTE1).build();
+        DESC_NOTE2 = new EditNoteDescriptorBuilder().withDateTime(VALID_NOTE_FLU.getDateTime())
+                .withDescription(VALID_NOTE2).build();
     }
 
     /**
@@ -158,6 +171,20 @@ public class CommandTestUtil {
         model.updateFilteredPersonList(new NameContainsKeywordsPredicate(Arrays.asList(splitName[0])));
 
         assertEquals(1, model.getFilteredPersonList().size());
+    }
+
+    /**
+     * Updates {@code model}'s filtered list to show only the notes of the given {@code patientIndex} in the
+     * {@code model}'s address book.
+     */
+    public static void showNotesAtIndex(Model model, Index targetIndex) {
+        assertTrue(targetIndex.getZeroBased() < model.getFilteredPersonList().size());
+
+        Person person = model.getFilteredPersonList().get(targetIndex.getZeroBased());
+        ObservableList<Note> notes = person.getNotes();
+        model.updateFilteredNoteList(note -> notes.contains(note));
+
+        assertEquals(2, model.getFilteredNoteList().size());
     }
 
 }

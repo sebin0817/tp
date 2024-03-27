@@ -13,8 +13,10 @@ title: User Guide
   - [Listing all patient medical records](#listing-all-patient-medical-records--list)
   - [Editing a patient medical record](#editing-a-patient-medical-record--edit)
   - [Deleting a patient medical record](#deleting-a-patient-medical-record--delete)
+  - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
   - [Locating patient(s) medical record](#locating-a-patient-medical-record--find)
   - [Adding an appointment note](#adding-an-appointment-note-add-an)
+  - [Editing an appointment note](#editing-an-appointment-note-edit-an)
   - [Deleting an appointment note](#deleting-an-appointment-note--delete-an)
   - [Clearing all entries](#clearing-all-entries--clear)
   - [Exiting the program](#exiting-the-program--exit)
@@ -101,15 +103,18 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 * `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 * `NAME` can contain an alphanumeric, spaces, special characters.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
-* `PHONE_NUMBER` numeric characters and must follow the format "+65 XXXXXXXX".
+* `PHONE_NUMBER` should be in valid Singapore phone number format. 
+Must start with 6, 8, or 9 and be followed by seven additional digits, 
+with no spaces or other characters.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `EMAIL` Emails should be of the format 'local-part@domain'.
-* `ILLNESS` one of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders, 
+* `EMAIL` should be of the format 'local-part@domain'.
+* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
+* `ILLNESS_CATEGORY` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders, 
 Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies, 
 Environmental Illnesses, Degenerative Diseases or Others.
 
 Examples:
-* `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy` Adds a new 
+* `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` Adds a new 
 patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`, 
 birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness of `Infectious Disease`.
 ### Listing all patient medical records : `list`
@@ -124,30 +129,33 @@ Format: `list`
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
 Format: `edit PATIENT_
-INDEX [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] 
-[d/DRUG_ALLERGIES]`
+INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGIES] [i/ILLNESS_CATEGORY]...`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Edit should have atleast one parameter / detail to update.
+Edit should have atleast one parameter / detail to update. Also nric is not allowed be edited remake the record 
+if new nric is needed.
 </div>
 
 * Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the 
 displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
-* `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 * `NAME` can contain an alphanumeric, spaces, special characters.
-* `PHONE_NUMBER` numeric characters and must follow the format "+65 XXXXXXXX".
-* `GENDER` Male or M, Female F or exclude from the command for Prefer not to say option.
+* `PHONE_NUMBER` should be in valid Singapore phone number format.
+  Must start with 6, 8, or 9 and be followed by seven additional digits,
+  with no spaces or other characters.
+* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `\g` with empty argument to remove any gender
+specification and make it 'Prefer not to say'.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `ILLNESS` one of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
+* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any allergy
+previously written.
+* `ILLNESS_CATEGORY` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-  Environmental Illnesses, Degenerative Diseases or Others.
-* `DRUG_ALLERGIES` can contain an alphanumeric, spaces, special characters.
-
+  Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove 
+all illness category associated with the medical record.
 Examples:
-*  `edit 1 n/Mark Tan p/94505333 g/Female b/11-11-1991 i/Genetic Disorders d/Antibiotic Allergy` Edit the whole patient 
+*  `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient 
 medical record that has the `PATIENT_INDEX` of 1.
-*  `edit 1 g/Male b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of 
-`Male` and birthdate of `11-07-1999`.
+*  `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of 
+`M` and birthdate of `11-07-1999`.
 
 [//]: # (### Locating persons by name: `find`)
 
@@ -211,6 +219,20 @@ Examples:
 Shows a list of all appointment notes.
 
 Format: `list-an`
+
+### Listing a particular patients' appointment notes: `list-an`
+
+Shows a list a particular patients' appointment notes.
+
+Format: `list-an PATIENT_INDEX`
+
+* Lists all appointment notes at the specified `INDEX` for given patient from `PATIENT_INDEX`.
+* The index refers to the index number shown in the displayed patient list.
+* The patient index refers to the index number shown in the displayed patient list.
+* The index **must be a positive integer** 1, 2, 3, …
+
+Examples:
+* `list-an 1`
 
 ### Adding an appointment note: `add-an`
 
@@ -310,7 +332,8 @@ Action | Format, Examples
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List Appointment Note** | `list-an`
+**List All Appointment Notes** | `list-an`
+**List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`
 **Add Appointment Note** | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`
 **Edit Appointment Note** | `edit-an PATIENT_INDEX INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`
 **Delete Appointment Note** | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`
