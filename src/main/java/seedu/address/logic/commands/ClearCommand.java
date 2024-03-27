@@ -8,7 +8,7 @@ import seedu.address.model.Model;
 /**
  * Clears the patient book.
  */
-public class ClearCommand extends Command {
+public class ClearCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "clear";
 
@@ -17,11 +17,22 @@ public class ClearCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Clears the patient book.\n"
             + "Example: " + COMMAND_WORD;
 
+    public static final String MESSAGE_UNDO_CLEAR_SUCCESS = "Clear patient medical records undone.";
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+
+        savePrevState(model);
+
         model.setAddressBook(new AddressBook());
         return new CommandResult(MESSAGE_SUCCESS);
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_CLEAR_SUCCESS);
     }
 
     @Override
