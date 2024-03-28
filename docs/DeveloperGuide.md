@@ -237,7 +237,23 @@ The following activity diagram summarizes what happens when a user executes a ne
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
-_{more aspects and alternatives to be added}_
+### \[Proposed\] Find feature (Draft)
+
+#### Proposed Implementation
+The `FindCommand` feature allows user to search for patients in the patient book efficiently. It is implemented using a `Predicate<Person>` to filer out the patient book.
+
+The parsing of user input is handled by `FindCommandParser`. This parser constructs all the relevant predicates based on the prefixes and keywords given by the user. It then combines the predicates which is used to construct `FindCommand`.
+
+#### Design considerations:
+
+##### Predicate Implementation
+* **Alternative 1 (current choice):** Implement predicates as separate classes (e.g. name, gender, nric, etc.)
+  * Pros: Better code readability as its own filtering logic is encapsulated in its own class.
+  * Cons: Increases the number of classes, some duplication of similar logic code.
+
+* **Alternative 2:** Combining predicate logic in a single class.
+  * Pros: Reduces the number of classes.
+  * Cons: Reduced readability and maintainability with mixed predicate test logic.
 
 ### \[Proposed\] Data archiving
 
@@ -283,7 +299,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                       | add a patient's medical record                | record new patients I work with                         |
 | `* * *`  | user                                       | edit a patient's medical record               | amend necessary details of a medical record when needed |
 | `* * *`  | user                                       | delete a patient's medical record             | remove patient's medical record that I no longer need   |
-| `* * *`  | user                                       | find a patient's medical record               | find existing patient records based on keyword(s)|
+| `* * *`  | user                                       | find patients with specific keywords          | locate existing patient records efficiently             |
 | `* * *`  | user                                       | list all patients' appointment notes          | view all existing appointment notes                     |
 | `* * *`  | user                                       | list a particular patients' appointment notes | view a particular patient's existing appointment notes  |
 | `* * *`  | user                                       | add a patient's appointment note              | record keep the details of each appointment             |
