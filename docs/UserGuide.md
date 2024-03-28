@@ -103,23 +103,23 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 * `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 * `NAME` can contain an alphanumeric, spaces, special characters.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
-* `PHONE_NUMBER` should be in valid Singapore phone number format. 
-Must start with 6, 8, or 9 and be followed by seven additional digits, 
+* `PHONE_NUMBER` should be in valid Singapore phone number format.
+Must start with 6, 8, or 9 and be followed by seven additional digits,
 with no spaces or other characters.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
-* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders, 
-Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies, 
+* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
+Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
 Environmental Illnesses, Degenerative Diseases or Others.
 
 Examples:
-* `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` Adds a new 
-patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`, 
+* `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` Adds a new
+patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
 birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness of `Infectious Disease`.
 ### Listing all patient medical records : `list`
 
-Displays the list of patients in the application. Each row of patients displays a basic details of the patients 
+Displays the list of patients in the application. Each row of patients displays a basic details of the patients
 (e.g. name, gender, age, illness, phone number)
 
 Format: `list`
@@ -132,11 +132,11 @@ Format: `edit PATIENT_
 INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Edit should have atleast one parameter / detail to update. Also nric is not allowed be edited remake the record 
+Edit should have atleast one parameter / detail to update. Also nric is not allowed be edited remake the record
 if new nric is needed.
 </div>
 
-* Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the 
+* Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the
 displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
 * `NAME` can contain an alphanumeric, spaces, special characters.
 * `PHONE_NUMBER` should be in valid Singapore phone number format.
@@ -149,12 +149,12 @@ specification and make it 'Prefer not to say'.
 previously written.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-  Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove 
+  Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove
 all illness category associated with the medical record.
 Examples:
-*  `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient 
+*  `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
 medical record that has the `PATIENT_INDEX` of 1.
-*  `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of 
+*  `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
 `M` and birthdate of `11-07-1999`.
 
 [//]: # (### Locating persons by name: `find`)
@@ -200,7 +200,7 @@ Format: `delete PATIENT_INDEX`
 
 Finds patient whose details contain any of the given keywords.
 
-Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] 
+Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY]
 [d/DRUG_ALLERGIES]`
 
 * Users can search by NRIC, name, phone number, email, gender, birthdate, illness category, and drug allergy.
@@ -286,7 +286,7 @@ Format: `clear`
 
 ### Undo previous commands : `undo`
 
-Undo the most recent command if any. 
+Undo the most recent command if any.
 *Only supports patient medical record related commands as of now*.
 
 Format: `undo`

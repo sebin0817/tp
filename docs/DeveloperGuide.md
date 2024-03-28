@@ -169,36 +169,36 @@ The stack keeps track of at most 10 most recent actions.
 
 Below is an example scenario on how the undo works with the command history stack maintained by the `LogicManager`
 
-Step 1. The user launches the application for the first time. 
+Step 1. The user launches the application for the first time.
 The `LogicManager` will be initialized with an empty command history stack.
 
 ![UndoState0](images/UndoState0.png)
 
-Step 2. The user executes `delete 1` command to delete the 1st patient medical record from the address book. 
-The `DeleteCommand` extends `UndoableCommand` and thus supports undoable behaviours. 
+Step 2. The user executes `delete 1` command to delete the 1st patient medical record from the address book.
+The `DeleteCommand` extends `UndoableCommand` and thus supports undoable behaviours.
 The `DeleteCommand#execute()` is called and saves the current `AddressBook` state as the previous state before modifying it to carry out the delete command.
 After executing `DeleteCommand` the command object itself will be pushed into the command history managed by the `LogicManager`.
 
 ![UndoState1](images/UndoState1.png)
 
-Step 3. The user executes `add nric/S9974837D n/David …​` to add a new patient medical record. 
+Step 3. The user executes `add nric/S9974837D n/David …​` to add a new patient medical record.
 The `AddCommand` command also calls `AddCommand#execute()`, similar to the delete command, it saves the current `AddressBook` as the previous state before carrying out the add command.
 
 ![UndoState2](images/UndoState2.png)
 <div markdown="span" class="alert alert-info">
-    :information_source: **Note:** 
+    :information_source: **Note:**
     If a command fails it won't continue execution and error handlers will handle the respective `CommandException` thrown.
     The command would not be pushed into the history stack.
 </div>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. 
-The `undo` command will call `LogicManager#undoLastCommand`, and this would pop the most recent `UndoableCommand` as explained above. 
+Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command.
+The `undo` command will call `LogicManager#undoLastCommand`, and this would pop the most recent `UndoableCommand` as explained above.
 Once the `UndoableCommand` was popped the `UndoableCommand#undo()` is executed which reverts the `AddressBook` into the previous state saved within the command.
 
 ![UndoState3](images/UndoState3.png)
 
 <div markdown="span" class="alert alert-info">
-    :information_source: **Note:** 
+    :information_source: **Note:**
     If the command history stack is empty then there is nothing to undo and the message "No commands left to undo." is returned as output to the user.
 </div>
 
@@ -206,14 +206,14 @@ The following sequence diagram shows how an undo operation goes through the `Log
 
 ![UndoSequenceDiagramLogic](images/UndoSequenceDiagram-Logic.png)
 
-Step 5. The user then decides to execute the command `list`. 
+Step 5. The user then decides to execute the command `list`.
 Commands like `ListCommand` that does not modify the address book does not extend `UndoableCommand` and would execute `ListCommand#execute()` without saving prev state for undo feature.
 Thus, the `LogicManager` command history remains unchanged.
 
 ![UndoState4](images/UndoState4.png)
 
 <div markdown="span" class="alert alert-info">
-    :information_source: **Note:** 
+    :information_source: **Note:**
     Once the command history stack contains 10 items, when a new `UndoableCommand` is executed least recent command *(bottom of the stack)* is removed
     and push the new one on the top.
 </div>
@@ -321,8 +321,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given patient index is invalid. 
-  * 1a1. HealthSync shows an error message. 
+* 1a. The given patient index is invalid.
+  * 1a1. HealthSync shows an error message.
 
     Use case resumes at step 1.
 * 2a. The list of patients is empty.
