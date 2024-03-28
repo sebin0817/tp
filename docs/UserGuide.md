@@ -98,7 +98,7 @@ Example:
 
 Adds a patient medical record to the system.
 
-Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS_CATEGORY]...`
+Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
 * `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 * `NAME` can contain an alphanumeric, spaces, special characters.
@@ -126,7 +126,7 @@ Format: `list`
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
 Format: `edit PATIENT_
-INDEX [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] 
+INDEX [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS]... 
 [d/DRUG_ALLERGIES]`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -273,6 +273,13 @@ Clears all entries from the address book.
 
 Format: `clear`
 
+### Undo previous commands : `undo`
+
+Undo the most recent command if any. 
+*Only supports patient medical record related commands as of now*.
+
+Format: `undo`
+
 ### Exiting the program : `exit`
 
 Exits the program.
@@ -315,7 +322,7 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add Patient Medical Record** | `add ic/NRIC n/NAME p/PHONE_NUMBER [g/GENDER] b/BIRTHDATE i/ILLNESS_CATEGORY [d/DRUG_ALLERGIES]` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/Male b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`
+**Add Patient Medical Record** | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS_CATEGORY]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`
 **List All Patient Medical Records** | `list`
 **Edit Patient Medical Record** | `edit PATIENT_INDEX [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] [d/DRUG_ALLERGIES]` <br> e.g. `edit 1 g/Male b/11-07-1999`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
@@ -329,3 +336,5 @@ Action | Format, Examples
 **List** | `list`
 **Help** | `help`
 **Clear** | `clear`
+**Undo** | `undo`
+**Exit** | `exit`
