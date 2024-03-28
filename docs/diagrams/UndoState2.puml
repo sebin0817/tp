@@ -1,0 +1,32 @@
+@startuml
+!include style.puml
+skinparam ClassFontColor #000000
+skinparam ClassBorderColor #000000
+skinparam ClassBackgroundColor #FFFFAA
+
+title After command "add nric/S9974837D n/David ..."
+
+package Logic <<rectangle>> {
+    class LogicManager as "<u>:LogicManager</u>"
+    class UndoableCommand1 as "<u>:DeleteCommand</u>"
+    class UndoableCommand2 as "<u>:AddCommand</u>"
+    class State1 as "<u>ab0:AddressBook</u>"
+    class State2 as "<u>ab1:AddressBook</u>"
+    class State3 as "<u>ab2:AddressBook</u>"
+}
+LogicManager -right-> UndoableCommand2
+LogicManager -right-> UndoableCommand1
+
+UndoableCommand1 -[hidden]up- UndoableCommand2
+
+UndoableCommand1 -right-> State1
+UndoableCommand2 -right-> State2
+
+State1 -[hidden]up- State2
+State2 -[hidden]up- State3
+
+class Pointer1 as "Current State" #FFFFFF
+class Pointer2 as "Most Recent" #FFFFFF
+Pointer1 -down-> State3
+Pointer2 -> UndoableCommand2
+@end
