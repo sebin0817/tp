@@ -109,7 +109,7 @@ with no spaces or other characters.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
-* `ILLNESS_CATEGORY` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders, 
+* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders, 
 Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies, 
 Environmental Illnesses, Degenerative Diseases or Others.
 
@@ -129,7 +129,7 @@ Format: `list`
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
 Format: `edit PATIENT_
-INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGIES] [i/ILLNESS_CATEGORY]...`
+INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
 Edit should have atleast one parameter / detail to update. Also nric is not allowed be edited remake the record 
@@ -147,7 +147,7 @@ specification and make it 'Prefer not to say'.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any allergy
 previously written.
-* `ILLNESS_CATEGORY` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
+* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove 
 all illness category associated with the medical record.
@@ -333,9 +333,9 @@ _Details coming soon ..._
 
 Action | Format, Examples
 --------|------------------
-**Add Patient Medical Record** | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS_CATEGORY]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`
+**Add Patient Medical Record** | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`
 **List All Patient Medical Records** | `list`
-**Edit Patient Medical Record** | `edit PATIENT_INDEX [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] [d/DRUG_ALLERGIES]` <br> e.g. `edit 1 g/Male b/11-07-1999`
+**Edit Patient Medical Record** | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`
 **Delete** | `delete INDEX`<br> e.g., `delete 3`
 **Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
 **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
