@@ -200,15 +200,14 @@ Format: `delete PATIENT_INDEX`
 
 Finds patient whose details contain any of the given keywords.
 
-Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [i/ILLNESS_CATEGORY] 
-[d/DRUG_ALLERGIES]`
+Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS] `
 
-* Users can search by NRIC, name, phone number, email, gender, birthdate, illness category, and drug allergy.
+* Users can search by NRIC, name, phone number, email, gender, birthdate, drug allergy and illness.
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match to `Hans`
-* Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/Taylor g/m` will return male patients named Taylor
+* Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo` will return patients named `Hans Gruber`, `Bo Yang`
+* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will return male patients named Taylor
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
