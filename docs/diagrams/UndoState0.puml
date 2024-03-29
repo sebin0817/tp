@@ -4,18 +4,15 @@ skinparam ClassFontColor #000000
 skinparam ClassBorderColor #000000
 skinparam ClassBackgroundColor #FFFFAA
 
-title After command "list"
+title Initial state
 
-package States <<rectangle>> {
+package Logic <<rectangle>> {
+    class LogicManager as "<u>:LogicManager</u>"
     class State1 as "<u>ab0:AddressBook</u>"
-    class State2 as "<u>ab1:AddressBook</u>"
-    class State3 as "<u>ab2:AddressBook</u>"
 }
 
-State1 -[hidden]right-> State2
-State2 -[hidden]right-> State3
-
+LogicManager -[hidden]right-> State1
 class Pointer as "Current State" #FFFFFF
 
-Pointer -up-> State2
+Pointer -up-> State1
 @end

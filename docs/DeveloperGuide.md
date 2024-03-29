@@ -155,70 +155,68 @@ Classes used by multiple components are in the `seedu.HealthSync.commons` packag
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo/redo feature
+### \[Proposed\] Undo feature (Patient medical record commands for now)
 
 #### Proposed Implementation
 
-The proposed undo/redo mechanism is facilitated by `VersionedHealthSync`. It extends `HealthSync` with an undo/redo history, stored internally as an `HealthSyncStateList` and `currentStatePointer`. Additionally, it implements the following operations:
+The proposed undo mechanism is facilitated by `LogicManager` acting as the command invoker within the command pattern.
+It implements the interface `CommandHistory` to manage a command history stack containing a set of `UndoableCommand` to support the *undo feature*.
+Below are the implemented `CommandHistory` operations:
 
-* `VersionedHealthSync#commit()` — Saves the current address book state in its history.
-* `VersionedHealthSync#undo()` — Restores the previous address book state from its history.
-* `VersionedHealthSync#redo()` — Restores a previously undone address book state from its history.
+* `LogicManager#addCommand(UndoableCommand )` — Adds an `UndoableCommand` to the history stack *(more of deque data structure in the actual implementation)*.
+The stack keeps track of at most 10 most recent actions.
+* `LogicManager#undoLastCommand()` — Pops the most recent `UndoableCommand` from the history and restores the previous `AddressBook` state tracked by the `UndoableCommand` object that was popped.
 
-These operations are exposed in the `Model` interface as `Model#commitHealthSync()`, `Model#undoHealthSync()` and `Model#redoHealthSync()` respectively.
+Below is an example scenario on how the undo works with the command history stack maintained by the `LogicManager`
 
-Given below is an example usage scenario and how the undo/redo mechanism behaves at each step.
+Step 1. The user launches the application for the first time.
+The `LogicManager` will be initialized with an empty command history stack.
 
-Step 1. The user launches the application for the first time. The `VersionedHealthSync` will be initialized with the initial address book state, and the `currentStatePointer` pointing to that single address book state.
+![UndoState0](images/UndoState0.png)
 
-![UndoRedoState0](images/UndoRedoState0.png)
+Step 2. The user executes `delete 1` command to delete the 1st patient medical record from the address book.
+The `DeleteCommand` extends `UndoableCommand` and thus supports undoable behaviours.
+The `DeleteCommand#execute()` is called and saves the current `AddressBook` state as the previous state before modifying it to carry out the delete command.
+After executing `DeleteCommand` the command object itself will be pushed into the command history managed by the `LogicManager`.
 
-Step 2. The user executes `delete 5` command to delete the 5th person in the address book. The `delete` command calls `Model#commitHealthSync()`, causing the modified state of the address book after the `delete 5` command executes to be saved in the `HealthSyncStateList`, and the `currentStatePointer` is shifted to the newly inserted address book state.
+![UndoState1](images/UndoState1.png)
 
-![UndoRedoState1](images/UndoRedoState1.png)
+Step 3. The user executes `add nric/S9974837D n/David …​` to add a new patient medical record.
+The `AddCommand` command also calls `AddCommand#execute()`, similar to the delete command, it saves the current `AddressBook` as the previous state before carrying out the add command.
 
-Step 3. The user executes `add n/David …​` to add a new person. The `add` command also calls `Model#commitHealthSync()`, causing another modified address book state to be saved into the `HealthSyncStateList`.
-
-![UndoRedoState2](images/UndoRedoState2.png)
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If a command fails its execution, it will not call `Model#commitHealthSync()`, so the address book state will not be saved into the `HealthSyncStateList`.
-
+![UndoState2](images/UndoState2.png)
+<div markdown="span" class="alert alert-info">
+    :information_source: **Note:**
+    If a command fails it won't continue execution and error handlers will handle the respective `CommandException` thrown.
+    The command would not be pushed into the history stack.
 </div>
 
-Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command. The `undo` command will call `Model#undoHealthSync()`, which will shift the `currentStatePointer` once to the left, pointing it to the previous address book state, and restores the address book to that state.
+Step 4. The user now decides that adding the person was a mistake, and decides to undo that action by executing the `undo` command.
+The `undo` command will call `LogicManager#undoLastCommand`, and this would pop the most recent `UndoableCommand` as explained above.
+Once the `UndoableCommand` was popped the `UndoableCommand#undo()` is executed which reverts the `AddressBook` into the previous state saved within the command.
 
-![UndoRedoState3](images/UndoRedoState3.png)
+![UndoState3](images/UndoState3.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index 0, pointing to the initial HealthSync state, then there are no previous HealthSync states to restore. The `undo` command uses `Model#canUndoHealthSync()` to check if this is the case. If so, it will return an error to the user rather
-than attempting to perform the undo.
-
+<div markdown="span" class="alert alert-info">
+    :information_source: **Note:**
+    If the command history stack is empty then there is nothing to undo and the message "No commands left to undo." is returned as output to the user.
 </div>
 
 The following sequence diagram shows how an undo operation goes through the `Logic` component:
 
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Logic.png)
+![UndoSequenceDiagramLogic](images/UndoSequenceDiagram-Logic.png)
 
-<div markdown="span" class="alert alert-info">:information_source: **Note:** The lifeline for `UndoCommand` should end at the destroy marker (X) but due to a limitation of PlantUML, the lifeline reaches the end of diagram.
+Step 5. The user then decides to execute the command `list`.
+Commands like `ListCommand` that does not modify the address book does not extend `UndoableCommand` and would execute `ListCommand#execute()` without saving prev state for undo feature.
+Thus, the `LogicManager` command history remains unchanged.
 
+![UndoState4](images/UndoState4.png)
+
+<div markdown="span" class="alert alert-info">
+    :information_source: **Note:**
+    Once the command history stack contains 10 items, when a new `UndoableCommand` is executed least recent command *(bottom of the stack)* is removed
+    and push the new one on the top.
 </div>
-
-Similarly, how an undo operation goes through the `Model` component is shown below:
-
-![UndoSequenceDiagram](images/UndoSequenceDiagram-Model.png)
-
-The `redo` command does the opposite — it calls `Model#redoHealthSync()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** If the `currentStatePointer` is at index `HealthSyncStateList.size() - 1`, pointing to the latest address book state, then there are no undone HealthSync states to restore. The `redo` command uses `Model#canRedoHealthSync()` to check if this is the case. If so, it will return an error to the user rather than attempting to perform the redo.
-
-</div>
-
-Step 5. The user then decides to execute the command `list`. Commands that do not modify the address book, such as `list`, will usually not call `Model#commitHealthSync()`, `Model#undoHealthSync()` or `Model#redoHealthSync()`. Thus, the `HealthSyncStateList` remains unchanged.
-
-![UndoRedoState4](images/UndoRedoState4.png)
-
-Step 6. The user executes `clear`, which calls `Model#commitHealthSync()`. Since the `currentStatePointer` is not pointing at the end of the `HealthSyncStateList`, all address book states after the `currentStatePointer` will be purged. Reason: It no longer makes sense to redo the `add n/David …​` command. This is the behavior that most modern desktop applications follow.
-
-![UndoRedoState5](images/UndoRedoState5.png)
 
 The following activity diagram summarizes what happens when a user executes a new command:
 
@@ -226,14 +224,14 @@ The following activity diagram summarizes what happens when a user executes a ne
 
 #### Design considerations:
 
-**Aspect: How undo & redo executes:**
+**Aspect: How undo executes:**
 
-* **Alternative 1 (current choice):** Saves the entire address book.
+* **Current choice:** Saves the entire address book as prev state in each undoable command.
   * Pros: Easy to implement.
   * Cons: May have performance issues in terms of memory usage.
 
-* **Alternative 2:** Individual command knows how to undo/redo by
-  itself.
+* **Alternative 2:** Individual command knows how to undo by
+  itself. Instead of saving the whole address book within each command as prev state, only the change itself is saved.
   * Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   * Cons: We must ensure that the implementation of each individual command are correct.
 
@@ -323,8 +321,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Extensions**
 
-* 1a. The given patient index is invalid. 
-  * 1a1. HealthSync shows an error message. 
+* 1a. The given patient index is invalid.
+  * 1a1. HealthSync shows an error message.
 
     Use case resumes at step 1.
 * 2a. The list of patients is empty.
