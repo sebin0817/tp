@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 
 /**
  * Clears the patient book.
@@ -18,6 +19,10 @@ public class ClearCommand extends UndoableCommand {
             + "Example: " + COMMAND_WORD;
 
     public static final String MESSAGE_UNDO_CLEAR_SUCCESS = "Clear patient medical records undone.";
+
+    public ClearCommand() {
+        super(null);
+    }
 
     @Override
     public CommandResult execute(Model model) {

@@ -3,9 +3,11 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BOB;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -25,23 +27,23 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
 import seedu.address.testutil.PersonBuilder;
-
 public class AddCommandTest {
-
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () -> new AddCommand(null));
     }
-
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
+        ReadOnlyAddressBook expectedPrevAddressBook = new AddressBook();
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
+        modelStub.setAddressBook(expectedPrevAddressBook);
         Person validPerson = new PersonBuilder().build();
-
-        CommandResult commandResult = new AddCommand(validPerson).execute(modelStub);
+        UndoableCommand addCommand = new AddCommand(validPerson);
+        CommandResult commandResult = addCommand.execute(modelStub);
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
                 commandResult.getFeedbackToUser());
+        assertEquals(expectedPrevAddressBook, addCommand.getPrevAddressBookState());
         assertEquals(Arrays.asList(validPerson), modelStub.personsAdded);
     }
 
@@ -52,6 +54,19 @@ public class AddCommandTest {
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
+    }
+
+    @Test
+    public void undo_success() {
+        AddressBook notExpectedAddressBook = new AddressBook();
+        notExpectedAddressBook.addPerson(BOB);
+        ModelStub modelStub = new ModelStub();
+        modelStub.setAddressBook(notExpectedAddressBook);
+        AddCommand addCommand = new AddCommand(ALICE, new AddressBook());
+        CommandResult commandResult = addCommand.undo(modelStub);
+
+        assertNotEquals(notExpectedAddressBook, modelStub.getAddressBook());
+        assertEquals(AddCommand.MESSAGE_UNDO_ADD_SUCCESS, commandResult.getFeedbackToUser());
     }
 
     @Test
@@ -76,6 +91,9 @@ public class AddCommandTest {
 
         // different person -> returns false
         assertFalse(addAliceCommand.equals(addBobCommand));
+
+        // different prevState -> returns false
+        assertFalse(addAliceCommand.equals(new AddCommand(alice, new AddressBook())));
     }
 
     @Test
@@ -101,6 +119,7 @@ public class AddCommandTest {
      * A default model stub that have all of the methods failing.
      */
     private class ModelStub implements Model {
+        ReadOnlyAddressBook addressBook;
         @Override
         public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
             throw new AssertionError("This method should not be called.");
@@ -143,13 +162,13 @@ public class AddCommandTest {
 
 
         @Override
-        public void setAddressBook(ReadOnlyAddressBook newData) {
-            throw new AssertionError("This method should not be called.");
+        public void setAddressBook(ReadOnlyAddressBook addressBook) {
+            this.addressBook = addressBook;
         }
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
-            throw new AssertionError("This method should not be called.");
+            return new AddressBook();
         }
 
         @Override
@@ -222,11 +241,6 @@ public class AddCommandTest {
         public void addPerson(Person person) {
             requireNonNull(person);
             personsAdded.add(person);
-        }
-
-        @Override
-        public ReadOnlyAddressBook getAddressBook() {
-            return new AddressBook();
         }
     }
 

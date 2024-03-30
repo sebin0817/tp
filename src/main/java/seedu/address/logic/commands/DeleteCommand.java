@@ -30,6 +30,7 @@ public class DeleteCommand extends UndoableCommand {
     private final Index targetIndex;
 
     public DeleteCommand(Index targetIndex) {
+        super(null);
         this.targetIndex = targetIndex;
     }
 

@@ -14,6 +14,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
 /**
@@ -53,6 +54,16 @@ public class AddCommand extends UndoableCommand {
      * Creates an AddCommand to add the specified {@code Person}
      */
     public AddCommand(Person person) {
+        super(null);
+        requireNonNull(person);
+        toAdd = person;
+    }
+
+    /**
+     * Creates an AddCommand to add the specified {@code Person} and a prev state {@code ReadOnlyAddressBook}
+     */
+    public AddCommand(Person person, ReadOnlyAddressBook addressBook) {
+        super(addressBook);
         requireNonNull(person);
         toAdd = person;
     }
@@ -99,7 +110,9 @@ public class AddCommand extends UndoableCommand {
         }
 
         AddCommand otherAddCommand = (AddCommand) other;
-        return toAdd.equals(otherAddCommand.toAdd);
+
+        return toAdd.equals(otherAddCommand.toAdd)
+            && super.equals(otherAddCommand);
     }
 
     @Override
