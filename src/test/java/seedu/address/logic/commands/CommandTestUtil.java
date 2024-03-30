@@ -128,6 +128,7 @@ public class CommandTestUtil {
 
     /**
      * Executes the given {@code command}, confirms that <br>
+     * - the command's {@code prevAddressBookState} matches {@code expectedPrevAddressBookState}
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
      * - the {@code actualModel} matches {@code expectedModel}
      */
@@ -150,6 +151,11 @@ public class CommandTestUtil {
 
     }
 
+    /**
+     * Undo the given {@code command}, confirms that <br>
+     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+     * - the {@code actualModel} matches {@code expectedModel}
+     */
     public static void assertUndoableCommandUndoSuccess(
             UndoableCommand command,
             Model actualModel,

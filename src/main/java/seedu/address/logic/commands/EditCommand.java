@@ -21,6 +21,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.BirthDate;
 import seedu.address.model.person.DrugAllergy;
 import seedu.address.model.person.Email;
@@ -59,11 +60,24 @@ public class EditCommand extends UndoableCommand {
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index                of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
+     * @param index                of the person in the filtered person list to edit.
+     * @param editPersonDescriptor details to edit the person with.
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
         super(null);
+        requireNonNull(index);
+        requireNonNull(editPersonDescriptor);
+
+        this.index = index;
+        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+    }
+    /**
+     * @param index                of the person in the filtered person list to edit.
+     * @param editPersonDescriptor details to edit the person with.
+     * @param addressBook the prev address book state.
+     */
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor, ReadOnlyAddressBook addressBook) {
+        super(addressBook);
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 

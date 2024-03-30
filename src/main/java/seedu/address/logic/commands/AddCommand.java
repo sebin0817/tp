@@ -52,6 +52,9 @@ public class AddCommand extends UndoableCommand {
 
     /**
      * Creates an AddCommand to add the specified {@code Person} and a prev state {@code ReadOnlyAddressBook}
+     * @param person the person to add.
+     * @param addressBook the prev address book state.
+     *
      */
     public AddCommand(Person person, ReadOnlyAddressBook addressBook) {
         super(addressBook);
