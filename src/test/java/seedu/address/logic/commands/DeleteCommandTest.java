@@ -88,13 +88,14 @@ public class DeleteCommandTest {
         assertCommandFailure(deleteCommand, model, Messages.MESSAGE_INVALID_INDEX);
     }
 
+    @Test
     public void undo_success() {
         AddressBook samplePrevState = new AddressBook();
         Model expectedModel = new ModelManager(samplePrevState, new UserPrefs());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON, samplePrevState);
 
         assertUndoableCommandUndoSuccess(deleteCommand, model,
-                EditCommand.MESSAGE_UNDO_EDIT_SUCCESS, expectedModel);
+                DeleteCommand.MESSAGE_UNDO_DELETE_SUCCESS, expectedModel);
     }
 
     @Test

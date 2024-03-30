@@ -24,6 +24,10 @@ public class ClearCommand extends UndoableCommand {
         super(null);
     }
 
+    public ClearCommand(ReadOnlyAddressBook addressBook) {
+        super(addressBook);
+    }
+
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
@@ -48,5 +52,20 @@ public class ClearCommand extends UndoableCommand {
     @Override
     public String getMessageUsage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(other instanceof ClearCommand)) {
+            return false;
+        }
+
+        ClearCommand otherClearCommand = (ClearCommand) other;
+        return super.equals(otherClearCommand);
     }
 }
