@@ -9,6 +9,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
 /**
@@ -31,6 +32,11 @@ public class DeleteCommand extends UndoableCommand {
 
     public DeleteCommand(Index targetIndex) {
         super(null);
+        this.targetIndex = targetIndex;
+    }
+
+    public DeleteCommand(Index targetIndex, ReadOnlyAddressBook addressBook) {
+        super(addressBook);
         this.targetIndex = targetIndex;
     }
 
@@ -78,7 +84,8 @@ public class DeleteCommand extends UndoableCommand {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return targetIndex.equals(otherDeleteCommand.targetIndex)
+                && super.equals(otherDeleteCommand);
     }
 
     @Override
