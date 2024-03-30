@@ -102,6 +102,14 @@ public class TypicalPersons {
             .withPhone("94824423")
             .withEmail("anna@example.com")
             .withIllnesses("Genetic Disorder").build();
+    public static final Person ALY = new PersonBuilder()
+            .withNric("F0004567B")
+            .withName("Aly Best")
+            .withGender("F")
+            .withBirthDate("03-02-1997")
+            .withPhone("98878742")
+            .withEmail("aly@example.com")
+            .withIllnesses("Genetic Disorder").build();
 
     // Manually added
     public static final Person HOON = new PersonBuilder()
@@ -161,6 +169,6 @@ public class TypicalPersons {
     }
 
     public static List<Person> getTypicalPersons() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE, ALY));
     }
 }
