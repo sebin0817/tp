@@ -72,14 +72,14 @@ public class AddCommandParserTest {
         // whitespace only preamble
         assertParseSuccess(parser, PREAMBLE_WHITESPACE + NRIC_DESC_BOB + NAME_DESC_BOB + GENDER_DESC_BOB
                 + BIRTHDATE_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + DRUG_ALLERGY_DESC_BOB
-                + ILLNESS_DESC_INFECTIOUS, new AddCommand(expectedPerson));
+                + ILLNESS_DESC_INFECTIOUS, new AddCommand(expectedPerson, null));
 
         // multiple tags - all accepted
         Person expectedPersonMultipleIllnesses = new PersonBuilder(BOB).withIllnesses(VALID_ILLNESS_INFECTIOUS,
                         VALID_ILLNESS_GENETIC).build();
         assertParseSuccess(parser, NRIC_DESC_BOB + NAME_DESC_BOB + GENDER_DESC_BOB
                 + BIRTHDATE_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + DRUG_ALLERGY_DESC_BOB
-                + ILLNESS_DESC_INFECTIOUS + ILLNESS_DESC_GENETIC, new AddCommand(expectedPersonMultipleIllnesses));
+                + ILLNESS_DESC_INFECTIOUS + ILLNESS_DESC_GENETIC, new AddCommand(expectedPersonMultipleIllnesses, null));
     }
 
     @Test
@@ -191,7 +191,7 @@ public class AddCommandParserTest {
         Person expectedPerson = new PersonBuilder(AMY).withIllnesses().build();
         assertParseSuccess(parser, NRIC_DESC_AMY + NAME_DESC_AMY + GENDER_DESC_AMY
                         + BIRTHDATE_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + DRUG_ALLERGY_DESC_AMY,
-                new AddCommand(expectedPerson));
+                new AddCommand(expectedPerson, null));
     }
 
     @Test

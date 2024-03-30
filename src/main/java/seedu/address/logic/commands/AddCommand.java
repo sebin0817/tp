@@ -51,15 +51,6 @@ public class AddCommand extends UndoableCommand {
     private final Person toAdd;
 
     /**
-     * Creates an AddCommand to add the specified {@code Person}
-     */
-    public AddCommand(Person person) {
-        super(null);
-        requireNonNull(person);
-        toAdd = person;
-    }
-
-    /**
      * Creates an AddCommand to add the specified {@code Person} and a prev state {@code ReadOnlyAddressBook}
      */
     public AddCommand(Person person, ReadOnlyAddressBook addressBook) {

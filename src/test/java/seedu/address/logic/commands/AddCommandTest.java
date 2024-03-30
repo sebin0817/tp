@@ -30,7 +30,7 @@ import seedu.address.testutil.PersonBuilder;
 public class AddCommandTest {
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new AddCommand(null));
+        assertThrows(NullPointerException.class, () -> new AddCommand(null, null));
     }
     @Test
     public void execute_personAcceptedByModel_addSuccessful() throws Exception {
@@ -38,7 +38,7 @@ public class AddCommandTest {
         ModelStubAcceptingPersonAdded modelStub = new ModelStubAcceptingPersonAdded();
         modelStub.setAddressBook(expectedPrevAddressBook);
         Person validPerson = new PersonBuilder().build();
-        UndoableCommand addCommand = new AddCommand(validPerson);
+        UndoableCommand addCommand = new AddCommand(validPerson, null);
         CommandResult commandResult = addCommand.execute(modelStub);
 
         assertEquals(String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)),
@@ -50,7 +50,7 @@ public class AddCommandTest {
     @Test
     public void execute_duplicatePerson_throwsCommandException() {
         Person validPerson = new PersonBuilder().build();
-        AddCommand addCommand = new AddCommand(validPerson);
+        AddCommand addCommand = new AddCommand(validPerson, null);
         ModelStub modelStub = new ModelStubWithPerson(validPerson);
 
         assertThrows(CommandException.class, AddCommand.MESSAGE_DUPLICATE_PERSON, () -> addCommand.execute(modelStub));
@@ -73,14 +73,14 @@ public class AddCommandTest {
     public void equals() {
         Person alice = new PersonBuilder().withName("Alice").build();
         Person bob = new PersonBuilder().withName("Bob").build();
-        AddCommand addAliceCommand = new AddCommand(alice);
-        AddCommand addBobCommand = new AddCommand(bob);
+        AddCommand addAliceCommand = new AddCommand(alice, null);
+        AddCommand addBobCommand = new AddCommand(bob, null);
 
         // same object -> returns true
         assertTrue(addAliceCommand.equals(addAliceCommand));
 
         // same values -> returns true
-        AddCommand addAliceCommandCopy = new AddCommand(alice);
+        AddCommand addAliceCommandCopy = new AddCommand(alice, null);
         assertTrue(addAliceCommand.equals(addAliceCommandCopy));
 
         // different types -> returns false
@@ -98,20 +98,20 @@ public class AddCommandTest {
 
     @Test
     public void toStringMethod() {
-        AddCommand addCommand = new AddCommand(ALICE);
+        AddCommand addCommand = new AddCommand(ALICE, null);
         String expected = AddCommand.class.getCanonicalName() + "{toAdd=" + ALICE + "}";
         assertEquals(expected, addCommand.toString());
     }
 
     @Test
     public void getCommandWord() {
-        AddCommand addCommand = new AddCommand(ALICE);
+        AddCommand addCommand = new AddCommand(ALICE, null);
         assertEquals(AddCommand.COMMAND_WORD, addCommand.getCommandWord());
     }
 
     @Test
     public void getMessageUsage() {
-        AddCommand addCommand = new AddCommand(ALICE);
+        AddCommand addCommand = new AddCommand(ALICE, null);
         assertEquals(AddCommand.MESSAGE_USAGE, addCommand.getMessageUsage());
     }
 
