@@ -17,17 +17,24 @@ import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
+import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
+import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.logic.commands.UndoCommand;
+import seedu.address.logic.commands.UndoableCommand;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -45,17 +52,74 @@ public class LogicManagerTest {
     @TempDir
     public Path temporaryFolder;
 
+    JsonAddressBookStorage addressBookStorage;
+
+    JsonUserPrefsStorage userPrefsStorage;
+
+    StorageManager storage;
     private Model model = new ModelManager();
-    private Logic logic;
+    private LogicManager logic;
+
 
     @BeforeEach
     public void setUp() {
-        JsonAddressBookStorage addressBookStorage =
+        addressBookStorage =
                 new JsonAddressBookStorage(temporaryFolder.resolve("addressBook.json"));
-        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(
+        userPrefsStorage = new JsonUserPrefsStorage(
                 temporaryFolder.resolve("userPrefs.json"));
-        StorageManager storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        storage = new StorageManager(addressBookStorage, userPrefsStorage);
         logic = new LogicManager(model, storage);
+    }
+
+    @Test
+    public void addCommand_notFullHistory_success() {
+        Person validPerson = new PersonBuilder().build();
+        UndoableCommand addCommand = new AddCommand(validPerson, null);
+
+        logic = new LogicManager(model, storage, new ArrayDeque<>());
+        int currCommandHistorySize = logic.getCommandHistorySize();
+        logic.addCommand(addCommand);
+
+        assertEquals(currCommandHistorySize + 1, logic.getCommandHistorySize());
+    }
+
+    @Test
+    public void addCommand_fullHistory_success() {
+        Person validPerson = new PersonBuilder().build();
+        Deque<UndoableCommand> currFullHistory = new ArrayDeque<>();
+        for (int i = 0; i < LogicManager.COMMAND_HISTORY_SIZE_LIMIT; ++i) {
+            currFullHistory.addFirst(new AddCommand(validPerson, null));
+        }
+
+        logic = new LogicManager(model, storage, currFullHistory);
+        logic.addCommand(new AddCommand(validPerson, null));
+
+        assertEquals(LogicManager.COMMAND_HISTORY_SIZE_LIMIT, logic.getCommandHistorySize());
+    }
+
+    @Test
+    public void undoLastCommand_emptyHistory_success() {
+        CommandResult expectedResult = new CommandResult("No commands left to undo.");
+        logic = new LogicManager(model, storage, new ArrayDeque<>());
+        int currCommandHistorySize = logic.getCommandHistorySize();
+        CommandResult result = logic.undoLastCommand();
+
+        assertEquals(expectedResult, result);
+        assertEquals(currCommandHistorySize, logic.getCommandHistorySize());
+    }
+
+    @Test
+    public void undoLastCommand_nonEmptyHistory_success() {
+        Person validPerson = new PersonBuilder().build();
+        Deque<UndoableCommand> nonEmptyHistory = new ArrayDeque<>();
+        nonEmptyHistory.addFirst(new AddCommand(validPerson, new AddressBook()));
+        CommandResult expectedResult = new CommandResult(AddCommand.MESSAGE_UNDO_ADD_SUCCESS);
+        logic = new LogicManager(model, storage, nonEmptyHistory);
+        int currCommandHistorySize = logic.getCommandHistorySize();
+        CommandResult result = logic.undoLastCommand();
+
+        assertEquals(expectedResult, result);
+        assertEquals(currCommandHistorySize - 1, logic.getCommandHistorySize());
     }
 
     @Test
@@ -74,6 +138,25 @@ public class LogicManagerTest {
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
         assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+    }
+
+    @Test
+    public void execute_validCommand_undoableCommand_success() throws Exception {
+        Person validPerson = new PersonBuilder().build();
+        String addCommand = AddCommand.COMMAND_WORD
+                + " " + "ic/S1234567D n/Amy Bee g/F b/07-10-1999 p/85355255 e/amy@gmail.com";
+        assertCommandSuccess(addCommand, String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
+    }
+
+    @Test
+    public void execute_validCommand_undoCommand_success() throws Exception {
+        Person validPerson = new PersonBuilder().build();
+        String addCommand = AddCommand.COMMAND_WORD
+                + " " + "ic/S1234567D n/Amy Bee g/F b/07-10-1999 p/85355255 e/amy@gmail.com";
+        assertCommandSuccess(addCommand, String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
+        String undoCommand = UndoCommand.COMMAND_WORD;
+        assertCommandSuccess(undoCommand, UndoCommand.MESSAGE_SUCCESS_UNDO
+                + " " + AddCommand.MESSAGE_UNDO_ADD_SUCCESS, model);
     }
 
     @Test

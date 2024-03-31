@@ -22,4 +22,9 @@ public interface CommandHistory {
      * @return CommandResult - the result output of the command undo.
      */
     CommandResult undoLastCommand();
+
+    /**
+     * @return int - the number of recent commands done by the user.
+     */
+    int getCommandHistorySize();
 }
