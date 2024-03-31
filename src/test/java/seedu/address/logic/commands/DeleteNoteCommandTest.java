@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,12 +20,10 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
-import seedu.address.model.person.note.Note;
 import seedu.address.testutil.TypicalPersons;
 
 @ExtendWith(MockitoExtension.class)
-public class AddNoteCommandTest {
-
+public class DeleteNoteCommandTest {
     @Mock
     private ModelManager model;
 
@@ -38,22 +34,31 @@ public class AddNoteCommandTest {
 
     @Test
     public void constructor_nullPerson_throwsNullPointerException() {
-        assertThrows(NullPointerException.class, () -> new AddNoteCommand(null, null));
-        assertThrows(NullPointerException.class, () -> new AddNoteCommand(Index.fromOneBased(1), null));
-        assertThrows(NullPointerException.class, () -> new AddNoteCommand(null, VALID_NOTE_FLU));
+        assertThrows(NullPointerException.class, () -> new DeleteNoteCommand(null, null));
+        assertThrows(NullPointerException.class, () -> new DeleteNoteCommand(Index.fromOneBased(1), null));
+        assertThrows(NullPointerException.class, () -> new DeleteNoteCommand(null, Index.fromOneBased(1)));
     }
 
     @Nested
     public class ExecuteTests {
-        @Captor
-        private ArgumentCaptor<Person> personCaptor;
-
         @Test
         public void execute_personIndexOutOfBounds_throwsCommandException() {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
-            AddNoteCommand command = new AddNoteCommand(Index.fromOneBased(persons.size() + 1), VALID_NOTE_FLU);
+            DeleteNoteCommand command =
+                new DeleteNoteCommand(Index.fromOneBased(persons.size() + 1), Index.fromOneBased(1));
+
+            assertThrows(CommandException.class, () -> command.execute(model));
+        }
+
+        @Test
+        public void execute_noteIndexOutOfBounds_throwsCommandException() {
+            ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
+
+            Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            DeleteNoteCommand command =
+                new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(persons.get(0).getNotes().size() + 1));
 
             assertThrows(CommandException.class, () -> command.execute(model));
         }
@@ -63,65 +68,51 @@ public class AddNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
-            AddNoteCommand command = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
+            DeleteNoteCommand command = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
 
             CommandResult result = command.execute(model);
 
-            Mockito.verify(model).setPerson(Mockito.any(Person.class), personCaptor.capture());
-            ObservableList<Note> noteCaptor = personCaptor.getValue().getNotes();
-            assertEquals(VALID_NOTE_FLU, noteCaptor.get(noteCaptor.size() - 1));
-
-            assertEquals(
-                    new CommandResult(String.format(AddNoteCommand.MESSAGE_SUCCESS, Messages.format(VALID_NOTE_FLU)),
-                            false,
-                            false),
-                    result);
+            Mockito.verify(model).setPerson(Mockito.any(Person.class), Mockito.any(Person.class));
+            assertEquals(new CommandResult(
+                    String.format(DeleteNoteCommand.MESSAGE_SUCCESS,
+                        Messages.format(persons.get(0).getNotes().get(0)))),
+                result);
         }
     }
 
     @Test
     public void equals_success() {
-        AddNoteCommand addNoteCommand1 = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
-        AddNoteCommand addNoteCommand2 = new AddNoteCommand(Index.fromOneBased(2), VALID_NOTE_FLU);
+        DeleteNoteCommand deleteNoteCommand1 = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
+        DeleteNoteCommand deleteNoteCommand2 = new DeleteNoteCommand(Index.fromOneBased(2), Index.fromOneBased(2));
 
         // Same object.
-        assertEquals(addNoteCommand1, addNoteCommand1);
+        assertEquals(deleteNoteCommand1, deleteNoteCommand1);
 
         // Same values.
-        AddNoteCommand addNoteCommand1Copy = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
-        assertEquals(addNoteCommand1, addNoteCommand1Copy);
+        DeleteNoteCommand deleteNoteCommand1Copy = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
+        assertEquals(deleteNoteCommand1, deleteNoteCommand1Copy);
 
         // Different types.
-        assertNotEquals(1, addNoteCommand1);
+        assertNotEquals(1, deleteNoteCommand1);
 
         // Null.
-        assertNotEquals(null, addNoteCommand1);
+        assertNotEquals(null, deleteNoteCommand1);
 
         // Different note.
-        assertNotEquals(addNoteCommand1, addNoteCommand2);
+        assertNotEquals(deleteNoteCommand1, deleteNoteCommand2);
     }
 
     @Test
     public void hashCode_success() {
-        AddNoteCommand addNoteCommand1 = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
-        AddNoteCommand addNoteCommand2 = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
+        DeleteNoteCommand deleteNoteCommand1 = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
+        DeleteNoteCommand deleteNoteCommand2 = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
 
         // Same values.
-        assertEquals(addNoteCommand1.hashCode(), addNoteCommand2.hashCode());
+        assertEquals(deleteNoteCommand1.hashCode(), deleteNoteCommand2.hashCode());
 
         // Different values.
-        AddNoteCommand addNoteCommand3 = new AddNoteCommand(Index.fromOneBased(2), VALID_NOTE_FLU);
-        assertNotEquals(addNoteCommand1.hashCode(), addNoteCommand3.hashCode());
-    }
-
-    @Test
-    public void toString_success() {
-        AddNoteCommand addNoteCommand = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
-        String expected = "seedu.address.logic.commands.AddNoteCommand{personIndex=seedu.address.commons.core.index"
-                + ".Index{zeroBasedIndex=0}, note=seedu.address.model.person.note.Note{dateTime=2024-02-19T21:30, "
-                + "description=General Flu}}";
-
-        assertEquals(expected, addNoteCommand.toString());
+        DeleteNoteCommand deleteNoteCommand3 = new DeleteNoteCommand(Index.fromOneBased(2), Index.fromOneBased(2));
+        assertNotEquals(deleteNoteCommand1.hashCode(), deleteNoteCommand3.hashCode());
     }
 
     @Test
