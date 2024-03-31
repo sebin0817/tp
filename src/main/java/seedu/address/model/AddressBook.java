@@ -109,13 +109,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         }
     }
 
-    /**
-     * Adds a note to the address book.
-     */
-    public void addNote(Note n) {
-        notes.add(n);
-    }
-
     //// util methods
 
     @Override

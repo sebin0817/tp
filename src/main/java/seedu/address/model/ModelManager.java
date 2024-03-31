@@ -135,12 +135,6 @@ public class ModelManager implements Model {
         filteredNotes.setPredicate(predicate);
     }
 
-    @Override
-    public void addNote(Note note) {
-        addressBook.addNote(note);
-        updateFilteredNoteList(PREDICATE_SHOW_ALL_NOTES);
-    }
-
     /**
      * Returns an unmodifiable view of the list of {@code Note} backed by the internal list of
      * {@code versionedAddressBook}
