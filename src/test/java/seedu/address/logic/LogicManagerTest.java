@@ -25,10 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
-import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.CommandResult;
-import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.logic.commands.UndoableCommand;
@@ -52,11 +50,11 @@ public class LogicManagerTest {
     @TempDir
     public Path temporaryFolder;
 
-    JsonAddressBookStorage addressBookStorage;
+    private JsonAddressBookStorage addressBookStorage;
 
-    JsonUserPrefsStorage userPrefsStorage;
+    private JsonUserPrefsStorage userPrefsStorage;
 
-    StorageManager storage;
+    private StorageManager storage;
     private Model model = new ModelManager();
     private LogicManager logic;
 
@@ -141,19 +139,21 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_validCommand_undoableCommand_success() throws Exception {
+    public void execute_undoableCommand_success() throws Exception {
         Person validPerson = new PersonBuilder().build();
         String addCommand = AddCommand.COMMAND_WORD
                 + " " + "ic/S1234567D n/Amy Bee g/F b/07-10-1999 p/85355255 e/amy@gmail.com";
-        assertCommandSuccess(addCommand, String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
+        assertCommandSuccess(addCommand,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
     }
 
     @Test
-    public void execute_validCommand_undoCommand_success() throws Exception {
+    public void execute_undoCommand_success() throws Exception {
         Person validPerson = new PersonBuilder().build();
         String addCommand = AddCommand.COMMAND_WORD
                 + " " + "ic/S1234567D n/Amy Bee g/F b/07-10-1999 p/85355255 e/amy@gmail.com";
-        assertCommandSuccess(addCommand, String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
+        assertCommandSuccess(addCommand,
+                String.format(AddCommand.MESSAGE_SUCCESS, Messages.format(validPerson)), model);
         String undoCommand = UndoCommand.COMMAND_WORD;
         assertCommandSuccess(undoCommand, UndoCommand.MESSAGE_SUCCESS_UNDO
                 + " " + AddCommand.MESSAGE_UNDO_ADD_SUCCESS, model);

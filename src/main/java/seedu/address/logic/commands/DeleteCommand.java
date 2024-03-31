@@ -30,11 +30,23 @@ public class DeleteCommand extends UndoableCommand {
 
     private final Index targetIndex;
 
+    /**
+     * Creates a new  DeleteCommand instance with the specific target index.
+     *
+     * @param targetIndex - the target index to be deleted.
+     */
     public DeleteCommand(Index targetIndex) {
         super(null);
         this.targetIndex = targetIndex;
     }
 
+    /**
+     * Creates a new  DeleteCommand instance with the specific target index.
+     * Also with a specified prevState.
+     *
+     * @param targetIndex - the target index to be deleted.
+     * @param addressBook - the prevState to specify.
+     */
     public DeleteCommand(Index targetIndex, ReadOnlyAddressBook addressBook) {
         super(addressBook);
         this.targetIndex = targetIndex;

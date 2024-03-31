@@ -9,7 +9,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_ILLNESS_INFECTI
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.assertUndoableCommandExecuteSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.assertUndoableCommandUndoSuccess;
 import static seedu.address.logic.commands.CommandTestUtil.showPersonAtIndex;

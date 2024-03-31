@@ -79,7 +79,8 @@ public class AddCommandParserTest {
                         VALID_ILLNESS_GENETIC).build();
         assertParseSuccess(parser, NRIC_DESC_BOB + NAME_DESC_BOB + GENDER_DESC_BOB
                 + BIRTHDATE_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + DRUG_ALLERGY_DESC_BOB
-                + ILLNESS_DESC_INFECTIOUS + ILLNESS_DESC_GENETIC, new AddCommand(expectedPersonMultipleIllnesses, null));
+                + ILLNESS_DESC_INFECTIOUS
+                + ILLNESS_DESC_GENETIC, new AddCommand(expectedPersonMultipleIllnesses, null));
     }
 
     @Test

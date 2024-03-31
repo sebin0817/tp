@@ -1,7 +1,6 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.commands.AddNoteCommand.PREFIX_DATE;
 import static seedu.address.logic.commands.AddNoteCommand.PREFIX_NOTE;
@@ -135,6 +134,16 @@ public class CommandTestUtil {
     }
 
     /**
+     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
+                                            Model expectedModel) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+    }
+
+    /**
      * Executes the given {@code command}, confirms that <br>
      * - the command's {@code prevAddressBookState} matches {@code expectedPrevAddressBookState}
      * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
@@ -147,7 +156,7 @@ public class CommandTestUtil {
             Model expectedModel) {
 
         try {
-            ReadOnlyAddressBook expectedPrevAddressBookState =  new AddressBook(actualModel.getAddressBook());
+            ReadOnlyAddressBook expectedPrevAddressBookState = new AddressBook(actualModel.getAddressBook());
             CommandResult result = command.execute(actualModel);
 
             assertEquals(expectedPrevAddressBookState, command.getPrevAddressBookState());
@@ -157,6 +166,19 @@ public class CommandTestUtil {
             throw new AssertionError("Execution of undoable command should not fail.", ce);
         }
 
+    }
+
+    /**
+     * Convenience wrapper to {@link #assertUndoableCommandUndoSuccess(UndoableCommand, Model, CommandResult, Model)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertUndoableCommandExecuteSuccess(
+            UndoableCommand command,
+            Model actualModel,
+            String expectedMessage,
+            Model expectedModel) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertUndoableCommandExecuteSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
 
     /**
@@ -173,29 +195,6 @@ public class CommandTestUtil {
         CommandResult result = command.undo(actualModel);
         assertEquals(expectedCommandResult, result);
         assertEquals(expectedModel, actualModel);
-    }
-
-    /**
-     * Convenience wrapper to {@link #assertCommandSuccess(Command, Model, CommandResult, Model)}
-     * that takes a string {@code expectedMessage}.
-     */
-    public static void assertCommandSuccess(Command command, Model actualModel, String expectedMessage,
-                                            Model expectedModel) {
-        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
-    }
-
-    /**
-     * Convenience wrapper to {@link #assertUndoableCommandUndoSuccess(UndoableCommand, Model, CommandResult, Model)}
-     * that takes a string {@code expectedMessage}.
-     */
-    public static void assertUndoableCommandExecuteSuccess(
-            UndoableCommand command,
-            Model actualModel,
-            String expectedMessage,
-            Model expectedModel) {
-        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
-        assertUndoableCommandExecuteSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
 
     /**
