@@ -167,7 +167,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void setFilterPersonsPredicate(Predicate<Person> filterPersonsPredicate)  {
+        public void setFilterPersonsPredicate(Predicate<Person> filterPersonsPredicate) {
             throw new AssertionError("This method should not be called.");
         }
 
