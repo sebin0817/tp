@@ -24,6 +24,7 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final FilteredList<Person> filteredPersons;
     private final FilteredList<Note> filteredNotes;
+    private Predicate<Person> filterPersonsPredicate;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -36,6 +37,7 @@ public class ModelManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        filterPersonsPredicate = PREDICATE_SHOW_ALL_PERSONS;
         filteredNotes = new FilteredList<>(this.addressBook.getNoteList());
     }
 
@@ -49,6 +51,11 @@ public class ModelManager implements Model {
     public void setUserPrefs(ReadOnlyUserPrefs userPrefs) {
         requireNonNull(userPrefs);
         this.userPrefs.resetData(userPrefs);
+    }
+
+    @Override
+    public void setFilterPersonsPredicate(Predicate<Person> filterPersonsPredicate) {
+        this.filterPersonsPredicate = filterPersonsPredicate;
     }
 
     @Override
@@ -127,6 +134,10 @@ public class ModelManager implements Model {
     public void updateFilteredPersonList(Predicate<Person> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    public void updateFilteredPersonListWithCurrentPredicate() {
+        filteredPersons.setPredicate(filterPersonsPredicate);
     }
 
     @Override
