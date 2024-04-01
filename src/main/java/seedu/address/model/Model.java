@@ -86,12 +86,6 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /**
-     * Adds the given note.
-     * {@code note} must not already exist in the address book.
-     */
-    void addNote(Note note);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
