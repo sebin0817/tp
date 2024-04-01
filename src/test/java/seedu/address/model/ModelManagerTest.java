@@ -83,10 +83,9 @@ public class ModelManagerTest {
         ModelManager modelManager = new ModelManager();
         Path archivePath = modelManager.getAddressBookArchivePath();
 
-        String expectedBaseFileName = "addressbook"; // Assuming this is the base file name used in UserPrefs
+        String expectedBaseFileName = "addressbook";
         String expectedExtension = ".json";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); // Adjust format based on your
-                                                                                 // implementation
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String expectedDate = formatter.format(LocalDateTime.now());
 
         assertTrue(archivePath.toString().contains(expectedBaseFileName));
