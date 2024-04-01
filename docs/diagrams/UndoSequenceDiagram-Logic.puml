@@ -1,4 +1,16 @@
 @startuml
+<style>
+    reference {
+      LineColor black
+      BackGroundColor lightyellow
+      LineThickness 1.0
+    }
+    referenceHeader {
+      LineColor black
+      FontStyle bold
+      LineThickness 1.0
+    }
+</style>
 !include style.puml
 skinparam ArrowFontStyle plain
 
@@ -6,6 +18,7 @@ box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant "u:UndoCommand" as UndoCommand LOGIC_COLOR
+participant ":UndoableCommand" as UndoableCommand LOGIC_COLOR
 end box
 
 box Model MODEL_COLOR_T1
@@ -30,16 +43,27 @@ deactivate AddressBookParser
 LogicManager -> UndoCommand : execute()
 activate UndoCommand
 
-UndoCommand -> Model : undoAddressBook()
-activate Model
-
-Model --> UndoCommand
-deactivate Model
-
 UndoCommand --> LogicManager : result
 deactivate UndoCommand
+
+LogicManager -> LogicManager : undoLastCommand()
+activate LogicManager
+LogicManager --> LogicManager
+deactivate LogicManager
+
 UndoCommand -[hidden]-> LogicManager : result
 destroy UndoCommand
+
+LogicManager -> UndoableCommand : undo()
+activate UndoableCommand
+
+ref over UndoableCommand, Model :revert address book
+
+UndoableCommand --> LogicManager
+deactivate UndoableCommand
+
+UndoableCommand -[hidden]-> LogicManager : result
+destroy UndoableCommand
 
 [<--LogicManager
 deactivate LogicManager

@@ -25,10 +25,12 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Description;
 import seedu.address.model.person.note.Note;
 import seedu.address.model.person.predicates.NameContainsKeywordsPredicate;
+import seedu.address.testutil.EditNoteDescriptorBuilder;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -54,7 +56,8 @@ public class CommandTestUtil {
     public static final String VALID_ILLNESS_INFECTIOUS = "Infectious Disease";
     public static final String VALID_DATE = "19-02-2024";
     public static final String VALID_TIME = "2130";
-    public static final String VALID_NOTE = "General Flu";
+    public static final String VALID_NOTE1 = "General Flu";
+    public static final String VALID_NOTE2 = "Headache";
     public static final Note VALID_NOTE_FLU =
         new Note(LocalDateTime.of(2024, 2, 19, 21, 30),
                 new Description("General Flu"));
@@ -77,7 +80,7 @@ public class CommandTestUtil {
     public static final String ILLNESS_DESC_GENETIC = " " + PREFIX_ILLNESS + VALID_ILLNESS_GENETIC;
     public static final String DATE_DESC = " " + PREFIX_DATE + VALID_DATE;
     public static final String TIME_DESC = " " + PREFIX_TIME + VALID_TIME;
-    public static final String NOTE_DESC = " " + PREFIX_NOTE + VALID_NOTE;
+    public static final String NOTE_DESC = " " + PREFIX_NOTE + VALID_NOTE1;
 
     public static final String INVALID_NRIC_DESC = " " + PREFIX_NRIC + "G3424GH";
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
@@ -96,6 +99,8 @@ public class CommandTestUtil {
 
     public static final EditCommand.EditPersonDescriptor DESC_AMY;
     public static final EditCommand.EditPersonDescriptor DESC_BOB;
+    public static final EditNoteCommand.EditNoteDescriptor DESC_NOTE1;
+    public static final EditNoteCommand.EditNoteDescriptor DESC_NOTE2;
 
     static {
         DESC_AMY = new EditPersonDescriptorBuilder().withName(VALID_NAME_AMY)
@@ -106,6 +111,10 @@ public class CommandTestUtil {
                 .withGender(VALID_GENDER_BOB).withBirthDate(VALID_BIRTHDATE_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB)
                 .withDrugAllergy(VALID_DRUG_ALLERGY_BOB).build();
+        DESC_NOTE1 = new EditNoteDescriptorBuilder().withDateTime(VALID_NOTE_FLU.getDateTime())
+                .withDescription(VALID_NOTE1).build();
+        DESC_NOTE2 = new EditNoteDescriptorBuilder().withDateTime(VALID_NOTE_FLU.getDateTime())
+                .withDescription(VALID_NOTE2).build();
     }
 
     /**
@@ -132,6 +141,73 @@ public class CommandTestUtil {
                                             Model expectedModel) {
         CommandResult expectedCommandResult = new CommandResult(expectedMessage);
         assertCommandSuccess(command, actualModel, expectedCommandResult, expectedModel);
+    }
+
+    /**
+     * Executes the given {@code command}, confirms that <br>
+     * - the command's {@code prevAddressBookState} matches {@code expectedPrevAddressBookState}
+     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+     * - the {@code actualModel} matches {@code expectedModel}
+     */
+    public static void assertUndoableCommandExecuteSuccess(
+            UndoableCommand command,
+            Model actualModel,
+            CommandResult expectedCommandResult,
+            Model expectedModel) {
+
+        try {
+            ReadOnlyAddressBook expectedPrevAddressBookState = new AddressBook(actualModel.getAddressBook());
+            CommandResult result = command.execute(actualModel);
+
+            assertEquals(expectedPrevAddressBookState, command.getPrevAddressBookState());
+            assertEquals(expectedCommandResult, result);
+            assertEquals(expectedModel, actualModel);
+        } catch (CommandException ce) {
+            throw new AssertionError("Execution of undoable command should not fail.", ce);
+        }
+
+    }
+
+    /**
+     * Convenience wrapper to {@link #assertUndoableCommandUndoSuccess(UndoableCommand, Model, CommandResult, Model)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertUndoableCommandExecuteSuccess(
+            UndoableCommand command,
+            Model actualModel,
+            String expectedMessage,
+            Model expectedModel) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertUndoableCommandExecuteSuccess(command, actualModel, expectedCommandResult, expectedModel);
+    }
+
+    /**
+     * Undo the given {@code command}, confirms that <br>
+     * - the returned {@link CommandResult} matches {@code expectedCommandResult} <br>
+     * - the {@code actualModel} matches {@code expectedModel}
+     */
+    public static void assertUndoableCommandUndoSuccess(
+            UndoableCommand command,
+            Model actualModel,
+            CommandResult expectedCommandResult,
+            Model expectedModel) {
+
+        CommandResult result = command.undo(actualModel);
+        assertEquals(expectedCommandResult, result);
+        assertEquals(expectedModel, actualModel);
+    }
+
+    /**
+     * Convenience wrapper to {@link #assertUndoableCommandUndoSuccess(UndoableCommand, Model, String, Model)}
+     * that takes a string {@code expectedMessage}.
+     */
+    public static void assertUndoableCommandUndoSuccess(
+            UndoableCommand command,
+            Model actualModel,
+            String expectedMessage,
+            Model expectedModel) {
+        CommandResult expectedCommandResult = new CommandResult(expectedMessage);
+        assertUndoableCommandUndoSuccess(command, actualModel, expectedCommandResult, expectedModel);
     }
 
     /**

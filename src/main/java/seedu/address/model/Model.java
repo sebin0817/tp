@@ -56,6 +56,13 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
+    /**
+     * Sets the filteredPersons predicate
+     *
+     * @param filterPersonsPredicate - the predicate to set.
+     */
+    void setFilterPersonsPredicate(Predicate<Person> filterPersonsPredicate);
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
@@ -85,12 +92,6 @@ public interface Model {
      */
     void setPerson(Person target, Person editedPerson);
 
-    /**
-     * Adds the given note.
-     * {@code note} must not already exist in the address book.
-     */
-    void addNote(Note note);
-
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<Person> getFilteredPersonList();
 
@@ -105,8 +106,12 @@ public interface Model {
     void updateFilteredPersonList(Predicate<Person> predicate);
 
     /**
-     * Updates the filter of the filtered note list to filter by the given
-     * {@code predicate}.
+     * Updates the filter of the filtered person list to filter by the current find predicate.
+     */
+    void updateFilteredPersonListWithCurrentPredicate();
+
+    /**
+     * Updates the filter of the filtered note list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredNoteList(Predicate<Note> predicate);

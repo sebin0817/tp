@@ -9,12 +9,13 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 
 /**
  * Deletes a person identified using it's displayed index from the address book.
  */
-public class DeleteCommand extends Command {
+public class DeleteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete";
 
@@ -25,9 +26,29 @@ public class DeleteCommand extends Command {
 
     public static final String MESSAGE_DELETE_PERSON_SUCCESS = "Deleted Patient: %1$s";
 
+    public static final String MESSAGE_UNDO_DELETE_SUCCESS = "Delete patient medical record undone.";
+
     private final Index targetIndex;
 
+    /**
+     * Creates a new  DeleteCommand instance with the specific target index.
+     *
+     * @param targetIndex - the target index to be deleted.
+     */
     public DeleteCommand(Index targetIndex) {
+        super(null);
+        this.targetIndex = targetIndex;
+    }
+
+    /**
+     * Creates a new  DeleteCommand instance with the specific target index.
+     * Also with a specified prevState.
+     *
+     * @param targetIndex - the target index to be deleted.
+     * @param addressBook - the prevState to specify.
+     */
+    public DeleteCommand(Index targetIndex, ReadOnlyAddressBook addressBook) {
+        super(addressBook);
         this.targetIndex = targetIndex;
     }
 
@@ -40,9 +61,17 @@ public class DeleteCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_INDEX);
         }
 
+        savePrevState(model);
+
         Person personToDelete = lastShownList.get(targetIndex.getZeroBased());
         model.deletePerson(personToDelete);
         return new CommandResult(String.format(MESSAGE_DELETE_PERSON_SUCCESS, Messages.format(personToDelete)));
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_DELETE_SUCCESS);
     }
 
     @Override
@@ -67,7 +96,8 @@ public class DeleteCommand extends Command {
         }
 
         DeleteCommand otherDeleteCommand = (DeleteCommand) other;
-        return targetIndex.equals(otherDeleteCommand.targetIndex);
+        return targetIndex.equals(otherDeleteCommand.targetIndex)
+                && super.equals(otherDeleteCommand);
     }
 
     @Override

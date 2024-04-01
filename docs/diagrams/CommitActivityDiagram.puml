@@ -3,15 +3,19 @@ skin rose
 skinparam ActivityFontSize 15
 skinparam ArrowFontSize 12
 start
-:User executes command;
+:User enters command;
 
 'Since the beta syntax does not support placing the condition outside the
 'diamond we place it as the true branch instead.
 
-if () then ([command commits AddressBook])
-    :Purge redundant states;
-    :Save AddressBook to
-    addressBookStateList;
+if () then ([command extends UndoableCommand])
+    :Save current AddressBook
+        as previous state;
+else ([else])
+endif
+    :Execute command;
+if () then ([command extends UndoableCommand])
+    :Push command to history stack;
 else ([else])
 endif
 stop

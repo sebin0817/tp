@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -55,8 +56,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     public void resetData(ReadOnlyAddressBook newData) {
         requireNonNull(newData);
-
-        setPersons(newData.getPersonList());
+        setPersons(new ArrayList<>(newData.getPersonList()));
         updateNoteList();
     }
 
@@ -86,6 +86,7 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(editedPerson);
 
         persons.setPerson(target, editedPerson);
+        updateNoteList();
     }
 
     /**
@@ -106,13 +107,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         for (Person person : getPersonList()) {
             notes.addAll(person.getNotes());
         }
-    }
-
-    /**
-     * Adds a note to the address book.
-     */
-    public void addNote(Note n) {
-        notes.add(n);
     }
 
     //// util methods

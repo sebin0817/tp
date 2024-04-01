@@ -126,13 +126,13 @@ public class AddNoteCommandTest {
     }
 
     @Test
-    public void getCommandWord() {
+    public void getCommandWord_success() {
         AddNoteCommand addNoteCommand = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
         assertEquals(AddNoteCommand.COMMAND_WORD, addNoteCommand.getCommandWord());
     }
 
     @Test
-    public void getMessageUsage() {
+    public void getMessageUsage_success() {
         AddNoteCommand addNoteCommand = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
         assertEquals(AddNoteCommand.MESSAGE_USAGE, addNoteCommand.getMessageUsage());
     }
