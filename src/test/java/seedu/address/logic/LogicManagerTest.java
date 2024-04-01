@@ -26,6 +26,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.UndoCommand;
@@ -139,6 +140,10 @@ public class LogicManagerTest {
     }
 
     @Test
+    public void execute_archiveThrowsIoException_throwsCommandException() {
+        assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
+                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
+
     public void execute_undoableCommand_success() throws Exception {
         Person validPerson = new PersonBuilder().build();
         String addCommand = AddCommand.COMMAND_WORD
@@ -219,7 +224,7 @@ public class LogicManagerTest {
      * @see #assertCommandFailure(String, Class, String, Model)
      */
     private void assertCommandSuccess(String inputCommand, String expectedMessage,
-            Model expectedModel) throws CommandException, ParseException {
+            Model expectedModel) throws CommandException, ParseException, IOException {
         CommandResult result = logic.execute(inputCommand);
         assertEquals(expectedMessage, result.getFeedbackToUser());
         assertEquals(expectedModel, model);
@@ -280,6 +285,12 @@ public class LogicManagerTest {
                     throws IOException {
                 throw e;
             }
+
+            @Override
+            public void copyAddressBook(ReadOnlyAddressBook addressBook, Path sourcePath, Path targetPath)
+                    throws IOException {
+                throw e;
+            }
         };
 
         JsonUserPrefsStorage userPrefsStorage =
@@ -295,5 +306,9 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+
+        // Triggers the copyAddressBook method by executing an archive command
+        String archiveCommand = ArchiveCommand.COMMAND_WORD;
+        assertCommandFailure(archiveCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }

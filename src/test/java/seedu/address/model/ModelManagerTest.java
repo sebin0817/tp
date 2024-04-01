@@ -10,6 +10,8 @@ import static seedu.address.testutil.TypicalPersons.BENSON;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
@@ -72,6 +74,21 @@ public class ModelManagerTest {
         Path path = Paths.get("address/book/file/path");
         modelManager.setAddressBookFilePath(path);
         assertEquals(path, modelManager.getAddressBookFilePath());
+    }
+
+    @Test
+    public void getAddressBookArchivePath_correctFormat() {
+        ModelManager modelManager = new ModelManager();
+        Path archivePath = modelManager.getAddressBookArchivePath();
+
+        String expectedBaseFileName = "addressbook";
+        String expectedExtension = ".json";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String expectedDate = formatter.format(LocalDateTime.now());
+
+        assertTrue(archivePath.toString().contains(expectedBaseFileName));
+        assertTrue(archivePath.toString().endsWith(expectedExtension));
+        assertTrue(archivePath.toString().contains(expectedDate));
     }
 
     @Test

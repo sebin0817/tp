@@ -20,7 +20,6 @@ public interface AddressBookStorage {
     /**
      * Returns AddressBook data as a {@link ReadOnlyAddressBook}.
      * Returns {@code Optional.empty()} if storage file is not found.
-     *
      * @throws DataLoadingException if loading the data from storage failed.
      */
     Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException;
@@ -41,5 +40,7 @@ public interface AddressBookStorage {
      * @see #saveAddressBook(ReadOnlyAddressBook)
      */
     void saveAddressBook(ReadOnlyAddressBook addressBook, Path filePath) throws IOException;
+
+    void copyAddressBook(ReadOnlyAddressBook addressBook, Path sourcePath, Path targetPath) throws IOException;
 
 }
