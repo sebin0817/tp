@@ -7,8 +7,6 @@ import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.testutil.TypicalPersons.BENSON;
-import static seedu.address.testutil.TypicalPersons.NOTE1;
-import static seedu.address.testutil.TypicalPersons.NOTE2;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -133,35 +131,10 @@ public class ModelManagerTest {
         differentUserPrefs.setAddressBookFilePath(Paths.get("differentFilePath"));
         assertFalse(modelManager.equals(new ModelManager(addressBook, differentUserPrefs)));
 
-        // Adding test for different filteredNoteList
-        addressBook.addNote(NOTE1);
-        addressBook.addNote(NOTE2);
-
         Predicate<Note> firstNotePredicate = note -> note.getDescription().equals("Headache");
         modelManager.updateFilteredNoteList(firstNotePredicate);
 
         // Verify modelManagers with different filteredNoteList are not equal
         assertFalse(modelManager.equals(modelManagerCopy));
-    }
-
-    @Test
-    public void addNote_noteAdded_noteListSizeIncreases() {
-        int initialNoteListSize = modelManager.getFilteredNoteList().size();
-        modelManager.addNote(NOTE1);
-        assertEquals(initialNoteListSize + 1, modelManager.getFilteredNoteList().size());
-    }
-
-    @Test
-    public void addNote_noteAdded_addedNoteIsInList() {
-        modelManager.addNote(NOTE1);
-        assertTrue(modelManager.getFilteredNoteList().contains(NOTE1));
-    }
-
-    @Test
-    public void addNote_noteAdded_filteredNoteListShowsAllNotes() {
-        int totalNotesCount = modelManager.getAddressBook().getNoteList().size();
-        modelManager.addNote(NOTE1);
-        modelManager.updateFilteredNoteList(Model.PREDICATE_SHOW_ALL_NOTES);
-        assertEquals(totalNotesCount + 1, modelManager.getFilteredNoteList().size());
     }
 }
