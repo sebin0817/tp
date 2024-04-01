@@ -15,6 +15,7 @@ import static seedu.address.testutil.TypicalPersons.AMY;
 
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -78,9 +79,9 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_archiveCommand_success() throws Exception {
-        String archiveCommand = ArchiveCommand.COMMAND_WORD;
-        assertCommandSuccess(archiveCommand, ArchiveCommand.MESSAGE_SUCCESS, model);
+    public void execute_archiveThrowsIoException_throwsCommandException() {
+        assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
+                LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
     }
 
     @Test
@@ -225,5 +226,9 @@ public class LogicManagerTest {
         ModelManager expectedModel = new ModelManager();
         expectedModel.addPerson(expectedPerson);
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
+
+        // Triggers the copyAddressBook method by executing an archive command
+        String archiveCommand = ArchiveCommand.COMMAND_WORD;
+        assertCommandFailure(archiveCommand, CommandException.class, expectedMessage, expectedModel);
     }
 }
