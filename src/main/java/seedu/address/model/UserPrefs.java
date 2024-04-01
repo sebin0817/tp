@@ -55,6 +55,18 @@ public class UserPrefs implements ReadOnlyUserPrefs {
         return addressBookFilePath;
     }
 
+    public String getAddressBookFile() {
+        return addressBookFile;
+    }
+
+    public String getAddressBookDirectory() {
+        return addressBookDirectory;
+    }
+
+    public String getAddressBookType() {
+        return addressBookType;
+    }
+
     public Path getAddressBookArchivePath() {
         String currentDateTimeString = java.time.LocalDateTime.now().toString().replace(":", "-");
         return Paths.get(addressBookDirectory, addressBookFile + "_" + currentDateTimeString + addressBookType);
