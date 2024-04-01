@@ -15,6 +15,8 @@ public class ArchiveCommand extends Command {
         + "The current file accompanied with a date will be generated for the archived file. "
         + "Example: " + COMMAND_WORD;
 
+    public static final String MESSAGE_SUCCESS = "File archived.";
+
     /**
      * Executes the command and returns the result.
      *
@@ -24,7 +26,7 @@ public class ArchiveCommand extends Command {
      */
     @Override
     public CommandResult execute(Model model) throws CommandException {
-        return new CommandResult("File archived", false, true, false);
+        return new CommandResult(MESSAGE_SUCCESS, false, true, false);
     }
 
     @Override
