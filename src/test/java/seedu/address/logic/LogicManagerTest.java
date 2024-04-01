@@ -78,7 +78,7 @@ public class LogicManagerTest {
     }
 
     @Test
-    public void execute_saveCommand_success() throws Exception {
+    public void execute_archiveCommand_success() throws Exception {
         String archiveCommand = ArchiveCommand.COMMAND_WORD;
         assertCommandSuccess(archiveCommand, ArchiveCommand.MESSAGE_SUCCESS, model);
     }
