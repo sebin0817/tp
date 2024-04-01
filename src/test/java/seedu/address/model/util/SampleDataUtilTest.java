@@ -41,7 +41,7 @@ public class SampleDataUtilTest {
 
         @Test
         public void getTags_success_returnsPopulatedSet() {
-            String[] tags = {"friend", "colleague"};
+            String[] tags = {"Infectious Diseases", "Genetic Disorders"};
             Set<Illness> result = SampleDataUtil.getIllnesses(tags);
 
             assertEquals(2, result.size());

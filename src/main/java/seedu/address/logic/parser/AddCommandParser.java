@@ -70,7 +70,7 @@ public class AddCommandParser implements Parser<AddCommand> {
         Person person = new Person(nric, name, gender, birthDate,
                 phone, email, drugAllergy, illnessList, FXCollections.observableArrayList());
 
-        return new AddCommand(person);
+        return new AddCommand(person, null);
     }
 
     /**

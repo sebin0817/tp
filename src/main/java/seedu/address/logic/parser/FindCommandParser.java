@@ -60,76 +60,81 @@ public class FindCommandParser implements Parser<FindCommand> {
                 PREFIX_EMAIL, PREFIX_GENDER, PREFIX_DRUG_ALLERGY, PREFIX_ILLNESS);
 
 
-        String[] nricKeywords;
-        String[] nameKeywords;
-        String[] genderKeywords;
-        String[] birthdateKeywords;
-        String[] phoneKeywords;
-        String[] emailKeywords;
-        String[] allergyKeywords;
-        String[] illnessKeywords;
+        String[] userKeywords;
+        String[] validatedKeywords;
 
         // Extract search parameters based on prefixes
         ArrayList<Predicate<Person>> predicates = new ArrayList<>();
 
         if (argMultimap.getValue(PREFIX_NRIC).isPresent()) {
-            nricKeywords = ParserUtil.parseNric(argMultimap.getValue(PREFIX_NRIC).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new NricContainsKeywordsPredicate(Arrays.asList(nricKeywords)));
+            userKeywords = formatKeywords(argMultimap.getValue(PREFIX_NRIC).get());
+            validatedKeywords = new String[userKeywords.length];
+
+            for (int i = 0; i < userKeywords.length; i++) {
+                validatedKeywords[i] = ParserUtil.parseNric(userKeywords[i]).toString();
+            }
+            predicates.add(new NricContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-            nameKeywords = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)));
+            validatedKeywords = formatKeywords(
+                    ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get()).toString());
+            predicates.add(new NameContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_GENDER).isPresent()) {
-            genderKeywords = ParserUtil.parseGender(argMultimap.getValue(PREFIX_GENDER).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new GenderContainsKeywordsPredicate(Arrays.asList(genderKeywords)));
+            userKeywords = formatKeywords(argMultimap.getValue(PREFIX_GENDER).get());
+            validatedKeywords = new String[userKeywords.length];
+
+            for (int i = 0; i < userKeywords.length; i++) {
+                validatedKeywords[i] = ParserUtil.parseGender(userKeywords[i]).toString();
+            }
+            predicates.add(new GenderContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_BIRTHDATE).isPresent()) {
-            birthdateKeywords = ParserUtil.parseBirthDate(argMultimap.getValue(PREFIX_BIRTHDATE).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new BirthdateContainsKeywordsPredicate(Arrays.asList(birthdateKeywords)));
+            userKeywords = formatKeywords(argMultimap.getValue(PREFIX_BIRTHDATE).get());
+            validatedKeywords = new String[userKeywords.length];
+
+            for (int i = 0; i < userKeywords.length; i++) {
+                validatedKeywords[i] = ParserUtil.parseBirthDate(userKeywords[i]).toString();
+            }
+            predicates.add(new BirthdateContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_PHONE).isPresent()) {
-            phoneKeywords = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new PhoneContainsKeywordsPredicate(Arrays.asList(phoneKeywords)));
+            userKeywords = formatKeywords(argMultimap.getValue(PREFIX_PHONE).get());
+            validatedKeywords = new String[userKeywords.length];
+
+            for (int i = 0; i < userKeywords.length; i++) {
+                validatedKeywords[i] = ParserUtil.parsePhone(userKeywords[i]).toString();
+            }
+            predicates.add(new PhoneContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_EMAIL).isPresent()) {
-            emailKeywords = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new EmailContainsKeywordsPredicate(Arrays.asList(emailKeywords)));
+            userKeywords = formatKeywords(argMultimap.getValue(PREFIX_EMAIL).get());
+            validatedKeywords = new String[userKeywords.length];
+
+            for (int i = 0; i < userKeywords.length; i++) {
+                validatedKeywords[i] = ParserUtil.parseEmail(userKeywords[i]).toString();
+            }
+            predicates.add(new EmailContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_DRUG_ALLERGY).isPresent()) {
-            allergyKeywords = ParserUtil.parseDrugAllergy(argMultimap.getValue(PREFIX_DRUG_ALLERGY).get())
-                    .toString()
-                    .split("\\s+");
-            predicates.add(new DrugAllergyContainsKeywordsPredicate(Arrays.asList(allergyKeywords)));
+            validatedKeywords = formatKeywords(
+                    ParserUtil.parseDrugAllergy(argMultimap.getValue(PREFIX_DRUG_ALLERGY).get()).toString());
+            predicates.add(new DrugAllergyContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_ILLNESS).isPresent()) {
-            illnessKeywords = ParserUtil.parseIllness(argMultimap.getValue(PREFIX_ILLNESS).get())
-                    .toString()
-                    .replaceAll("[\\[\\],]", "")
-                    .split("\\s+");
-            predicates.add(new IllnessContainsKeywordsPredicate(Arrays.asList(illnessKeywords)));
+            validatedKeywords = formatKeywords(
+                    ParserUtil.parseIllness(argMultimap.getValue(PREFIX_ILLNESS).get()).toString());
+            predicates.add(new IllnessContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
-        Predicate<Person> combinedPredicate = predicates.stream().reduce(w -> true, Predicate::and);
+        Predicate<Person> combinedPredicate = predicates.stream().reduce(Predicate::and).orElse(first -> true);
         return new FindCommand(combinedPredicate);
     }
 
@@ -141,4 +146,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         return Stream.of(prefixes).anyMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
+    private String[] formatKeywords(String medicalRecord) {
+        return medicalRecord.replaceAll("[\\[\\],]", "").split("\\s+");
+    }
 }
+

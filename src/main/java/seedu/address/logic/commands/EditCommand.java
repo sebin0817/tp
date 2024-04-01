@@ -6,7 +6,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ILLNESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
-import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -21,6 +20,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.BirthDate;
 import seedu.address.model.person.DrugAllergy;
 import seedu.address.model.person.Email;
@@ -33,7 +33,7 @@ import seedu.address.model.person.illness.Illness;
 /**
  * Edits the details of an existing person in the address book.
  */
-public class EditCommand extends Command {
+public class EditCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit";
 
@@ -53,15 +53,30 @@ public class EditCommand extends Command {
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
+    public static final String MESSAGE_UNDO_EDIT_SUCCESS = "Edit patient medical record undone.";
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
 
     /**
-     * @param index                of the person in the filtered person list to edit
-     * @param editPersonDescriptor details to edit the person with
+     * @param index                of the person in the filtered person list to edit.
+     * @param editPersonDescriptor details to edit the person with.
      */
     public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor) {
+        super(null);
+        requireNonNull(index);
+        requireNonNull(editPersonDescriptor);
+
+        this.index = index;
+        this.editPersonDescriptor = new EditPersonDescriptor(editPersonDescriptor);
+    }
+    /**
+     * @param index                of the person in the filtered person list to edit.
+     * @param editPersonDescriptor details to edit the person with.
+     * @param addressBook the prev address book state.
+     */
+    public EditCommand(Index index, EditPersonDescriptor editPersonDescriptor, ReadOnlyAddressBook addressBook) {
+        super(addressBook);
         requireNonNull(index);
         requireNonNull(editPersonDescriptor);
 
@@ -85,9 +100,17 @@ public class EditCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         }
 
+        savePrevState(model);
+
         model.setPerson(personToEdit, editedPerson);
-        model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        model.updateFilteredPersonListWithCurrentPredicate();
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, Messages.format(editedPerson)));
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_EDIT_SUCCESS);
     }
 
     @Override

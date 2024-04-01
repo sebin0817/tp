@@ -1,7 +1,10 @@
 package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static seedu.address.logic.commands.CommandTestUtil.assertUndoableCommandExecuteSuccess;
+import static seedu.address.logic.commands.CommandTestUtil.assertUndoableCommandUndoSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,7 @@ public class ClearCommandTest {
         Model model = new ModelManager();
         Model expectedModel = new ModelManager();
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertUndoableCommandExecuteSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
@@ -27,7 +30,7 @@ public class ClearCommandTest {
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
         expectedModel.setAddressBook(new AddressBook());
 
-        assertCommandSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
+        assertUndoableCommandExecuteSuccess(new ClearCommand(), model, ClearCommand.MESSAGE_SUCCESS, expectedModel);
     }
 
     @Test
@@ -43,4 +46,28 @@ public class ClearCommandTest {
                 + "Example: clear", command.getMessageUsage());
     }
 
+    @Test
+    public void undo_success() {
+        Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+        AddressBook samplePrevState = new AddressBook();
+        Model expectedModel = new ModelManager(samplePrevState, new UserPrefs());
+        ClearCommand clearCommand = new ClearCommand(samplePrevState);
+
+        assertUndoableCommandUndoSuccess(clearCommand, model,
+                ClearCommand.MESSAGE_UNDO_CLEAR_SUCCESS, expectedModel);
+    }
+
+    @Test
+    public void equals() {
+        final ClearCommand clearCommand = new ClearCommand();
+
+        // same object -> returns true
+        assertTrue(clearCommand.equals(clearCommand));
+
+        // null -> returns false
+        assertFalse(clearCommand.equals(null));
+
+        //different prevState -> returns false;
+        assertFalse(clearCommand.equals(new ClearCommand(new AddressBook())));
+    }
 }

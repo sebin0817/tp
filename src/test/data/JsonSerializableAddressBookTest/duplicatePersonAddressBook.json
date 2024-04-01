@@ -7,7 +7,7 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "drugAllergy": "No allergy",
-    "illnesses" : [ "Infectious Disease" ],
+    "illnesses" : [ "Infectious Diseases" ],
     "notes" : [ {
       "dateTime" : "2024-02-19T21:30:00",
       "description" : "General Flu"
@@ -23,7 +23,7 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "drugAllergy": "No allergy",
-    "illnesses" : [ "Infectious Disease" ],
+    "illnesses" : [ "Infectious Diseases" ],
     "notes" : [ {
       "dateTime" : "2024-02-19T21:30:00",
       "description" : "General Flu"
