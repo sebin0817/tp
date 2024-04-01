@@ -52,6 +52,13 @@ public interface Model {
      */
     void setAddressBook(ReadOnlyAddressBook addressBook);
 
+    /**
+     * Sets the filteredPersons predicate
+     *
+     * @param filterPersonsPredicate - the predicate to set.
+     */
+    void setFilterPersonsPredicate(Predicate<Person> filterPersonsPredicate);
+
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
@@ -96,6 +103,11 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
+
+    /**
+     * Updates the filter of the filtered person list to filter by the current find predicate.
+     */
+    void updateFilteredPersonListWithCurrentPredicate();
 
     /**
      * Updates the filter of the filtered note list to filter by the given {@code predicate}.

@@ -50,6 +50,7 @@ public class FindCommand extends Command {
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        model.setFilterPersonsPredicate(predicate);
         model.updateFilteredPersonList(predicate);
 
         return new CommandResult(

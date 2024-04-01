@@ -39,7 +39,7 @@ public class TypicalPersons {
             .withEmail("alice@example.com")
             .withPhone("94351253")
             .withDrugAllergy("No allergy")
-            .withIllnesses("Infectious Disease").withNotes(new Note[]{
+            .withIllnesses("Infectious Diseases").withNotes(new Note[]{
                 new Note(LocalDateTime.of(2024, 2, 19, 21, 30),
                         new Description("General Flu")),
                 new Note(LocalDateTime.of(2024, 2, 28, 8, 30),
@@ -53,7 +53,7 @@ public class TypicalPersons {
             .withEmail("johnd@example.com")
             .withPhone("98765432")
             .withDrugAllergy("Penicillin")
-            .withIllnesses("Infectious Disease")
+            .withIllnesses("Infectious Diseases")
             .withNotes(new Note[]{
                 new Note(LocalDateTime.of(2024, 2, 20, 15, 30),
                         new Description("Joint pain assessment")),
@@ -78,7 +78,7 @@ public class TypicalPersons {
             .withPhone("87652533")
             .withEmail("cornelia@example.com")
             .withDrugAllergy("Antibiotics")
-            .withIllnesses("Chronic Condition").build();
+            .withIllnesses("Chronic Conditions").build();
     public static final Person ELLE = new PersonBuilder()
             .withNric("T1234567C")
             .withName("Elle Meyer")
@@ -101,7 +101,7 @@ public class TypicalPersons {
             .withBirthDate("01-03-2002")
             .withPhone("94824423")
             .withEmail("anna@example.com")
-            .withIllnesses("Genetic Disorder").build();
+            .withIllnesses("Genetic Disorders").build();
     public static final Person ALY = new PersonBuilder()
             .withNric("F0004567B")
             .withName("Aly Best")
@@ -109,8 +109,7 @@ public class TypicalPersons {
             .withBirthDate("03-02-1997")
             .withPhone("98878742")
             .withEmail("aly@example.com")
-            .withIllnesses("Genetic Disorder").build();
-
+            .withIllnesses("Genetic Disorders").build();
     // Manually added
     public static final Person HOON = new PersonBuilder()
             .withNric("F1234567C")
@@ -119,7 +118,7 @@ public class TypicalPersons {
             .withName("Hoon Meier")
             .withPhone("84824242")
             .withEmail("stefan@example.com")
-            .withIllnesses("Nutritional Deficiency").build();
+            .withIllnesses("Nutritional Deficiencies").build();
     public static final Person IDA = new PersonBuilder()
             .withNric("G1234567A")
             .withName("Ida Mueller")

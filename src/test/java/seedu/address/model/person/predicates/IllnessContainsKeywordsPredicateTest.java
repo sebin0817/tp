@@ -46,20 +46,20 @@ public class IllnessContainsKeywordsPredicateTest {
     public void test_illnessContainsKeywords_returnsTrue() {
         // One keyword
         IllnessContainsKeywordsPredicate predicate = new IllnessContainsKeywordsPredicate(
-                Collections.singletonList("Covid19"));
-        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Covid19").build()));
+                Collections.singletonList("Infectious"));
+        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Infectious Diseases").build()));
 
         // Multiple keywords
         predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("Genetic", "Disorders"));
         assertTrue(predicate.test(new PersonBuilder().withIllnesses("Genetic").build()));
-        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Disorders").build()));
+        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Genetic Disorders").build()));
 
         // Only one matching keyword
-        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("Illness1", "Illness2"));
-        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Illness1").build()));
+        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("Infectious", "Genetic"));
+        assertTrue(predicate.test(new PersonBuilder().withIllnesses("Infectious Diseases").build()));
 
         // Mixed-case keywords
-        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("GeneTIC", "disORder"));
+        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("GeneTIC", "diOrders"));
         assertTrue(predicate.test(new PersonBuilder().withIllnesses("Genetic Disorders").build()));
     }
 
@@ -67,11 +67,11 @@ public class IllnessContainsKeywordsPredicateTest {
     public void test_illnessDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
         IllnessContainsKeywordsPredicate predicate = new IllnessContainsKeywordsPredicate(Collections.emptyList());
-        assertFalse(predicate.test(new PersonBuilder().withIllnesses("Illness1").build()));
+        assertFalse(predicate.test(new PersonBuilder().withIllnesses("Infectious").build()));
 
         // Non-matching keyword
-        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("Illness2"));
-        assertFalse(predicate.test(new PersonBuilder().withIllnesses("Illness1").build()));
+        predicate = new IllnessContainsKeywordsPredicate(Arrays.asList("Infectious"));
+        assertFalse(predicate.test(new PersonBuilder().withIllnesses("Genetic").build()));
     }
 
     @Test

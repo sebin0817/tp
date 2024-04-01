@@ -149,6 +149,5 @@ public class FindCommandParser implements Parser<FindCommand> {
     private String[] formatKeywords(String medicalRecord) {
         return medicalRecord.replaceAll("[\\[\\],]", "").split("\\s+");
     }
-
 }
 

@@ -8,7 +8,7 @@
     "phone" : "94351253",
     "email" : "alice@example.com",
     "drugAllergy": "No allergy",
-    "illnesses" : [ "Infectious Disease" ],
+    "illnesses" : [ "Infectious Diseases" ],
     "notes" : [ {
       "dateTime" : "2024-02-19T21:30:00",
       "description" : "General Flu"
@@ -24,7 +24,7 @@
     "phone" : "98765432",
     "email" : "johnd@example.com",
     "drugAllergy": "Penicillin",
-    "illnesses" : [ "Infectious Disease" ],
+    "illnesses" : [ "Infectious Diseases" ],
     "notes" : [ {
       "dateTime" : "2024-02-20T15:30:00",
       "description" : "Joint pain assessment"
@@ -53,7 +53,7 @@
     "phone" : "87652533",
     "email" : "cornelia@example.com",
     "drugAllergy": "Antibiotics",
-    "illnesses" : [ "Chronic Condition" ],
+    "illnesses" : [ "Chronic Conditions" ],
     "notes" : [ ]
   }, {
     "nric": "T1234567C",
@@ -83,7 +83,7 @@
     "phone" : "94824423",
     "email" : "anna@example.com",
     "drugAllergy" : "No allergy",
-    "illnesses" : [ "Genetic Disorder" ],
+    "illnesses" : [ "Genetic Disorders" ],
     "notes" : [ ]
   }, {
     "nric": "F0004567B",
