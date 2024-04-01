@@ -43,13 +43,13 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
-Person *--> Nric
-Person *--> Name
-Person *--> Gender
-Person *--> BirthDate
-Person *--> Phone
-Person *--> Email
-Person *--> DrugAllergy
+Person *--> "1" Nric
+Person *--> "1" Name
+Person *--> "1" Gender
+Person *--> "1" BirthDate
+Person *--> "1" Phone
+Person *--> "1" Email
+Person *--> "1" DrugAllergy
 Person *--> "*" Illness
 Person *--> "*" Note
 
