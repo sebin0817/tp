@@ -27,11 +27,11 @@ public class AddNoteCommand extends Command {
 
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an appointment note to the specified person. "
-        + "Parameters: "
+        + "Parameters: PATIENT_INDEX (must be a positive integer)"
         + PREFIX_DATE + "DATE<DD-MM-YYYY> "
         + PREFIX_TIME + "TIME<HHMM> "
         + PREFIX_NOTE + "NOTE "
-        + "Example: " + COMMAND_WORD + " "
+        + "Example: " + COMMAND_WORD + " 1 "
         + PREFIX_DATE + "19-02-2024 "
         + PREFIX_TIME + "1430 "
         + PREFIX_NOTE + "General Flu ";

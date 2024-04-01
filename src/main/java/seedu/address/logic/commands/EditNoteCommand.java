@@ -118,6 +118,7 @@ public class EditNoteCommand extends Command {
 
         return new Note(updatedDateTime, updatedDescription);
     }
+
     @Override
     public boolean equals(Object other) {
         if (other == this) {
