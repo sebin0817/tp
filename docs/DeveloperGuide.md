@@ -241,7 +241,34 @@ _{more aspects and alternatives to be added}_
 
 ### \[Proposed\] Data archiving
 
-_{Explain here how the data archiving feature will be implemented}_
+#### Overview
+
+The data archiving functionality is designed to provide a simple yet effective means of preserving historical records of the addressBook.json file, which contains crucial address book data. By creating timestamped copies of this file, the system ensures that previous states of the address book can be retrieved and reviewed as necessary.
+
+#### How It Works
+
+The archive feature operates by duplicating the existing addressBook.json file. This process involves creating a copy of the file and then renaming this copy to include the current date and time, thereby creating a unique, timestamped archive file. The format for the archived file's name is addressBook_<currentDateTime>.json, where <currentDateTime> is replaced with the actual date and time at which the archiving operation is performed. This naming convention facilitates easy identification and retrieval of archived data.
+
+#### Execution Prerequisites
+
+For the archive operation to be executed successfully, the following conditions must be met:
+
+Existence of addressBook.json: The archive feature is contingent upon the prior existence of an addressBook.json file. This file serves as the source data for archiving, containing the current state of the address book that will be preserved.
+Initialization of the Address Book: The archiving process is intended to be performed after the address book has been initialized and contains data. Archiving an empty or uninitialized address book may not be meaningful and is therefore not recommended.
+Archiving Process
+
+To initiate the archiving process, a specific archive command or trigger must be executed. This command engages the system to:
+
+1. Verify the existence of the addressBook.json file.
+2. Create a copy of addressBook.json.
+3. Rename the copied file to addressBook_<currentDateTime>.json, accurately reflecting the date and time of the archiving operation.
+4. It's important to note that the archiving process is non-destructive to the current address book data. The original addressBook.json file remains intact and unchanged, ensuring that ongoing operations are not affected by the archiving process.
+
+#### Archived File Location
+
+Once the archiving operation is complete, the newly created archive file is stored within the data folder. This centralized location ensures that all archived files are organized in a single, accessible place, making it easier for developers and users to locate and manage historical data.
+
+The data folder will, therefore, contain a series of timestamped files, each representing a snapshot of the address book at different points in time. These archived files provide a valuable resource for data recovery, historical analysis, and auditing purposes.
 
 
 --------------------------------------------------------------------------------------------------------------------
