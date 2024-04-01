@@ -16,6 +16,7 @@ import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSucces
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_DATE_TIME;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.Messages;
@@ -23,7 +24,12 @@ import seedu.address.logic.commands.AddNoteCommand;
 import seedu.address.model.person.note.Description;
 
 public class AddNoteCommandParserTest {
-    private AddNoteCommandParser parser = new AddNoteCommandParser();
+    private AddNoteCommandParser parser;
+
+    @BeforeEach()
+    public void setUp() {
+        parser = new AddNoteCommandParser();
+    }
 
     @Test
     public void parse_allFieldsPresent_success() {
