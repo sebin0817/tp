@@ -29,6 +29,9 @@ public class UserPrefsTest {
         UserPrefs userPrefs = new UserPrefs();
         Path archivePath = userPrefs.getAddressBookArchivePath();
 
+        // Check if the path contains the expected directory
+        assertTrue(archivePath.toString().contains(userPrefs.getAddressBookDirectory()));
+
         // Check if the path contains the expected base file name
         assertTrue(archivePath.toString().contains(userPrefs.getAddressBookFile()));
 
