@@ -300,6 +300,10 @@
     -fx-shape: " ";
 }
 
+.scroll-pane > .corner {
+    -fx-background-color: #383838;
+}
+
 .scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {
     -fx-padding: 1 8 1 8;
 }
