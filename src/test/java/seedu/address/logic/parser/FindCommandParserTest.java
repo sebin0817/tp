@@ -117,6 +117,6 @@ public class FindCommandParserTest {
         assertParseSuccess(parser, " i/Infectious Diseases", expectedFindCommand);
 
         // multiple whitespaces between keywords
-        // assertParseSuccess(parser, " i/Infectious    Diseases   " + "\t" + "\n", expectedFindCommand);
+        assertParseSuccess(parser, " i/Infectious    Diseases   " + "\t" + "\n", expectedFindCommand);
     }
 }
