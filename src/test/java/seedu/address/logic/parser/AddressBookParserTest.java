@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.AddNoteCommand;
+import seedu.address.logic.commands.ArchiveCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -108,6 +109,11 @@ public class AddressBookParserTest {
 
         AddNoteCommand command = (AddNoteCommand) parser.parseCommand("add-an 1 d/19-02-2024 t/1130 n/New note");
         assertEquals(new AddNoteCommand(Index.fromOneBased(1), note), command);
+    }
+
+    @Test
+    public void parseCommand_archive() throws Exception {
+        assertTrue(parser.parseCommand(ArchiveCommand.COMMAND_WORD) instanceof ArchiveCommand);
     }
 
     @Test

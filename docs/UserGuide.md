@@ -13,8 +13,9 @@ title: User Guide
   - [Listing all patient medical records](#listing-all-patient-medical-records--list)
   - [Editing a patient medical record](#editing-a-patient-medical-record--edit)
   - [Deleting a patient medical record](#deleting-a-patient-medical-record--delete)
-  - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
   - [Locating patient(s) medical record](#locating-a-patient-medical-record--find)
+  - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
+  - [Listing a particular patient's appointment notes](#listing-a-particular-patients-appointment-notes-list-an)
   - [Adding an appointment note](#adding-an-appointment-note-add-an)
   - [Editing an appointment note](#editing-an-appointment-note-edit-an)
   - [Deleting an appointment note](#deleting-an-appointment-note--delete-an)
@@ -222,7 +223,7 @@ Format: `list-an`
 
 ### Listing a particular patients' appointment notes: `list-an`
 
-Shows a list a particular patients' appointment notes.
+Shows a list a particular patient's appointment notes.
 
 Format: `list-an PATIENT_INDEX`
 
@@ -275,7 +276,7 @@ Format: `delete-an PATIENT_INDEX INDEX`
 * The index **must be a positive integer** 1, 2, 3, …
 
 Examples:
-* `list-an` followed by `delete-an 1 2` deletes the 2nd appointment note from the 1st patient.
+* `list-an 1` followed by `delete-an 1 2` deletes the 2nd appointment note from the 1st patient.
 
 ``
 ### Clearing all entries : `clear`

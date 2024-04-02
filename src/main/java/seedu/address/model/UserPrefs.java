@@ -14,12 +14,16 @@ import seedu.address.commons.core.GuiSettings;
 public class UserPrefs implements ReadOnlyUserPrefs {
 
     private GuiSettings guiSettings = new GuiSettings();
-    private Path addressBookFilePath = Paths.get("data" , "addressbook.json");
+    private String addressBookFile = "addressbook";
+    private String addressBookDirectory = "data";
+    private String addressBookType = ".json";
+    private Path addressBookFilePath = Paths.get(addressBookDirectory, addressBookFile + addressBookType);
 
     /**
      * Creates a {@code UserPrefs} with default values.
      */
-    public UserPrefs() {}
+    public UserPrefs() {
+    }
 
     /**
      * Creates a {@code UserPrefs} with the prefs in {@code userPrefs}.
@@ -49,6 +53,23 @@ public class UserPrefs implements ReadOnlyUserPrefs {
 
     public Path getAddressBookFilePath() {
         return addressBookFilePath;
+    }
+
+    public String getAddressBookFile() {
+        return addressBookFile;
+    }
+
+    public String getAddressBookDirectory() {
+        return addressBookDirectory;
+    }
+
+    public String getAddressBookType() {
+        return addressBookType;
+    }
+
+    public Path getAddressBookArchivePath() {
+        String currentDateTimeString = java.time.LocalDateTime.now().toString().replace(":", "-");
+        return Paths.get(addressBookDirectory, addressBookFile + "_" + currentDateTimeString + addressBookType);
     }
 
     public void setAddressBookFilePath(Path addressBookFilePath) {

@@ -72,7 +72,7 @@ The **API** of this component is specified in [`Ui.java`](https://github.com/se-
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
+The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `NoteListPanel`, `StatusBarFooter` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class which captures the commonalities between classes that represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/resources/view/MainWindow.fxml)
 
@@ -81,7 +81,7 @@ The `UI` component,
 * executes user commands using the `Logic` component.
 * listens for changes to `Model` data so that the UI can be updated with the modified data.
 * keeps a reference to the `Logic` component, because the `UI` relies on the `Logic` to execute commands.
-* depends on some classes in the `Model` component, as it displays `Person` object residing in the `Model`.
+* depends on some classes in the `Model` component, as it displays `Person` and `Note` object residing in the `Model`.
 
 ### Logic component
 
@@ -262,7 +262,34 @@ The parsing of user input is handled by `FindCommandParser`. This parser constru
 
 ### \[Proposed\] Data archiving
 
-_{Explain here how the data archiving feature will be implemented}_
+#### Overview
+
+The data archiving functionality is designed to provide a simple yet effective means of preserving historical records of the addressBook.json file, which contains crucial address book data. By creating timestamped copies of this file, the system ensures that previous states of the address book can be retrieved and reviewed as necessary.
+
+#### How It Works
+
+The archive feature operates by duplicating the existing addressBook.json file. This process involves creating a copy of the file and then renaming this copy to include the current date and time, thereby creating a unique, timestamped archive file. The format for the archived file's name is addressBook_<currentDateTime>.json, where <currentDateTime> is replaced with the actual date and time at which the archiving operation is performed. This naming convention facilitates easy identification and retrieval of archived data.
+
+#### Execution Prerequisites
+
+For the archive operation to be executed successfully, the following conditions must be met:
+
+Existence of addressBook.json: The archive feature is contingent upon the prior existence of an addressBook.json file. This file serves as the source data for archiving, containing the current state of the address book that will be preserved.
+Initialization of the Address Book: The archiving process is intended to be performed after the address book has been initialized and contains data. Archiving an empty or uninitialized address book may not be meaningful and is therefore not recommended.
+Archiving Process
+
+To initiate the archiving process, a specific archive command or trigger must be executed. This command engages the system to:
+
+1. Verify the existence of the addressBook.json file.
+2. Create a copy of addressBook.json.
+3. Rename the copied file to addressBook_<currentDateTime>.json, accurately reflecting the date and time of the archiving operation.
+4. It's important to note that the archiving process is non-destructive to the current address book data. The original addressBook.json file remains intact and unchanged, ensuring that ongoing operations are not affected by the archiving process.
+
+#### Archived File Location
+
+Once the archiving operation is complete, the newly created archive file is stored within the data folder. This centralized location ensures that all archived files are organized in a single, accessible place, making it easier for developers and users to locate and manage historical data.
+
+The data folder will, therefore, contain a series of timestamped files, each representing a snapshot of the address book at different points in time. These archived files provide a valuable resource for data recovery, historical analysis, and auditing purposes.
 
 
 --------------------------------------------------------------------------------------------------------------------
@@ -305,7 +332,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user                                       | edit a patient's medical record               | amend necessary details of a medical record when needed |
 | `* * *`  | user                                       | delete a patient's medical record             | remove patient's medical record that I no longer need   |
 | `* * *`  | user                                       | find patients with specific keywords          | locate existing patient records efficiently             |
-| `* * *`  | user                                       | list all patients' appointment notes          | view all existing appointment notes                     |
+| `* * *`  | user                                       | list all patient's appointment notes          | view all existing appointment notes                     |
 | `* * *`  | user                                       | list a particular patients' appointment notes | view a particular patient's existing appointment notes  |
 | `* * *`  | user                                       | add a patient's appointment note              | record keep the details of each appointment             |
 | `* * *`  | user                                       | edit a patient's appointment note             | update the details of an appointment                    |
@@ -322,23 +349,23 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **MSS**
 
-1.  User requests to list patients
-2.  HealthSync shows a list of patients
+1.  User requests to list all appointment notes
+2.  HealthSync shows a list of appointment notes
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list of patients is empty.
+* 2a. The list of appointment notes is empty.
 
   Use case ends.
 
-#### Use case: List a particular patients' appointment notes
+#### Use case: List a particular patient's appointment notes
 
 **MSS**
 
-1.  User requests to view a particular patients' appointment notes
-2.  HealthSync shows a list of patients
+1.  User requests to view a particular patient's appointment notes
+2.  HealthSync shows a list of appointment notes
 
     Use case ends.
 
@@ -348,7 +375,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
   * 1a1. HealthSync shows an error message.
 
     Use case resumes at step 1.
-* 2a. The list of patients is empty.
+* 2a. The list of appointment notes is empty.
 
   Use case ends.
 
