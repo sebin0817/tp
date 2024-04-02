@@ -207,11 +207,12 @@ Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHD
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match to `Hans`
 * Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo` will return patients named `Hans Gruber`, `Bo Yang`
-* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will return male patients named Taylor
+* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will return all `Male` patients named `Taylor`
 
 Examples:
 * `find n/John` returns `john` and `John Doe`
-* `find d/paracetamol i/infectious disease` returns all patients with paracetamol allergy and infectious disease
+* `find d/paracetamol i/infectious` returns all patients with a `Paracetamol` allergy who also have the `Infectious Diseases` illness category
+* `find i/diseases others` returns all patients with `Infectious Diseases`, `Degenerative Diseases` and `Others` illness categories
 
 ### Listing all appointment notes: `list-an`
 
