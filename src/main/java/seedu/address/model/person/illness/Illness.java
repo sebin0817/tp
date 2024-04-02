@@ -5,6 +5,7 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,12 +18,28 @@ public class Illness {
             + "(You could type just the first word / letters for convenience "
             + "as long it corresponds to a single category.): \n"
             + "Infectious Disease, Chronic Conditions, Autoimmune Disorders, Genetic Disorders, \n"
-            + "Mental Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies, \n"
+            + "Mental Disorders, Neurological Disorders, Metabolic Disorders, Nutritional Deficiencies, \n"
             + "Environmental Illnesses, Degenerative Diseases or Others.";
-    private static final Set<String> VALID_ILLNESS_CATEGORIES = new HashSet<>(Arrays.asList(
+
+    public static final String FIND_MESSAGE_CONSTRAINTS = "Illness names should only contain alphabetical characters "
+            + "and match any of the predefined illness keywords: \n"
+            + "Infectious Disease, Chronic Conditions, Autoimmune Disorders, Genetic Disorders, \n"
+            + "Mental Disorders, Neurological Disorders, Metabolic Disorders, Nutritional Deficiencies, \n"
+            + "Environmental Illnesses, Degenerative Diseases or Others. \n"
+            + "Additionally, users may specify only a portion of the illness keywords, "
+            + "such as 'Infectious' from 'Infectious Diseases'.";
+
+    private static final List<String> ILLNESSES_ARRAY = Arrays.asList(
             "Infectious Diseases", "Chronic Conditions", "Autoimmune Disorders", "Genetic Disorders",
-            "Mental Disorders", "Neurological Disorders", "Metabolic Disorder",
-            "Nutritional Deficiencies", "Environmental Illnesses", "Degenerative Diseases", "Others"));
+            "Mental Disorders", "Neurological Disorders", "Metabolic Disorders",
+            "Nutritional Deficiencies", "Environmental Illnesses", "Degenerative Diseases", "Others");
+
+    private static final Set<String> VALID_ILLNESS_CATEGORIES = new HashSet<>(ILLNESSES_ARRAY);
+    private static final List<String> VALID_FIND_ILLNESS_KEYWORDS = VALID_ILLNESS_CATEGORIES.stream()
+            .flatMap(category -> Arrays.stream(category.split("\\s+")))
+            .map(String::toLowerCase)
+            .collect(Collectors.toList());
+
     public final String illnessName;
 
     /**
@@ -42,6 +59,19 @@ public class Illness {
      */
     public static boolean isValidIllnessName(String test) {
         return findMatchingCategory(test) != null;
+    }
+
+    /**
+     * Returns true if a given string is a valid illness find query.
+     */
+    public static boolean isValidIllnessFind(String test) {
+        List<String> keywords = Arrays.asList(test.split("\\s+"));
+        for (int i = 0; i < keywords.size(); i++) {
+            if (!VALID_FIND_ILLNESS_KEYWORDS.contains(keywords.get(i).toLowerCase())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
