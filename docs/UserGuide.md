@@ -3,26 +3,30 @@ layout: page
 title: User Guide
 ---
 
-**HealthSync** helps optimize clinical efficiency with a keyboard-driven system for doctors to manage patient records, notes, medical certificates, and medication dispensing, all in one streamlined interface, enhancing care quality and focus in a busy clinical setting. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
+**HealthSync** helps optimize clinical efficiency with a keyboard-driven system for doctors to manage patient records,
+notes, medical certificates, and medication dispensing, all in one streamlined interface, enhancing care quality and
+focus in a busy clinical setting. While it has a GUI, most of the user interactions happen using a CLI (Command Line
+Interface).
 
 # Table of Contents
+
 - [Quick Start](#quick-start)
 - [Features](#features)
-  - [Help](#viewing-help--help)
-  - [Add patient medical record](#adding-a-patient-medical-record-add)
-  - [Listing all patient medical records](#listing-all-patient-medical-records--list)
-  - [Editing a patient medical record](#editing-a-patient-medical-record--edit)
-  - [Deleting a patient medical record](#deleting-a-patient-medical-record--delete)
-  - [Locating patient(s) medical record](#locating-a-patient-medical-record--find)
-  - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
-  - [Listing a particular patient's appointment notes](#listing-a-particular-patients-appointment-notes-list-an)
-  - [Adding an appointment note](#adding-an-appointment-note-add-an)
-  - [Editing an appointment note](#editing-an-appointment-note-edit-an)
-  - [Deleting an appointment note](#deleting-an-appointment-note--delete-an)
-  - [Clearing all entries](#clearing-all-entries--clear)
-  - [Exiting the program](#exiting-the-program--exit)
-  - [Saving the data](#saving-the-data)
-  - [Editing the data file](#editing-the-data-file)
+    - [Help](#viewing-help--help)
+    - [Add patient medical record](#adding-a-patient-medical-record-add)
+    - [Listing all patient medical records](#listing-all-patient-medical-records--list)
+    - [Editing a patient medical record](#editing-a-patient-medical-record--edit)
+    - [Deleting a patient medical record](#deleting-a-patient-medical-record--delete)
+    - [Locating patient(s) medical record](#locating-a-patient-medical-record--find)
+    - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
+    - [Listing a particular patient's appointment notes](#listing-a-particular-patients-appointment-notes-list-an)
+    - [Adding an appointment note](#adding-an-appointment-note-add-an)
+    - [Editing an appointment note](#editing-an-appointment-note-edit-an)
+    - [Deleting an appointment note](#deleting-an-appointment-note--delete-an)
+    - [Clearing all entries](#clearing-all-entries--clear)
+    - [Exiting the program](#exiting-the-program--exit)
+    - [Saving the data](#saving-the-data)
+    - [Editing the data file](#editing-the-data-file)
 - [FAQ](#faq)
 - [Known issues](#known-issues)
 - [Command summary](#command-summary)
@@ -37,22 +41,25 @@ title: User Guide
 
 1. Copy the file to the folder you want to use as the _home folder_ for your HealthSync.
 
-1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar healthsync.jar` command to run the application.<br>
+1. Open a command terminal, `cd` into the folder you put the jar file in, and use the `java -jar healthsync.jar` command
+   to run the application.<br>
    A GUI similar to the below should appear in a few seconds. Note how the app contains some sample data.<br>
    ![Ui](images/Ui.png)
 
-1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
+1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will
+   open the help window.<br>
    Some example commands you can try:
 
-   * `list` : Lists all contacts.
+    * `list` : Lists all contacts.
 
-   * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe` to the Address Book.
+    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe`
+      to the Address Book.
 
-   * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-   * `clear` : Deletes all contacts.
+    * `clear` : Deletes all contacts.
 
-   * `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 1. Refer to the [Features](#features) below for details of each command.
 
@@ -76,14 +83,19 @@ title: User Guide
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.<br>
+* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be
+  ignored.<br>
   e.g. if the command specifies `help 123`, it will be interpreted as `help`.
 
-* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
+* If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
+  as space characters surrounding line-breaks may be omitted when copied over to the application.
+
 </div>
 
 ### Viewing help : `help`
-Displays a comprehensive list of available commands within the application, assisting users in navigating and utilizing Healthsync effectively for managing patient medical and appointment records.
+
+Displays a comprehensive list of available commands within the application, assisting users in navigating and utilizing
+Healthsync effectively for managing patient medical and appointment records.
 
 Format: `help`
 
@@ -92,8 +104,8 @@ Format: `help`
 
 Example:
 
-- Entering `help` in Healthsync will produce a list of commands as shown above, guiding users through the process of managing patient records and appointments within the system.
-
+- Entering `help` in Healthsync will produce a list of commands as shown above, guiding users through the process of
+  managing patient records and appointments within the system.
 
 ### Adding a patient medical record: `add`
 
@@ -105,19 +117,21 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 * `NAME` can contain an alphanumeric, spaces, special characters.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
 * `PHONE_NUMBER` should be in valid Singapore phone number format.
-Must start with 6, 8, or 9 and be followed by seven additional digits,
-with no spaces or other characters.
+  Must start with 6, 8, or 9 and be followed by seven additional digits,
+  with no spaces or other characters.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
-Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-Environmental Illnesses, Degenerative Diseases or Others.
+  Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
+  Environmental Illnesses, Degenerative Diseases or Others.
 
 Examples:
+
 * `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` Adds a new
-patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
-birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness of `Infectious Disease`.
+  patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
+  birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness of `Infectious Disease`.
+
 ### Listing all patient medical records : `list`
 
 Displays the list of patients in the application. Each row of patients displays a basic details of the patients
@@ -138,34 +152,38 @@ if new nric is needed.
 </div>
 
 * Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the
-displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
+  displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
 * `NAME` can contain an alphanumeric, spaces, special characters.
 * `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
-* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `\g` with empty argument to remove any gender
-specification and make it 'Prefer not to say'.
+* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `\g` with empty argument to remove any
+  gender
+  specification and make it 'Prefer not to say'.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any allergy
-previously written.
+* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any
+  allergy
+  previously written.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove
-all illness category associated with the medical record.
-Examples:
-*  `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
-medical record that has the `PATIENT_INDEX` of 1.
-*  `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
-`M` and birthdate of `11-07-1999`.
+  all illness category associated with the medical record.
+  Examples:
+* `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
+  medical record that has the `PATIENT_INDEX` of 1.
+* `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
+  `M` and birthdate of `11-07-1999`.
 
 [//]: # (### Locating persons by name: `find`)
 
 [//]: # ()
+
 [//]: # (Finds persons whose names contain any of the given keywords.)
 
 [//]: # (Format: `find KEYWORD [MORE_KEYWORDS]`)
 
 [//]: # ()
+
 [//]: # (* The search is case-insensitive. e.g `hans` will match `Hans`)
 
 [//]: # (* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`)
@@ -179,6 +197,7 @@ medical record that has the `PATIENT_INDEX` of 1.
 [//]: # (  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`)
 
 [//]: # ()
+
 [//]: # (Examples:)
 
 [//]: # (* `find John` returns `john` and `John Doe`)
@@ -207,10 +226,13 @@ Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHD
 * The search is case-insensitive. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match to `Hans`
-* Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo` will return patients named `Hans Gruber`, `Bo Yang`
-* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will return male patients named Taylor
+* Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo`
+  will return patients named `Hans Gruber`, `Bo Yang`
+* Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will
+  return male patients named Taylor
 
 Examples:
+
 * `find n/John` returns `john` and `John Doe`
 * `find d/paracetamol i/infectious disease` returns all patients with paracetamol allergy and infectious disease
 
@@ -232,6 +254,7 @@ Format: `list-an PATIENT_INDEX`
 * The index **must be a positive integer** 1, 2, 3, …
 
 Examples:
+
 * `list-an 1`
 
 ### Adding an appointment note: `add-an`
@@ -245,6 +268,7 @@ A person can have any number of appointment record (including 0)
 </div>
 
 Examples:
+
 * `add-an 1 d/19-02-2024 t/1130 n/General Flu`
 * `add-an 1 d/30-12-2023 t/2100 n/Headache`
 
@@ -260,6 +284,7 @@ Format: `edit-an PATIENT_INDEX INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`
 * The index **must be a positive integer** 1, 2, 3, …
 
 Examples:
+
 * `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`
 * `edit-an 1 2 t/2100 n/Stomach Virus`
 
@@ -275,6 +300,7 @@ Format: `delete-an PATIENT_INDEX INDEX`
 * The index **must be a positive integer** 1, 2, 3, …
 
 Examples:
+
 * `list-an 1` followed by `delete-an 1 2` deletes the 2nd appointment note from the 1st patient.
 
 ### Clearing all entries : `clear`
@@ -298,11 +324,13 @@ Format: `exit`
 
 ### Saving the data
 
-HealthSync data are saved in the hard disk automatically after any command that changes the data. There is no need to save manually.
+HealthSync data are saved in the hard disk automatically after any command that changes the data. There is no need to
+save manually.
 
 ### Editing the data file
 
-HealthSync data are saved automatically as a JSON file `[JAR file location]/data/HealthSync.json`. Advanced users are welcome to update data directly by editing that data file.
+HealthSync data are saved automatically as a JSON file `[JAR file location]/data/HealthSync.json`. Advanced users are
+welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, HealthSync will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
@@ -318,33 +346,36 @@ _Details coming soon ..._
 ## FAQ
 
 **Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous HealthSync home folder.
+**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains
+the data of your previous HealthSync home folder.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Known issues
 
-1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
+1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only
+   the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the
+   application before running the application again.
 
 --------------------------------------------------------------------------------------------------------------------
 
 ## Command summary
 
-Action | Format, Examples
---------|------------------
-**Add Patient Medical Record** | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`
-**List All Patient Medical Records** | `list`
-**Edit Patient Medical Record** | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`
-**Delete** | `delete INDEX`<br> e.g., `delete 3`
-**Edit** | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`
-**Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`
-**List All Appointment Notes** | `list-an`
-**List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`
-**Add Appointment Note** | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`
-**Edit Appointment Note** | `edit-an PATIENT_INDEX INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`
-**Delete Appointment Note** | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`
-**List** | `list`
-**Help** | `help`
-**Clear** | `clear`
-**Undo** | `undo`
-**Exit** | `exit`
+ Action                                 | Format, Examples                                                                                                                                                                                                  
+----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy` 
+ **List All Patient Medical Records**   | `list`                                                                                                                                                                                                            
+ **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                    
+ **Delete**                             | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                               
+ **Edit**                               | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                                       
+ **Find**                               | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                                        
+ **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                         
+ **List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                    
+ **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                             
+ **Edit Appointment Note**              | `edit-an PATIENT_INDEX INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                
+ **Delete Appointment Note**            | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                         
+ **List**                               | `list`                                                                                                                                                                                                            
+ **Help**                               | `help`                                                                                                                                                                                                            
+ **Clear**                              | `clear`                                                                                                                                                                                                           
+ **Undo**                               | `undo`                                                                                                                                                                                                            
+ **Exit**                               | `exit`                                                                                                                                                                                                            
