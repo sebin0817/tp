@@ -301,7 +301,7 @@
 }
 
 .scroll-pane > .corner {
-    -fx-background-color: #383838;
+    -fx-opacity: 0;
 }
 
 .scroll-bar:vertical .increment-arrow, .scroll-bar:vertical .decrement-arrow {

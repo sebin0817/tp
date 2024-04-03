@@ -53,6 +53,7 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
 
+        illnesses.setVgap(5);
         illnesses.setHgap(5);
         String illnessLabelStyle = "-fx-background-color: #d4c262;"
                 + "-fx-background-radius: 20;"
