@@ -20,6 +20,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
@@ -63,6 +64,7 @@ public class AddNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            Mockito.when(model.getAddressBook()).thenReturn(new AddressBook());
             AddNoteCommand command = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
 
             CommandResult result = command.execute(model);

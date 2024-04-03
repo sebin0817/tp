@@ -12,13 +12,14 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
 
 /**
  * Deletes a note from a patient's list of notes.
  */
-public class DeleteNoteCommand extends Command {
+public class DeleteNoteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "delete-an";
 
@@ -28,6 +29,8 @@ public class DeleteNoteCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Deleted Note: %1$s";
 
+    public static final String MESSAGE_UNDO_DELETE_SUCCESS = "Deleted note undone.";
+
     private final Index patientIndex;
     private final Index noteIndex;
 
@@ -36,6 +39,20 @@ public class DeleteNoteCommand extends Command {
      * {@code patientIndex}.
      */
     public DeleteNoteCommand(Index patientIndex, Index noteIndex) {
+        super(null);
+        requireAllNonNull(patientIndex, noteIndex);
+
+        this.patientIndex = patientIndex;
+        this.noteIndex = noteIndex;
+    }
+
+    /**
+     * @param patientIndex  the index of the patient whose note is to be deleted
+     * @param noteIndex     the index of the note to be deleted
+     * @param addressbook   the previous state of the address book
+     */
+    public DeleteNoteCommand(Index patientIndex, Index noteIndex, ReadOnlyAddressBook addressbook) {
+        super(addressbook);
         requireAllNonNull(patientIndex, noteIndex);
 
         this.patientIndex = patientIndex;
@@ -59,6 +76,8 @@ public class DeleteNoteCommand extends Command {
 
         ObservableList<Note> notes = FXCollections.observableArrayList(person.getNotes());
         notes.remove(noteIndex.getZeroBased());
+
+        savePrevState(model);
 
         Person updatedPerson = new Person.Builder(person).setNotes(notes).build();
         model.setPerson(person, updatedPerson);
@@ -94,5 +113,11 @@ public class DeleteNoteCommand extends Command {
     @Override
     public String getMessageUsage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_DELETE_SUCCESS);
     }
 }

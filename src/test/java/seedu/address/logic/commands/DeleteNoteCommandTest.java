@@ -18,6 +18,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
@@ -68,6 +69,7 @@ public class DeleteNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            Mockito.when(model.getAddressBook()).thenReturn(new AddressBook());
             DeleteNoteCommand command = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
 
             CommandResult result = command.execute(model);

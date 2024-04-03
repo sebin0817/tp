@@ -21,6 +21,7 @@ import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
+import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Description;
 import seedu.address.model.person.note.Note;
@@ -28,7 +29,7 @@ import seedu.address.model.person.note.Note;
 /**
  * Edits an appointment in the address book.
  */
-public class EditNoteCommand extends Command {
+public class EditNoteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit-an";
 
@@ -47,6 +48,7 @@ public class EditNoteCommand extends Command {
 
     public static final String MESSAGE_EDIT_NOTE_SUCCESS = "Edited Note: %1$s";
     public static final String MESSAGE_NOTE_NOT_EDITED = "No fields edited. Please try again.";
+    public static final String MESSAGE_UNDO_EDIT_SUCCESS = "Edit note undone.";
     private final Index patientIndex;
     private final Index noteIndex;
     private final EditNoteDescriptor editNoteDescriptor;
@@ -57,6 +59,26 @@ public class EditNoteCommand extends Command {
      * @param editNoteDescriptor   details to edit the note with
      */
     public EditNoteCommand(Index patientIndex, Index noteIndex, EditNoteDescriptor editNoteDescriptor) {
+        super(null);
+        requireNonNull(patientIndex);
+        requireNonNull(noteIndex);
+        requireNonNull(editNoteDescriptor);
+
+        this.patientIndex = patientIndex;
+        this.noteIndex = noteIndex;
+        this.editNoteDescriptor = editNoteDescriptor;
+    }
+
+    /**
+     * @param patientIndex         of the patient with the appointment note to edit
+     * @param noteIndex            of the note in the filtered note list to edit
+     * @param editNoteDescriptor   details to edit the note with
+     * @param addressbook          the prev address book state
+     */
+    public EditNoteCommand(Index patientIndex, Index noteIndex, EditNoteDescriptor editNoteDescriptor,
+        ReadOnlyAddressBook addressbook) {
+
+        super(addressbook);
         requireNonNull(patientIndex);
         requireNonNull(noteIndex);
         requireNonNull(editNoteDescriptor);
@@ -85,6 +107,8 @@ public class EditNoteCommand extends Command {
 
         ObservableList<Note> updatedNotes = FXCollections.observableArrayList(personToEdit.getNotes());
         updatedNotes.set(noteIndex.getZeroBased(), editedNote);
+
+        savePrevState(model);
 
         Person updatedPerson = new Person.Builder(personToEdit).setNotes(updatedNotes).build();
         model.setPerson(personToEdit, updatedPerson);
@@ -223,5 +247,11 @@ public class EditNoteCommand extends Command {
                     .add("description", description)
                     .toString();
         }
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_EDIT_SUCCESS);
     }
 }
