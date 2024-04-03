@@ -12,7 +12,6 @@ import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.Prefix;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
 
@@ -46,18 +45,6 @@ public class AddNoteCommand extends UndoableCommand {
      */
     public AddNoteCommand(Index personIndex, Note note) {
         super(null);
-        requireAllNonNull(personIndex, note);
-        this.personIndex = personIndex;
-        this.note = note;
-    }
-
-    /**
-     * @param personIndex
-     * @param note
-     * @param addressBook
-     */
-    public AddNoteCommand(Index personIndex, Note note, ReadOnlyAddressBook addressBook) {
-        super(addressBook);
         requireAllNonNull(personIndex, note);
         this.personIndex = personIndex;
         this.note = note;
