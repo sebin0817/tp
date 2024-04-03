@@ -143,6 +143,7 @@ public class LogicManagerTest {
     public void execute_archiveThrowsIoException_throwsCommandException() {
         assertCommandFailureForExceptionFromStorage(DUMMY_IO_EXCEPTION, String.format(
                 LogicManager.FILE_OPS_ERROR_FORMAT, DUMMY_IO_EXCEPTION.getMessage()));
+    }
 
     public void execute_undoableCommand_success() throws Exception {
         Person validPerson = new PersonBuilder().build();
