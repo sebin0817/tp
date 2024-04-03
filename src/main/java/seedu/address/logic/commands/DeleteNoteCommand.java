@@ -12,7 +12,6 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
-import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
 
@@ -40,19 +39,6 @@ public class DeleteNoteCommand extends UndoableCommand {
      */
     public DeleteNoteCommand(Index patientIndex, Index noteIndex) {
         super(null);
-        requireAllNonNull(patientIndex, noteIndex);
-
-        this.patientIndex = patientIndex;
-        this.noteIndex = noteIndex;
-    }
-
-    /**
-     * @param patientIndex  the index of the patient whose note is to be deleted
-     * @param noteIndex     the index of the note to be deleted
-     * @param addressbook   the previous state of the address book
-     */
-    public DeleteNoteCommand(Index patientIndex, Index noteIndex, ReadOnlyAddressBook addressbook) {
-        super(addressbook);
         requireAllNonNull(patientIndex, noteIndex);
 
         this.patientIndex = patientIndex;
