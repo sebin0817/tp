@@ -31,11 +31,13 @@ import seedu.address.model.person.note.Note;
 import seedu.address.testutil.EditNoteDescriptorBuilder;
 
 /**
- * Contains integration tests (interaction with the Model) and unit tests for EditNoteCommand.
+ * Contains integration tests (interaction with the Model) and unit tests for
+ * EditNoteCommand.
  */
 class EditNoteCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs());
+
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws CommandException {
         Note editedNote = new Note(LocalDateTime.now(), new Description("Updated Description"));
@@ -132,7 +134,7 @@ class EditNoteCommandTest {
     }
 
     private void executeCommand_success(Index patientIndex, Index noteIndex, Note editedNote,
-                                     String expectedMessage) throws CommandException {
+            String expectedMessage) throws CommandException {
         EditNoteCommand.EditNoteDescriptor descriptor = new EditNoteDescriptorBuilder(editedNote).build();
         EditNoteCommand command = new EditNoteCommand(patientIndex, noteIndex, descriptor);
 
@@ -144,6 +146,29 @@ class EditNoteCommandTest {
         Model expectedModel = setupExpectedModel(personToEdit, updatedPerson);
 
         assertCommandSuccess(command, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void undo_success() throws CommandException {
+        // Setup initial state
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+
+        // Create a descriptor based on the original note, modify it if necessary
+        Person personToEdit = expectedModel.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased());
+        Note originalNote = personToEdit.getNotes().get(INDEX_FIRST_NOTE.getZeroBased());
+
+        // Create a descriptor based on the original note, modify it if necessary
+        EditNoteCommand.EditNoteDescriptor descriptor = new EditNoteDescriptorBuilder(originalNote).build();
+
+        // Execute command to edit note
+        EditNoteCommand command = new EditNoteCommand(INDEX_FIRST_PERSON, INDEX_FIRST_NOTE, descriptor);
+        command.execute(model);
+
+        // Undo the edit
+        command.undo(model);
+
+        assertEquals(expectedModel, model);
+        assertEquals(EditNoteCommand.MESSAGE_UNDO_EDIT_SUCCESS, command.undo(model).getFeedbackToUser());
     }
 
     private Model setupExpectedModel(Person originalPerson, Person updatedPerson) {
