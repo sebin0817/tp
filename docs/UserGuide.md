@@ -26,12 +26,12 @@ Interface).
     - [Deleting an appointment note : `delete-an`](#deleting-an-appointment-note--delete-an)
     - [Clearing all entries : `clear`](#clearing-all-entries--clear)
     - [Undo previous commands : `undo`](#undo-previous-commands--undo)
-    - [Exiting the program : `exit`](#exiting-the-program--exit)
-    - [Saving the data](#saving-the-data)
-    - [Editing the data file](#editing-the-data-file)
     - [Archiving Data Files: `archive`](#archiving-data-files-archive)
       - [Examples:](#examples)
       - [Note:](#note)
+    - [Exiting the program : `exit`](#exiting-the-program--exit)
+    - [Saving the data](#saving-the-data)
+    - [Editing the data file](#editing-the-data-file)
   - [FAQ](#faq)
   - [Known issues](#known-issues)
   - [Command summary](#command-summary)
@@ -132,7 +132,7 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-  Environmental Illnesses, Degenerative Diseases or Others.
+  Environmental Illnesses, Degenerative Diseases or Others. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
 
 Examples:
 
@@ -175,7 +175,7 @@ if new nric is needed.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. A single `\i` with empty argument would remove
-  all illness category associated with the medical record.
+  all illness category associated with the medical record. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
   Examples:
 * `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
   medical record that has the `PATIENT_INDEX` of 1.
@@ -310,27 +310,6 @@ Undo the most recent command if any (Specifically patient medical record and app
 
 Format: `undo`
 
-### Exiting the program : `exit`
-
-Exits the program.
-
-Format: `exit`
-
-### Saving the data
-
-HealthSync data are saved in the hard disk automatically after any command that changes the data. There is no need to
-save manually.
-
-### Editing the data file
-
-HealthSync data are saved automatically as a JSON file `[JAR file location]/data/HealthSync.json`. Advanced users are
-welcome to update data directly by editing that data file.
-
-<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
-If your changes to the data file makes its format invalid, HealthSync will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
-Furthermore, certain edits can cause the HealthSync to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
-</div>
-
 ### Archiving Data Files: `archive`
 
 Safeguards your current database by creating a timestamped snapshot, ensuring data integrity during significant updates or before database clearance.
@@ -356,6 +335,27 @@ Safeguards your current database by creating a timestamped snapshot, ensuring da
 To restore from an archive, ensure you correctly rename the desired snapshot file to `addressBook.json` and replace the existing file in the `data` folder. This manual step is crucial for successful restoration and requires careful handling to avoid data loss.
 
 By utilizing the `archive` command, users can confidently manage and implement significant changes to their database, knowing their data is securely backed up and can be restored if necessary.
+
+### Exiting the program : `exit`
+
+Exits the program.
+
+Format: `exit`
+
+### Saving the data
+
+HealthSync data are saved in the hard disk automatically after any command that changes the data. There is no need to
+save manually.
+
+### Editing the data file
+
+HealthSync data are saved automatically as a JSON file `[JAR file location]/data/HealthSync.json`. Advanced users are
+welcome to update data directly by editing that data file.
+
+<div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
+If your changes to the data file makes its format invalid, HealthSync will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
+Furthermore, certain edits can cause the HealthSync to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
+</div>
 
 ## FAQ
 
@@ -386,28 +386,11 @@ the data of your previous HealthSync home folder.
 | **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                                              |
 | **List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                                         |
 | **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                                                  |
-| **Edit Appointment Note**              | `edit-an PATIENT_INDEX INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                                     |
+| **Edit Appointment Note**              | `edit-an PATIENT_INDEX INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                               |
 | **Delete Appointment Note**            | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
 | **List**                               | `list`                                                                                                                                                                                                                                 |
 | **Help**                               | `help`                                                                                                                                                                                                                                 |
 | **Clear**                              | `clear`                                                                                                                                                                                                                                |
 | **Undo**                               | `undo`                                                                                                                                                                                                                                 |
-| **Exit**                               | `exit`                                                                                                                                                                                                                                 |
-| Action                                 | Format, Examples                                                                                                                                                                                                                       |
-| -------------------------------------- | -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------                      |
-| **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy`                      |
-| **List All Patient Medical Records**   | `list`                                                                                                                                                                                                                                 |
-| **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                                         |
-| **Delete**                             | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                                                    |
-| **Edit**                               | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                                                            |
-| **Find**                               | `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]`<br> e.g., `find n/James Jake`                                                                                               |
-| **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                                              |
-| **List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                                         |
-| **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                                                  |
-| **Edit Appointment Note**              | `edit-an PATIENT_INDEX INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                                     |
-| **Delete Appointment Note**            | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
-| **List**                               | `list`                                                                                                                                                                                                                                 |
-| **Help**                               | `help`                                                                                                                                                                                                                                 |
-| **Clear**                              | `clear`                                                                                                                                                                                                                                |
-| **Undo**                               | `undo`                                                                                                                                                                                                                                 |
+| **Archive**                            | `archive`                                                                                                                                                                                                                              |
 | **Exit**                               | `exit`                                                                                                                                                                                                                                 |
