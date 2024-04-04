@@ -797,7 +797,9 @@ testers are expected to do more *exploratory* testing.
       - `undo` until nothing left to undo <br>
         Expected: The application only tracks 10 most recent undoable commands. This results in undoing all the Edit commands but is unable to undo the Add command.
 
-   3. Test Case:
+1. Undo the user's recent patient appointment note related undoable command
+
+   1. Test Case:
       - Execute a sequence of appointment related commands:
         - `add-an 1 d/22-02-2024 t/1430 n/Stomach`
         - `edit-an 1 1 n/General Flu`
