@@ -42,10 +42,13 @@ public class FindCommand extends Command {
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John "
             + PREFIX_EMAIL + "johndoe@example.com";
-
-    private final Predicate<Person> predicate;
     private static final Logger logger = Logger.getLogger(FindCommand.class.getName());
 
+    private final Predicate<Person> predicate;
+
+    /**
+     * Constructs a FindCommand with a specified {@code Predicate<Person>}
+     */
     public FindCommand(Predicate<Person> predicate) {
         assert predicate != null : "Predicate cannot be null";
         this.predicate = predicate;
