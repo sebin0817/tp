@@ -50,14 +50,14 @@ Interface).
    open the help window.<br>
    Some example commands you can try:
 
-    * `list` : Lists all contacts.
+    * `list` : Lists all patient medical records.
 
-    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Adds a contact named `John Doe`
-      to the Address Book.
+    * `add ic/S9974943C n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`:
+      Adds a patient medical record with the details respectively to the application.
 
-    * `delete 3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd medical record shown in the current list.
 
-    * `clear` : Deletes all contacts.
+    * `clear` : Deletes all patient medical records.
 
     * `exit` : Exits the app.
 
@@ -75,17 +75,17 @@ Interface).
   e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 * Items in square brackets are optional.<br>
-  e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
+  e.g. `n/NAME [g/GENDER]` can be used as `n/John Doe g/M` or as `n/John Doe`.
 
 * Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
+  e.g. `[i/ILLNESS]…​` can be used as ` ` (i.e. 0 times), `i/Infectious Diseases`, `i/Infectious Diseases i/Genetic Disorders` etc.
 
 * Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
 
-* Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be
+* Extraneous parameters for commands that do not take in parameters (such as `list`, `undo`, `exit` and `clear`) will be
   ignored.<br>
-  e.g. if the command specifies `help 123`, it will be interpreted as `help`.
+  e.g. if the command specifies `undo 123`, it will be interpreted as `undo`.
 
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines
   as space characters surrounding line-breaks may be omitted when copied over to the application.
@@ -114,7 +114,7 @@ Adds a patient medical record to the system.
 Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
 * `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
-* `NAME` can contain an alphanumeric, spaces, special characters.
+* `NAME` should only contain alphanumeric characters and spaces.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
 * `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
@@ -128,9 +128,9 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 
 Examples:
 
-* `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` Adds a new
+* `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` Adds a new
   patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
-  birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness of `Infectious Disease`.
+  birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness category of `Infectious Diseases`.
 
 ### Listing all patient medical records : `list`
 
@@ -143,33 +143,32 @@ Format: `list`
 
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
-Format: `edit PATIENT_
-INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...`
+Format: `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
-Edit should have atleast one parameter / detail to update. Also nric is not allowed be edited remake the record
+Edit should have at least one parameter / detail to update. Also, nric is not allowed be edited remake the record
 if new nric is needed.
 </div>
 
 * Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the
   displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
-* `NAME` can contain an alphanumeric, spaces, special characters.
+* `NAME` should only contain alphanumeric characters and spaces.
 * `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
+* `EMAIL` should be of the format 'local-part@domain'.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `\g` with empty argument to remove any
   gender
   specification and make it 'Prefer not to say'.
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any
-  allergy
-  previously written.
+  allergy previously written.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-  Environmental Illnesses, Degenerative Diseases or Others. a single `\i` with empty argument would remove
+  Environmental Illnesses, Degenerative Diseases or Others. A single `\i` with empty argument would remove
   all illness category associated with the medical record.
   Examples:
-* `edit 1 n/Cindy Tan p/94505333 g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
+* `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
   medical record that has the `PATIENT_INDEX` of 1.
 * `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
   `M` and birthdate of `11-07-1999`.
@@ -312,8 +311,7 @@ Format: `clear`
 
 ### Undo previous commands : `undo`
 
-Undo the most recent command if any.
-*Only supports patient medical record related commands as of now*.
+Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
 
 Format: `undo`
 
@@ -364,9 +362,9 @@ the data of your previous HealthSync home folder.
 
  Action                                 | Format, Examples                                                                                                                                                                                                  
 ----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
- **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 i/Infectious Disease d/Paracetamol Allergy` 
+ **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` 
  **List All Patient Medical Records**   | `list`                                                                                                                                                                                                            
- **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                    
+ **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                    
  **Delete**                             | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                               
  **Edit**                               | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                                       
  **Find**                               | `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]`<br> e.g., `find n/James Jake`                                                                                                                                                        
