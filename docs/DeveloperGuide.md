@@ -423,30 +423,27 @@ otherwise)
 **MSS**
 
 1. User requests to list all patient medical records.
-2. HealthSync shows a list of all the patient medical records.
-    
-    Use case ends.
+2. HealthSync shows a list of all the patient medical records.<br>
+Use case ends.
 
 **Extensions**
 
-* 2a. The list of patient medical records displayed is empty.
-
-    Use case ends.
+* 2a. The list of patient medical records displayed is empty.<br>
+Use case ends.
 
 #### Use case: Add patient medical record
 
 **MSS**
 
 1. User enters the new patient medical record information.
-2. HealthSync adds the new patient medical record into the application.
-
-    Use case ends.
+2. HealthSync adds the new patient medical record into the application.<br>
+Use case ends.
 
 **Extensions**
 
 * 1a. User entered invalid / incorrect information.
-  * 1a1. HealthSync shows an error message.
-    Use case resumes at 1.
+  * 1a1. HealthSync shows an error message.<br>
+  Use case resumes at 1.
 
 #### Use case: Edit patient medical record
 
@@ -455,18 +452,16 @@ otherwise)
 1. User requests to list patients medical records
 2. HealthSync shows the patient medical records list.
 3. User enters the edited information of a patient medical record.
-4. HealthSync edits the respective patient medical record with the new information.
-    
-    Use case ends.
+4. HealthSync edits the respective patient medical record with the new information.<br>
+Use case ends.
 
 **Extensions**
 
 * 2a. The list of patient medical records is empty.
     Use case ends.
 * 3a. The given patient index is invalid.
-  * 3a1. HealthSync shows an error message.
-    
-    Use case resumes at step 3.
+  * 3a1. HealthSync shows an error message.<br>
+  Use case resumes at step 3.
 
 [//]: # (TODO: find and delete patient)
 
@@ -597,9 +592,8 @@ otherwise)
 **Extensions**
 
 * 1a. User has not done any undoable commands previously.
-  * 1a1. HealthSync shows a message to about no undoable commands to undo.
-  
-     Use case ends.
+  * 1a1. HealthSync shows a message to about no undoable commands to undo.<br>
+  Use case ends.
 
 ### Non-Functional Requirements
 
@@ -764,6 +758,5 @@ testers are expected to do more *exploratory* testing.
       - keep doing edit command until `n/10`
       - `undo` until nothing left to undo <br>
       Expected: The application only tracks 10 most recent undoable commands this results to undoing all the Edit commands but is unable to undo the Add command.
-   
-
+      - 
 [//]: # (TODO: appointment related undoable command and mixed patient/appointment udoable commands manual test)
