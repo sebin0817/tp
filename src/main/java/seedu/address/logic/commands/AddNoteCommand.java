@@ -36,7 +36,7 @@ public class AddNoteCommand extends UndoableCommand {
             + PREFIX_NOTE + "General Flu ";
 
     public static final String MESSAGE_SUCCESS = "New appointment note added: %1$s";
-    public static final String MESSAGE_UNDO_ADD_SUCCESS = "Add patient medical record undone.";
+    public static final String MESSAGE_UNDO_ADD_SUCCESS = "Add appointment note undone.";
     private final Index personIndex;
     private final Note note;
 
