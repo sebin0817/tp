@@ -229,12 +229,13 @@ Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHD
 * Patients matching at least one keyword for a specific parameter will be returned (i.e. `OR` search). e.g. `n/Hans Bo`
   will return patients named `Hans Gruber`, `Bo Yang`
 * Multiple search parameters can be combined to narrow down search results (i.e. `AND` search). e.g. `n/taylor g/m` will
-  return male patients named Taylor
+  return all `Male` patients named `Taylor`
 
 Examples:
 
 * `find n/John` returns `john` and `John Doe`
-* `find d/paracetamol i/infectious disease` returns all patients with paracetamol allergy and infectious disease
+* `find d/paracetamol i/infectious` returns all patients with a `Paracetamol` allergy who also have the `Infectious Diseases` illness category
+* `find i/diseases others` returns all patients with `Infectious Diseases`, `Degenerative Diseases` and `Others` illness categories
 
 ### Listing all appointment notes: `list-an`
 
@@ -368,7 +369,7 @@ the data of your previous HealthSync home folder.
  **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                    
  **Delete**                             | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                                                               
  **Edit**                               | `edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com`                                                                                       
- **Find**                               | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find James Jake`                                                                                                                                                        
+ **Find**                               | `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]`<br> e.g., `find n/James Jake`                                                                                                                                                        
  **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                         
  **List A Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                    
  **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                             
