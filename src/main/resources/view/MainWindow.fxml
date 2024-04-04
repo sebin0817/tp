@@ -36,19 +36,16 @@
         </MenuBar>
             <VBox prefHeight="944.0" prefWidth="751.0" style="-fx-spacing: 20; -fx-padding: 30;">
                <children>
-      
                                 <StackPane fx:id="commandBoxPlaceholder" style="-fx-border-color: #B4B4B4;" styleClass="pane-with-border" VBox.vgrow="NEVER">
                 <padding>
                   <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
               </StackPane>
-      
                                 <StackPane fx:id="resultDisplayPlaceholder" maxHeight="100" minHeight="200.0" prefHeight="100" style="-fx-border-color: #B4B4B4;" styleClass="pane-with-border" VBox.vgrow="NEVER">
                 <padding>
                   <Insets bottom="5" left="10" right="10" top="5" />
                 </padding>
               </StackPane>
-      
                                 <SplitPane dividerPositions="0.5" prefHeight="400" prefWidth="680" style="-fx-border-color: #B4B4B4;" VBox.vgrow="ALWAYS">
                      <items> <!-- Pref size should be adjusted according to your needs -->
                    <!-- First personList VBox -->
@@ -65,7 +62,6 @@
                         <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS" />
                            </children>
                    </VBox>
-         
                                         <!-- Second noteList VBox -->
                    <VBox minWidth="340" styleClass="pane-with-border">
                      <padding>
@@ -84,7 +80,6 @@
               </SplitPane>
                </children>
             </VBox>
-
               <StackPane fx:id="statusbarPlaceholder" VBox.vgrow="NEVER" />
       </VBox>
     </Scene>
