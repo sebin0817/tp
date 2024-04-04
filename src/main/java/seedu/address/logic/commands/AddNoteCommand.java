@@ -18,25 +18,25 @@ import seedu.address.model.person.note.Note;
 /**
  * Adds a person to the address book.
  */
-public class AddNoteCommand extends Command {
+public class AddNoteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "add-an";
     public static final Prefix PREFIX_DATE = new Prefix("d/");
     public static final Prefix PREFIX_TIME = new Prefix("t/");
     public static final Prefix PREFIX_NOTE = new Prefix("n/");
 
-
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds an appointment note to the specified person. "
-        + "Parameters: PATIENT_INDEX (must be a positive integer)"
-        + PREFIX_DATE + "DATE<DD-MM-YYYY> "
-        + PREFIX_TIME + "TIME<HHMM> "
-        + PREFIX_NOTE + "NOTE "
-        + "Example: " + COMMAND_WORD + " 1 "
-        + PREFIX_DATE + "19-02-2024 "
-        + PREFIX_TIME + "1430 "
-        + PREFIX_NOTE + "General Flu ";
+            + "Parameters: PATIENT_INDEX (must be a positive integer)"
+            + PREFIX_DATE + "DATE<DD-MM-YYYY> "
+            + PREFIX_TIME + "TIME<HHMM> "
+            + PREFIX_NOTE + "NOTE "
+            + "Example: " + COMMAND_WORD + " 1 "
+            + PREFIX_DATE + "19-02-2024 "
+            + PREFIX_TIME + "1430 "
+            + PREFIX_NOTE + "General Flu ";
 
     public static final String MESSAGE_SUCCESS = "New appointment note added: %1$s";
+    public static final String MESSAGE_UNDO_ADD_SUCCESS = "Add patient medical record undone.";
     private final Index personIndex;
     private final Note note;
 
@@ -44,6 +44,7 @@ public class AddNoteCommand extends Command {
      * Creates an AddNoteCommand to add a {@code Note} to a given {@code Person}
      */
     public AddNoteCommand(Index personIndex, Note note) {
+        super(null);
         requireAllNonNull(personIndex, note);
         this.personIndex = personIndex;
         this.note = note;
@@ -58,6 +59,8 @@ public class AddNoteCommand extends Command {
         if (personIndex.getZeroBased() >= persons.size()) {
             throw new CommandException(Messages.MESSAGE_INVALID_INDEX);
         }
+
+        savePrevState(model);
 
         Person person = persons.get(personIndex.getZeroBased());
         Person.Builder builder = new Person.Builder(person);
@@ -90,9 +93,9 @@ public class AddNoteCommand extends Command {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-            .add("personIndex", personIndex)
-            .add("note", note)
-            .toString();
+                .add("personIndex", personIndex)
+                .add("note", note)
+                .toString();
     }
 
     @Override
@@ -103,6 +106,12 @@ public class AddNoteCommand extends Command {
     @Override
     public String getMessageUsage() {
         return MESSAGE_USAGE;
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_ADD_SUCCESS);
     }
 
 }
