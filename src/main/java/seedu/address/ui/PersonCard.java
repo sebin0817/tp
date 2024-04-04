@@ -57,7 +57,7 @@ public class PersonCard extends UiPart<Region> {
         nric.setText(person.getNric().nric);
         name.setText(person.getName().fullName);
         gender.setText(person.getGender().gender);
-        birthDate.setText(person.getBirthDate().toString() + " " + person.getBirthDate().getAge());
+        birthDate.setText(person.getBirthDate() + " (" + person.getAge() + " yrs)");
         phone.setText(person.getPhone().value);
         email.setText(person.getEmail().value);
         drugAllergy.setText(person.getDrugAllergy().drugAllergy);
