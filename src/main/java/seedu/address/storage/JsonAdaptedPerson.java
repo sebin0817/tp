@@ -75,7 +75,7 @@ class JsonAdaptedPerson {
         nric = source.getNric().nric;
         name = source.getName().fullName;
         gender = source.getGender().gender;
-        birthDate = source.getBirthDate().birthDate;
+        birthDate = source.getBirthDate().toString();
         phone = source.getPhone().value;
         email = source.getEmail().value;
         drugAllergy = source.getDrugAllergy().drugAllergy;

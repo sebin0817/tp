@@ -482,6 +482,47 @@ otherwise)
 
   Use case ends.
 
+#### Use case: Find specific patient(s) medical record
+
+**MSS**
+
+1. User finds the patient medical record with keywords such as gender, name etc.
+2. HealthSync filters the patient records and displays the relevant ones that matches the search filter.
+    
+    Use case ends.
+
+**Extensions**
+
+* 1a. The given search filter parameters are invalid
+  * 1a1. HealthSync shows an error message
+    Use case resumes at step 1.
+* 2a. No patient medical record matches the filter.
+  * 2a1. HealthySync displays empty list.
+  
+    Use case ends.
+
+#### Use case: Delete a particular patient medical record
+
+**MSS**
+
+1. User requests to list patients medical records
+2. HealthSync shows a list of patients medical records
+3. User requests to delete a specific patient's medical record in the list
+4. HealthSync deletes the patient's medical record
+
+   Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+  Use case ends.
+* 3a. The given patient index is invalid.
+    * 3a1. HealthSync shows an error message
+      Use case resumes at step 2.
+* 3b. The given appointment note index is invalid.
+    * 3b1. HealthSync shows an error message.
+      Use case resumes at step 2.
+
 #### Use case: List a particular patient's appointment notes
 
 **MSS**
@@ -704,6 +745,40 @@ testers are expected to do more *exploratory* testing.
    3. Test case: `find g/M` then <br>
       `edit 1 n/Edited Name` <br>
       Expected: Edit is made to the respective medical record `1` in the current filtered list.
+
+### Find specific patient(s) medical record
+
+1. Find patient medical record.
+    1. Prerequisites: At least one patient medical records are created and stored.
+    2. Test case: `find n/Cindy`
+       Expected: Patient's medical records from patients named Cindy returned.
+    3. Test case: `find n/Cindy May Jack`
+       Expected: Patient's medical records from patients named Cindy, May and Jack are returned.
+    4. Test case: `find n/Taylor g/M`
+       Expected: Patient's medical records from patients named Taylor that are male are returned.
+    5. Test case: `find i/diseases others`
+       Expected: Patient's medical records from patients with Infectious Diseases, Degenerative Diseases 
+      and Others illness categories
+    6. Test case: `find` (invalid command)
+       Expected: No find made and error about invalid command is shown.
+    7. Test case: `find name/Jack` (invalid command)
+       Expected: No find made and error about invalid command is shown.
+    8. Test case: `find n/Jack n/John` (invalid command)
+       Expected: No find made and error about invalid command is shown.
+    9. Test case: `find i/diseases sickness` (invalid command)
+       Expected: No find made and error about invalid command is shown. 
+
+### Deleting a patient
+
+1. Deleting a patient while patients are being shown
+    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+    1. Test case: `delete 1`<br>
+       Expected: First patient is deleted from the list. Details of the deleted patient shown in the status message.
+       Timestamp in the status bar is updated.
+    2. Test case: `delete 0`<br>
+       Expected: No patient is deleted. Error details shown in the status message. Status bar remains the same.
+    3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+       Expected: Similar to previous.
 
 ### List all patients’ appointment notes
 

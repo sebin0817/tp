@@ -78,6 +78,10 @@ public class Person {
         return drugAllergy;
     }
 
+    public int getAge() {
+        return this.birthDate.getAge();
+    }
+
     /**
      * Returns an immutable illness set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.
