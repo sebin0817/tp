@@ -3,15 +3,78 @@ layout: page
 title: Developer Guide
 ---
 
-- Table of Contents
-  {:toc}
+# Table of Contents
+
+- [Table of Contents](#table-of-contents)
+  - [**Acknowledgements**](#acknowledgements)
+  - [**Setting up, getting started**](#setting-up-getting-started)
+  - [**Design**](#design)
+    - [Architecture](#architecture)
+    - [UI component](#ui-component)
+    - [Logic component](#logic-component)
+    - [Model component](#model-component)
+    - [Storage component](#storage-component)
+    - [Common classes](#common-classes)
+  - [**Implementation**](#implementation)
+    - [Undo feature](#undo-feature)
+      - [Implementation](#implementation-1)
+      - [Design considerations:](#design-considerations)
+    - [Find feature (Draft)](#find-feature-draft)
+      - [Implementation](#implementation-2)
+      - [Design considerations:](#design-considerations-1)
+        - [Predicate Implementation](#predicate-implementation)
+    - [Data archiving](#data-archiving)
+      - [Overview](#overview)
+      - [How It Works](#how-it-works)
+      - [Execution Prerequisites](#execution-prerequisites)
+      - [Archived File Location](#archived-file-location)
+  - [**Documentation, logging, testing, configuration, dev-ops**](#documentation-logging-testing-configuration-dev-ops)
+  - [**Appendix: Requirements**](#appendix-requirements)
+    - [Product scope](#product-scope)
+    - [User stories](#user-stories)
+    - [Use cases](#use-cases)
+      - [Use case: List all patient medical records](#use-case-list-all-patient-medical-records)
+      - [Use case: Add patient medical record](#use-case-add-patient-medical-record)
+      - [Use case: Edit patient medical record](#use-case-edit-patient-medical-record)
+      - [Use case: List all patients' appointment notes](#use-case-list-all-patients-appointment-notes)
+      - [Use case: Find specific patient(s) medical record](#use-case-find-specific-patients-medical-record)
+      - [Use case: Delete a particular patient medical record](#use-case-delete-a-particular-patient-medical-record)
+      - [Use case: List a particular patient's appointment notes](#use-case-list-a-particular-patients-appointment-notes)
+      - [Use case: Add a patient's appointment note](#use-case-add-a-patients-appointment-note)
+      - [Use case: Edit a patient's appointment note](#use-case-edit-a-patients-appointment-note)
+      - [Use case: Delete a patient's appointment note](#use-case-delete-a-patients-appointment-note)
+      - [Use case: Undo recent use command](#use-case-undo-recent-use-command)
+      - [Use Case: Archive the Address Book](#use-case-archive-the-address-book)
+    - [Non-Functional Requirements](#non-functional-requirements)
+    - [Glossary](#glossary)
+  - [**Appendix: Instructions for manual testing**](#appendix-instructions-for-manual-testing)
+    - [Launch and shutdown](#launch-and-shutdown)
+    - [Help Command](#help-command)
+    - [Listing patient medical records](#listing-patient-medical-records)
+    - [Add a patient medical record](#add-a-patient-medical-record)
+    - [Edit a patient medical record](#edit-a-patient-medical-record)
+    - [Find specific patient(s) medical record](#find-specific-patients-medical-record)
+    - [Deleting a patient](#deleting-a-patient)
+    - [List all patients’ appointment notes](#list-all-patients-appointment-notes)
+    - [List a particular patient’s appointment notes](#list-a-particular-patients-appointment-notes)
+    - [Add a patient’s appointment note](#add-a-patients-appointment-note)
+    - [Edit a patient’s appointment note](#edit-a-patients-appointment-note)
+    - [Delete a patient’s appointment note](#delete-a-patients-appointment-note)
+    - [Undo recent user commands](#undo-recent-user-commands)
+    - [Archive Command](#archive-command)
 
 ---
 
 ## **Acknowledgements**
 
-- {list here sources of all reused/adapted ideas, code, documentation, and third-party libraries -- include links to the
-  original source as well}
+- Adapted from [AB3](https://github.com/nus-cs2103-AY2324S2/tp)
+- Thank you Prof Damith and our TA Sean for guiding the team towards completing the various milestones.
+
+- Libraries Used:
+  - JavaFX
+  - Jackson
+  - JUnit5
+  - Mockito
 
 ---
 
@@ -196,7 +259,7 @@ The `Storage` component,
 
 ### Common classes
 
-Classes used by multiple components are in the `seedu.HealthSync.commons` package.
+Classes used by multiple components are in the `seedu.address.commons` package.
 
 ---
 
@@ -204,9 +267,9 @@ Classes used by multiple components are in the `seedu.HealthSync.commons` packag
 
 This section describes some noteworthy details on how certain features are implemented.
 
-### \[Proposed\] Undo feature (Patient medical record commands for now)
+### Undo feature
 
-#### Proposed Implementation
+#### Implementation
 
 The proposed undo mechanism is facilitated by `LogicManager` acting as the command invoker within the command pattern.
 It implements the interface `CommandHistory` to manage a command history stack containing a set of `UndoableCommand` to
@@ -295,9 +358,9 @@ The following activity diagram summarizes what happens when a user executes a ne
   - Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   - Cons: We must ensure that the implementation of each individual command are correct.
 
-### \[Proposed\] Find feature (Draft)
+### Find feature (Draft)
 
-#### Proposed Implementation
+#### Implementation
 
 The `FindCommand` feature allows user to search for patients in the patient book efficiently. It is implemented using
 a `Predicate<Person>` to filer out the patient book.
@@ -318,7 +381,7 @@ the prefixes and keywords given by the user. It then combines the predicates whi
   - Pros: Reduces the number of classes.
   - Cons: Reduced readability and maintainability with mixed predicate test logic.
 
-### \[Proposed\] Data archiving
+### Data archiving
 
 #### Overview
 
@@ -488,17 +551,18 @@ otherwise)
 
 1. User finds the patient medical record with keywords such as gender, name etc.
 2. HealthSync filters the patient records and displays the relevant ones that matches the search filter.
-    
-    Use case ends.
+
+   Use case ends.
 
 **Extensions**
 
-* 1a. The given search filter parameters are invalid
-  * 1a1. HealthSync shows an error message
+- 1a. The given search filter parameters are invalid
+  - 1a1. HealthSync shows an error message
     Use case resumes at step 1.
-* 2a. No patient medical record matches the filter.
-  * 2a1. HealthySync displays empty list.
-  
+- 2a. No patient medical record matches the filter.
+
+  - 2a1. HealthySync displays empty list.
+
     Use case ends.
 
 #### Use case: Delete a particular patient medical record
@@ -514,14 +578,14 @@ otherwise)
 
 **Extensions**
 
-* 2a. The list is empty.
+- 2a. The list is empty.
   Use case ends.
-* 3a. The given patient index is invalid.
-    * 3a1. HealthSync shows an error message
-      Use case resumes at step 2.
-* 3b. The given appointment note index is invalid.
-    * 3b1. HealthSync shows an error message.
-      Use case resumes at step 2.
+- 3a. The given patient index is invalid.
+  - 3a1. HealthSync shows an error message
+    Use case resumes at step 2.
+- 3b. The given appointment note index is invalid.
+  - 3b1. HealthSync shows an error message.
+    Use case resumes at step 2.
 
 #### Use case: List a particular patient's appointment notes
 
@@ -749,36 +813,36 @@ testers are expected to do more *exploratory* testing.
 ### Find specific patient(s) medical record
 
 1. Find patient medical record.
-    1. Prerequisites: At least one patient medical records are created and stored.
-    2. Test case: `find n/Cindy`
-       Expected: Patient's medical records from patients named Cindy returned.
-    3. Test case: `find n/Cindy May Jack`
-       Expected: Patient's medical records from patients named Cindy, May and Jack are returned.
-    4. Test case: `find n/Taylor g/M`
-       Expected: Patient's medical records from patients named Taylor that are male are returned.
-    5. Test case: `find i/diseases others`
-       Expected: Patient's medical records from patients with Infectious Diseases, Degenerative Diseases 
+   1. Prerequisites: At least one patient medical records are created and stored.
+   2. Test case: `find n/Cindy`
+      Expected: Patient's medical records from patients named Cindy returned.
+   3. Test case: `find n/Cindy May Jack`
+      Expected: Patient's medical records from patients named Cindy, May and Jack are returned.
+   4. Test case: `find n/Taylor g/M`
+      Expected: Patient's medical records from patients named Taylor that are male are returned.
+   5. Test case: `find i/diseases others`
+      Expected: Patient's medical records from patients with Infectious Diseases, Degenerative Diseases
       and Others illness categories
-    6. Test case: `find` (invalid command)
-       Expected: No find made and error about invalid command is shown.
-    7. Test case: `find name/Jack` (invalid command)
-       Expected: No find made and error about invalid command is shown.
-    8. Test case: `find n/Jack n/John` (invalid command)
-       Expected: No find made and error about invalid command is shown.
-    9. Test case: `find i/diseases sickness` (invalid command)
-       Expected: No find made and error about invalid command is shown. 
+   6. Test case: `find` (invalid command)
+      Expected: No find made and error about invalid command is shown.
+   7. Test case: `find name/Jack` (invalid command)
+      Expected: No find made and error about invalid command is shown.
+   8. Test case: `find n/Jack n/John` (invalid command)
+      Expected: No find made and error about invalid command is shown.
+   9. Test case: `find i/diseases sickness` (invalid command)
+      Expected: No find made and error about invalid command is shown.
 
 ### Deleting a patient
 
 1. Deleting a patient while patients are being shown
-    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-    1. Test case: `delete 1`<br>
-       Expected: First patient is deleted from the list. Details of the deleted patient shown in the status message.
-       Timestamp in the status bar is updated.
-    2. Test case: `delete 0`<br>
-       Expected: No patient is deleted. Error details shown in the status message. Status bar remains the same.
-    3. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+   1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
+   1. Test case: `delete 1`<br>
+      Expected: First patient is deleted from the list. Details of the deleted patient shown in the status message.
+      Timestamp in the status bar is updated.
+   1. Test case: `delete 0`<br>
+      Expected: No patient is deleted. Error details shown in the status message. Status bar remains the same.
+   1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
+      Expected: Similar to previous.
 
 ### List all patients’ appointment notes
 
