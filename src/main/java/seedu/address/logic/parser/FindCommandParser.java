@@ -13,6 +13,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import seedu.address.logic.commands.FindCommand;
@@ -31,7 +33,7 @@ import seedu.address.model.person.predicates.PhoneContainsKeywordsPredicate;
  * Parses input arguments and creates a new FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
-
+    private static final Logger logger = Logger.getLogger(FindCommandParser.class.getName());
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
@@ -53,12 +55,12 @@ public class FindCommandParser implements Parser<FindCommand> {
         if (!atLeastOnePrefixPresent(argMultimap, PREFIX_NRIC, PREFIX_NAME, PREFIX_BIRTHDATE, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_GENDER, PREFIX_DRUG_ALLERGY, PREFIX_ILLNESS)
                 || !argMultimap.getPreamble().isEmpty()) {
+            logger.log(Level.WARNING , "Parsing failed due to invalid prefixes");
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
         }
 
         argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NRIC, PREFIX_NAME, PREFIX_BIRTHDATE, PREFIX_PHONE,
                 PREFIX_EMAIL, PREFIX_GENDER, PREFIX_DRUG_ALLERGY, PREFIX_ILLNESS);
-
 
         String[] userKeywords;
         String[] validatedKeywords;
@@ -135,7 +137,9 @@ public class FindCommandParser implements Parser<FindCommand> {
             predicates.add(new IllnessContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
+        assert !predicates.isEmpty() : "Predicates list should not be empty before combining";
         Predicate<Person> combinedPredicate = predicates.stream().reduce(Predicate::and).orElse(first -> true);
+        logger.log(Level.INFO, "Combined predicates for FindCommand");
         return new FindCommand(combinedPredicate);
     }
 
@@ -148,6 +152,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     private String[] formatKeywords(String medicalRecord) {
+        assert medicalRecord.length() > 0 : "Medical record should not be empty";
         return medicalRecord.split("\\s+");
     }
 }
