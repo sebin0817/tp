@@ -52,7 +52,7 @@ Interface).
 
     * `list` : Lists all patient medical records.
 
-    * `add ic/S9974944F n/John Doe p/91234567 g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`:
+    * `add ic/S9974943C n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`:
       Adds a patient medical record with the details respectively to the application.
 
     * `delete 3` : Deletes the 3rd medical record shown in the current list.
