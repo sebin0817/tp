@@ -11,6 +11,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NRIC;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import seedu.address.commons.util.ToStringBuilder;
 import seedu.address.logic.Messages;
@@ -42,17 +44,23 @@ public class FindCommand extends Command {
             + PREFIX_EMAIL + "johndoe@example.com";
 
     private final Predicate<Person> predicate;
+    private static final Logger logger = Logger.getLogger(FindCommand.class.getName());
 
     public FindCommand(Predicate<Person> predicate) {
+        assert predicate != null : "Predicate cannot be null";
         this.predicate = predicate;
+        logger.log(Level.INFO, "Initialized FindCommand with a predicate");
     }
 
     @Override
     public CommandResult execute(Model model) {
         requireNonNull(model);
+        logger.log(Level.INFO, "Starting FindCommand execution");
+        assert model != null : "Model cannot be null";
         model.setFilterPersonsPredicate(predicate);
         model.updateFilteredPersonList(predicate);
 
+        logger.log(Level.INFO, "FindCommand executed successfully");
         return new CommandResult(
                 String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, model.getFilteredPersonList().size()));
     }

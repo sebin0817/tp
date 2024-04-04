@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.AppUtil.checkArgument;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -16,7 +17,8 @@ public class BirthDate {
     public static final String MESSAGE_CONSTRAINTS =
             "Birth Date must be in the form of DD-MM-YYYY and must not be in the future";
 
-    public final String birthDate;
+    private static final String DATE_FORMAT_INPUT = "dd-MM-yyyy";
+    private final LocalDate birthDate;
 
     /**
      * Constructs a {@code BirthDate}.
@@ -26,7 +28,7 @@ public class BirthDate {
     public BirthDate(String birthDate) {
         requireNonNull(birthDate);
         checkArgument(isValidBirthDate(birthDate), MESSAGE_CONSTRAINTS);
-        this.birthDate = birthDate;
+        this.birthDate = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern(DATE_FORMAT_INPUT));
     }
 
     /**
@@ -43,9 +45,15 @@ public class BirthDate {
         }
     }
 
+    public int getAge() {
+        LocalDate currentDate = LocalDate.now();
+        int age = Period.between(this.birthDate, currentDate).getYears();
+        return age;
+    }
+
     @Override
     public String toString() {
-        return birthDate;
+        return birthDate.format(DateTimeFormatter.ofPattern(DATE_FORMAT_INPUT));
     }
 
     @Override
