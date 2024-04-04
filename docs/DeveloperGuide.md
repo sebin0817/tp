@@ -537,6 +537,51 @@ otherwise)
 
     Use case resumes at step 2.
 
+#### Use case: Undo Adding a Patient's Appointment Note
+
+**MSS**
+
+1. User requests to list patients.
+2. HealthSync displays a list of patients.
+3. User requests to add an appointment note for a given patient.
+4. HealthSync adds the appointment note and confirms the action.
+5. User requests to undo the addition.
+6. HealthSync reverts the address book to the state before the addition.
+7. Use case ends.
+
+**Extensions**
+None required. The undo functionality is designed to revert the last action without the need for extensions.
+
+#### Use case: Undo Editing a Patient's Appointment Note
+
+**MSS**
+
+1. User requests to list patients.
+2. HealthSync displays a list of patients.
+3. User requests to edit an appointment note for a given patient.
+4. HealthSync updates the appointment note and confirms the action.
+5. User requests to undo the edit.
+6. HealthSync reverts the address book to the state before the edit.
+7. Use case ends.
+
+**Extensions**
+None required. Undoing an edit reverts to the previous state of the appointment note, negating the need for extensions.
+
+#### Use case: Undo Deleting a Patient's Appointment Note
+
+**MSS**
+
+1. User requests to list patients.
+2. HealthSync displays a list of patients.
+3. User requests to delete an appointment note for a specific patient.
+4. HealthSync deletes the appointment note and confirms the action.
+5. User requests to undo the deletion.
+6. HealthSync restores the appointment note to its previous state before deletion.
+7. Use case ends.
+
+**Extensions**
+None required. Undoing a deletion restores the previous state of the address book without complications.
+
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
