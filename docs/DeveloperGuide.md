@@ -123,7 +123,7 @@ call as an example.
 
 How the `Logic` component works:
 
-1. When `Logic` is called upon to execute a command, it is passed to an `HealthSyncParser` object which in turn creates
+1. When `Logic` is called upon to execute a command, it is passed to an `AddressBookParser` object which in turn creates
    a parser that matches the command (e.g., `DeleteCommandParser`) and uses it to parse the command.
 1. This results in a `Command` object (more precisely, an object of one of its subclasses e.g., `DeleteCommand`) which
    is executed by the `LogicManager`.
@@ -138,9 +138,9 @@ Here are the other classes in `Logic` (omitted from the class diagram above) tha
 
 How the parsing works:
 
-* When called upon to parse a user command, the `HealthSyncParser` class creates an `XYZCommandParser` (`XYZ` is a
+* When called upon to parse a user command, the `AddressBookParser` class creates an `XYZCommandParser` (`XYZ` is a
   placeholder for the specific command name e.g., `AddCommandParser`) which uses the other classes shown above to parse
-  the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `HealthSyncParser` returns back as
+  the user command and create a `XYZCommand` object (e.g., `AddCommand`) which the `AddressBookParser` returns back as
   a `Command` object.
 * All `XYZCommandParser` classes (e.g., `AddCommandParser`, `DeleteCommandParser`, ...) inherit from the `Parser`
   interface so that they can be treated similarly where possible e.g, during testing.
@@ -159,8 +159,6 @@ The `Model` component,
 *
     * stores a `UserPref` object that represents the user’s preferences. This is exposed to the outside as
       a `ReadOnlyUserPref` objects.
-* does not depend on any of the other three components (as the `Model` represents data entities of the domain, they
-  should make sense on their own without depending on other components)
 
 The `Person` entity,
 
@@ -169,17 +167,16 @@ The `Person` entity,
   is exposed to outsiders as an unmodifiable `ObservableList<Person>` that can be 'observed' e.g. the UI can be bound to
   this list so that the UI automatically updates when the data in the list change.
 
+The `Predicate<Person>` entity,
+
+* stores the most recent filter predicate applied to the filteredPersons list.
+* used when refreshing the filteredPersons to persist the filter.
+
 The `Note` entity,
 
 * each person has a list of `Note` objects which are stored in a `ObservableList`.
 * when rebuilding a `Person` object, the `Note` objects can be copied over from the old `Person` object to the new one.
   Since all objects are immutable, this should not pose any issues.
-
-<div markdown="span" class="alert alert-info">:information_source: **Note:** An alternative (arguably, a more OOP) model is given below. It has a `Tag` list in the `HealthSync`, which `Person` references. This allows `HealthSync` to only require one `Tag` object per unique tag, instead of each `Person` needing their own `Tag` objects.<br>
-
-<img src="images/BetterModelClassDiagram.png" width="450" />
-
-</div>
 
 ### Storage component
 
@@ -401,24 +398,77 @@ and auditing purposes.
 
 Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unlikely to have) - `*`
 
-| Priority | As a …​ | I want to …​                                  | So that I can…​                                         |
-|----------|---------|-----------------------------------------------|---------------------------------------------------------|
-| `* * *`  | user    | view all my patient's medical records         | have a clear overview of all my records                 |
-| `* * *`  | user    | add a patient's medical record                | record new patients I work with                         |
-| `* * *`  | user    | edit a patient's medical record               | amend necessary details of a medical record when needed |
-| `* * *`  | user    | delete a patient's medical record             | remove patient's medical record that I no longer need   |
-| `* * *`  | user    | find patients with specific keywords          | locate existing patient records efficiently             |
-| `* *`    | user    | list all patient's appointment notes          | view all existing appointment notes                     |
-| `* * *`  | user    | list a particular patients' appointment notes | view a particular patient's existing appointment notes  |
-| `* * *`  | user    | add a patient's appointment note              | record keep the details of each appointment             |
-| `* * *`  | user    | edit a patient's appointment note             | update the details of an appointment                    |
-| `* * *`  | user    | delete a patient's appointment note           | remove entries that I no longer need                    |
-| `* *`    | user    | access a help page for quick reference        | have a better idea where to get started                 |
+| Priority | As a …​ | I want to …​                                  | So that I can…​                                            |
+|----------|---------|-----------------------------------------------|------------------------------------------------------------|
+| `* * *`  | user    | view all my patient's medical records         | have a clear overview of all my records                    |
+| `* * *`  | user    | add a patient's medical record                | record new patients I work with                            |
+| `* * *`  | user    | edit a patient's medical record               | amend necessary details of a medical record when needed    |
+| `* * *`  | user    | delete a patient's medical record             | remove patient's medical record that I no longer need      |
+| `* * *`  | user    | find patients with specific keywords          | locate existing patient records efficiently                |
+| `* *`    | user    | list all patient's appointment notes          | view all existing appointment notes                        |
+| `* * *`  | user    | list a particular patients' appointment notes | view a particular patient's existing appointment notes     |
+| `* * *`  | user    | add a patient's appointment note              | record keep the details of each appointment                |
+| `* * *`  | user    | edit a patient's appointment note             | update the details of an appointment                       |
+| `* * *`  | user    | delete a patient's appointment note           | remove entries that I no longer need                       |
+| `* *`    | user    | access a help page for quick reference        | have a better idea where to get started                    |
+| `* *`    | user    | undo my recent commands                       | I can use the application efficiently during my work hours |
 
 ### Use cases
 
 (For all use cases below, the **System** is the `HealthSync` and the **Actor** is the `user`, unless specified
 otherwise)
+
+#### Use case: List all patient medical records
+
+**MSS**
+
+1. User requests to list all patient medical records.
+2. HealthSync shows a list of all the patient medical records.
+    
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list of patient medical records displayed is empty.
+
+    Use case ends.
+
+#### Use case: Add patient medical record
+
+**MSS**
+
+1. User enters the new patient medical record information.
+2. HealthSync adds the new patient medical record into the application.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. User entered invalid / incorrect information.
+  * 1a1. HealthSync shows an error message.
+    Use case resumes at 1.
+
+#### Use case: Edit patient medical record
+
+**MSS**
+
+1. User requests to list patients medical records
+2. HealthSync shows the patient medical records list.
+3. User enters the edited information of a patient medical record.
+4. HealthSync edits the respective patient medical record with the new information.
+    
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list of patient medical records is empty.
+    Use case ends.
+* 3a. The given patient index is invalid.
+  * 3a1. HealthSync shows an error message.
+    
+    Use case resumes at step 3.
+
+[//]: # (TODO: find and delete patient)
 
 #### Use case: List all patients' appointment notes
 
@@ -535,6 +585,22 @@ otherwise)
 
       Use case resumes at step 2.
 
+#### Use case: Undo recent use command
+
+**MSS**
+
+1. User request to undo command.
+2. HealthSync undo the most recent undoable command the user has previously done.
+    
+    Use case ends.
+
+**Extensions**
+
+* 1a. User has not done any undoable commands previously.
+  * 1a1. HealthSync shows a message to about no undoable commands to undo.
+  
+     Use case ends.
+
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
@@ -550,6 +616,7 @@ otherwise)
 * **Patient's medical record**: Essential information about a patient, including name, NRIC, phone number and other
   relevant details
 * **Patient's appointment note**: Information on a scheduled patient appointment, including date, time and assessment
+* **Undoable Commands**: Add, Edit, Delete like commands.
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -574,18 +641,46 @@ testers are expected to do more *exploratory* testing.
     1. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
-### Deleting a person
+### Listing patient medical records
+1. List all patient medical records
+   1. Prerequisites: Multiple patient medical records has already been created and stored.
+   2. Test case: `list` <br>
+      Expected: All the patient medical records are displayed.
 
-1. Deleting a person while all persons are being shown
-    1. Prerequisites: List all persons using the `list` command. Multiple persons in the list.
-    1. Test case: `delete 1`<br>
-       Expected: First contact is deleted from the list. Details of the deleted contact shown in the status message.
-       Timestamp in the status bar is updated.
-    1. Test case: `delete 0`<br>
-       Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-    1. Other incorrect delete commands to try: `delete`, `delete x`, `...` (where x is larger than the list size)<br>
-       Expected: Similar to previous.
+### Add a patient medical record
+1. Add a patient medical record into the application.
+   1. Test case: `add ic/S9974943C n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` <br>
+      Expected: All patient medical records are displayed with the new patient medical record.
+   2. Test case: `add ic/S9974846F n/Matthew Bard b/07-10-1999 p/81234567 e/marky@email.com` (missing optional fields) <br>
+      Expected: All patient medical records are displayed with the new patient medical record but with default values for the optional fields excluded in the input.
+   3. Test case: `add ic/S9974943C n/Shane Santos b/02-11-2000 p/82345678 e/shane@email.com` (duplicate person same NRIC) <br>
+      Expected: No new patient medical record is added. Error will appear as a result notifying the user.
+   4. Test case: `add ic/invalidNRIC n/Jane Cleofas b/02-05-2000 p/83456789 e/jane@email.com` (invalid argument value) <br>
+      Expected: No new patient medical record is added. Error will appear as a result notifying the user that the information supplied is invalid.
 
+### Edit a patient medical record
+1. Edit a patient medical record.
+   1. Prerequisites: At least one patient medical records are created and stored.
+   2. Test case: `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders`
+      Expected: The particular patient medical record `1` is edited with the new information.
+   3. Test case: `edit 1 n/Cindy May Tan`
+      Expected: The particular patient medical record `1` is edited with the new name information.
+   4. Test case: `edit 1` (no new edit information provided)
+      Expected: The particular patient medical record `1` is not edited and error message is shown to the user.
+   5. Test case: `edit 999 n/New name`
+      Expected: No edit made and error about invalid index is shown.
+   6. Test case: `edit` (invalid command)
+      Expected: No edit made and error about invalid command is shown.
+2. Edit a patient medical record after find command.
+   1. Prerequisites: Multiple patient medical records are created and stored and > 1 with gender M.
+   2. Test case: `find g/M` then <br>
+      `edit 1 g/F` <br>
+      Expected: Edit is made to the respective record, and it should disappear in the current filtered patient medical record list as the current list displayed is filtered by gender M.
+      `list` should display all the medical records again and should see the specific edited record now reflects the new gender information.
+   3. Test case: `find g/M` then <br>
+      `edit 1 n/Edited Name` <br>
+      Expected: Edit is made to the respective medical record `1` in the current filtered list.
+    
 ### List all patients’ appointment notes
 
 1. List all patients’ appointment notes
@@ -652,3 +747,23 @@ testers are expected to do more *exploratory* testing.
     1. Prerequisites: No patients are stored.
     1. Test case: `delete-an 1 1` (invalid index)<br>
        Expected: No appointment note is deleted. Error will appear in the status message.
+
+### Undo recent user commands
+
+1. Undo the user's recent patient related undoable command
+   1. Test Case:
+       - `add ic/S9874943Z n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`
+       - `edit 1 n/Edited Name`
+       - `delete 1`
+       - `undo` 3 times <br>
+       Expected: Should be back to the initial state before the test case was executed showing successful undo of the Add/Edit/Delete commands.
+   2. Test Case:
+      - `add ic/S9874943Z n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`
+      - `edit INDEX_OF_NEW_RECORD n/1`
+      - `edit INDEX_OF_NEW_RECORD n/2` 
+      - keep doing edit command until `n/10`
+      - `undo` until nothing left to undo <br>
+      Expected: The application only tracks 10 most recent undoable commands this results to undoing all the Edit commands but is unable to undo the Add command.
+   
+
+[//]: # (TODO: appointment related undoable command and mixed patient/appointment udoable commands manual test)
