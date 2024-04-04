@@ -413,6 +413,7 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 | `* * *`  | user    | delete a patient's appointment note           | remove entries that I no longer need                       |
 | `* *`    | user    | access a help page for quick reference        | have a better idea where to get started                    |
 | `* *`    | user    | undo my recent commands                       | I can use the application efficiently during my work hours |
+| `* *`    | user    | archive my addressbook                        | backup my addressbook as and when I need                   |
 
 ### Use cases
 
@@ -598,6 +599,19 @@ otherwise)
   - 1a1. HealthSync shows a message to about no undoable commands to undo.<br>
     Use case ends.
 
+#### Use Case: Archive the Address Book
+
+**MSS**
+
+1. User requests to archive the address book.
+2. HealthSync creates a timestamped archive of the current address book state, saving it in a designated data folder.
+3. HealthSync confirms the successful archiving of the address book.
+   Use case ends.
+
+**Extensions**
+
+None required. The archiving process is a simple, direct action that does not have conditional branches based on the user input or system state that would necessitate extensions.
+
 ### Non-Functional Requirements
 
 1. Should work on any _mainstream OS_ as long as it has Java `11` or above installed.
@@ -639,6 +653,14 @@ testers are expected to do more *exploratory* testing.
    1. Resize the window to an optimum size. Move the window to a different location. Close the window.
    1. Re-launch the app by double-clicking the jar file.<br>
       Expected: The most recent window size and location is retained.
+
+### Help Command
+
+1. Test the functionality of the `help` command to ensure it displays all available commands and their brief usage.
+   1. Test case: `help` <br>
+      Expected: A list of all available commands along with a brief description of each is displayed to the user.
+   2. Test case: `help add` <br>
+      Expected: Detailed usage of the `add` command is shown.
 
 ### Listing patient medical records
 
@@ -757,12 +779,34 @@ testers are expected to do more *exploratory* testing.
 ### Undo recent user commands
 
 1. Undo the user's recent patient related undoable command
+
    1. Test Case:
+
       - `add ic/S9874943Z n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`
       - `edit 1 n/Edited Name`
       - `delete 1`
       - `undo` 3 times <br>
         Expected: Should be back to the initial state before the test case was executed showing successful undo of the Add/Edit/Delete commands.
-   2. Test Case: - `add ic/S9874943Z n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease` - `edit INDEX_OF_NEW_RECORD n/1` - `edit INDEX_OF_NEW_RECORD n/2` - keep doing edit command until `n/10` - `undo` until nothing left to undo <br>
-      Expected: The application only tracks 10 most recent undoable commands this results to undoing all the Edit commands but is unable to undo the Add command. -
-      [//]: # (TODO: appointment related undoable command and mixed patient/appointment udoable commands manual test)
+
+   2. Test Case:
+
+      - `add ic/S9874943Z n/John Mark p/91234567 e/john@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Disease`
+      - `edit INDEX_OF_NEW_RECORD n/1`
+      - `edit INDEX_OF_NEW_RECORD n/2`
+      - Keep doing edit command until `n/10`
+      - `undo` until nothing left to undo <br>
+        Expected: The application only tracks 10 most recent undoable commands. This results in undoing all the Edit commands but is unable to undo the Add command.
+
+   3. Test Case:
+      - Execute a sequence of appointment related commands:
+        - `add-an 1 d/22-02-2024 t/1430 n/Stomach`
+        - `edit-an 1 1 n/General Flu`
+        - `delete-an 1 1`
+      - Followed by `undo` 3 times <br>
+        Expected: Should be back to the initial state before the test case was executed, showing successful undo of the Add/Edit/Delete of the appointment notes commands.
+
+### Archive Command
+
+1. Test the functionality of the `archive` command to ensure it creates a timestamped snapshot of the current address book state.
+   1. Test case: `archive` <br>
+      Expected: A new file named `addressBook_YYYY_MM_DD_T.json` is created in the data folder, indicating the archive was successful. The exact filename will vary based on the current date and time.
