@@ -28,7 +28,7 @@ import seedu.address.model.person.note.Note;
 /**
  * Edits an appointment in the address book.
  */
-public class EditNoteCommand extends Command {
+public class EditNoteCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "edit-an";
 
@@ -47,6 +47,7 @@ public class EditNoteCommand extends Command {
 
     public static final String MESSAGE_EDIT_NOTE_SUCCESS = "Edited Note: %1$s";
     public static final String MESSAGE_NOTE_NOT_EDITED = "No fields edited. Please try again.";
+    public static final String MESSAGE_UNDO_EDIT_SUCCESS = "Edit note undone.";
     private final Index patientIndex;
     private final Index noteIndex;
     private final EditNoteDescriptor editNoteDescriptor;
@@ -57,6 +58,7 @@ public class EditNoteCommand extends Command {
      * @param editNoteDescriptor   details to edit the note with
      */
     public EditNoteCommand(Index patientIndex, Index noteIndex, EditNoteDescriptor editNoteDescriptor) {
+        super(null);
         requireNonNull(patientIndex);
         requireNonNull(noteIndex);
         requireNonNull(editNoteDescriptor);
@@ -85,6 +87,8 @@ public class EditNoteCommand extends Command {
 
         ObservableList<Note> updatedNotes = FXCollections.observableArrayList(personToEdit.getNotes());
         updatedNotes.set(noteIndex.getZeroBased(), editedNote);
+
+        savePrevState(model);
 
         Person updatedPerson = new Person.Builder(personToEdit).setNotes(updatedNotes).build();
         model.setPerson(personToEdit, updatedPerson);
@@ -223,5 +227,11 @@ public class EditNoteCommand extends Command {
                     .add("description", description)
                     .toString();
         }
+    }
+
+    @Override
+    public CommandResult undo(Model model) {
+        model.setAddressBook(prevAddressBookState);
+        return new CommandResult(MESSAGE_UNDO_EDIT_SUCCESS);
     }
 }

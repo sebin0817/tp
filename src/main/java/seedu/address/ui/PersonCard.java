@@ -52,17 +52,30 @@ public class PersonCard extends UiPart<Region> {
      */
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
+
+        illnesses.setVgap(5);
+        illnesses.setHgap(5);
+        String illnessLabelStyle = "-fx-background-color: #d4c262;"
+                + "-fx-background-radius: 20;"
+                + "-fx-label-padding: 5;"
+                + "-fx-text-fill: #000;"
+                + "-fx-font-size: 13px";
+
         this.person = person;
         id.setText(displayedIndex + ". ");
         nric.setText(person.getNric().nric);
         name.setText(person.getName().fullName);
-        gender.setText(person.getGender().gender);
-        birthDate.setText(person.getBirthDate().birthDate);
-        phone.setText(person.getPhone().value);
-        email.setText(person.getEmail().value);
-        drugAllergy.setText(person.getDrugAllergy().drugAllergy);
+        gender.setText("Gender: " + person.getGender().gender);
+        birthDate.setText("Birth Date: " + person.getBirthDate().birthDate);
+        phone.setText("Phone Number: " + person.getPhone().value);
+        email.setText("Email: " + person.getEmail().value);
+        drugAllergy.setText("Drug Allergies: " + person.getDrugAllergy().drugAllergy);
         person.getIllnesses().stream()
                 .sorted(Comparator.comparing(illness -> illness.illnessName))
-                .forEach(illness -> illnesses.getChildren().add(new Label(illness.illnessName)));
+                .forEach(illness -> {
+                    Label illnessLabel = new Label(illness.illnessName);
+                    illnessLabel.setStyle(illnessLabelStyle);
+                    illnesses.getChildren().add(illnessLabel);
+                });
     }
 }
