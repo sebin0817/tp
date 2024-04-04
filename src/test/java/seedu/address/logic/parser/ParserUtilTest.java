@@ -50,7 +50,7 @@ public class ParserUtilTest {
     private static final String VALID_PHONE = "65435623";
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_DRUG_ALLERGY = "Penicillin";
-    private static final String VALID_ILLNESS_1 = "Infectious Disease";
+    private static final String VALID_ILLNESS_1 = "Infectious Diseases";
     private static final String VALID_ILLNESS_2 = "Chronic Conditions";
     private static final String VALID_DATE = "19-02-2024";
     private static final String VALID_TIME = "1130";
@@ -294,6 +294,42 @@ public class ParserUtilTest {
                 Arrays.asList(new Illness(VALID_ILLNESS_1), new Illness(VALID_ILLNESS_2)));
 
         assertEquals(expectedIllnessSet, actualIllnessSet);
+    }
+
+    @Test
+    public void parseFindIllness_null_throwsParseException() {
+        assertThrows(NullPointerException.class, () -> ParserUtil.parseFindIllness(null));
+    }
+
+    @Test
+    public void parseFindIllness_invalidValue_throwsParseException() {
+        assertThrows(ParseException.class, () -> ParserUtil.parseFindIllness(INVALID_ILLNESS));
+    }
+
+    @Test
+    public void parseFindIllness_validKeyword_returnsString() throws Exception {
+        String[] expectedIllnessKeywords = (VALID_ILLNESS_1).split(" ");
+        assertEquals(expectedIllnessKeywords[0], ParserUtil.parseFindIllness(expectedIllnessKeywords[0]));
+        assertEquals(expectedIllnessKeywords[1], ParserUtil.parseFindIllness(expectedIllnessKeywords[1]));
+    }
+
+    @Test
+    public void parseFindIllness_validMultipleKeywords_returnsString() throws Exception {
+        String expectedIllnessKeywords = VALID_ILLNESS_1 + " " + VALID_ILLNESS_2;
+        assertEquals(expectedIllnessKeywords, ParserUtil.parseFindIllness(expectedIllnessKeywords));
+    }
+
+    @Test
+    public void parseFindIllness_validValueWithWhitespace_returnsTrimmedIllness() throws Exception {
+        String tagWithWhitespace = WHITESPACE + VALID_ILLNESS_1 + WHITESPACE;
+        String expectedIllnessString = tagWithWhitespace.trim();
+        assertEquals(expectedIllnessString, ParserUtil.parseFindIllness(tagWithWhitespace));
+    }
+
+    @Test
+    public void parseFindIllness_stringWithInvalidTags_throwsParseException() {
+        assertThrows(
+                ParseException.class, () -> ParserUtil.parseFindIllness(VALID_ILLNESS_1 + " " + INVALID_ILLNESS));
     }
 
     @Nested

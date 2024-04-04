@@ -124,13 +124,14 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         if (argMultimap.getValue(PREFIX_DRUG_ALLERGY).isPresent()) {
             validatedKeywords = formatKeywords(
-                    ParserUtil.parseDrugAllergy(argMultimap.getValue(PREFIX_DRUG_ALLERGY).get()).toString());
+                    ParserUtil.parseDrugAllergy(
+                            argMultimap.getValue(PREFIX_DRUG_ALLERGY).get()).toString());
             predicates.add(new DrugAllergyContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
         if (argMultimap.getValue(PREFIX_ILLNESS).isPresent()) {
             validatedKeywords = formatKeywords(
-                    ParserUtil.parseIllness(argMultimap.getValue(PREFIX_ILLNESS).get()).toString());
+                    ParserUtil.parseFindIllness(argMultimap.getValue(PREFIX_ILLNESS).get()));
             predicates.add(new IllnessContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
 
@@ -147,7 +148,7 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     private String[] formatKeywords(String medicalRecord) {
-        return medicalRecord.replaceAll("[\\[\\],]", "").split("\\s+");
+        return medicalRecord.split("\\s+");
     }
 }
 
