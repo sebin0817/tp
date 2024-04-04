@@ -6,26 +6,31 @@ title: User Guide
 **HealthSync** helps optimize clinical efficiency with a keyboard-driven system for doctors to manage patient records, notes, medical certificates, and medication dispensing, all in one streamlined interface, enhancing care quality and focus in a busy clinical setting. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 
 # Table of Contents
-- [Quick Start](#quick-start)
-- [Features](#features)
-  - [Help](#viewing-help--help)
-  - [Add patient medical record](#adding-a-patient-medical-record-add)
-  - [Listing all patient medical records](#listing-all-patient-medical-records--list)
-  - [Editing a patient medical record](#editing-a-patient-medical-record--edit)
-  - [Deleting a patient medical record](#deleting-a-patient-medical-record--delete)
-  - [Locating patient(s) medical record](#locating-a-patient-medical-record--find)
-  - [Listing all appointment notes](#listing-all-appointment-notes-list-an)
-  - [Listing a particular patient's appointment notes](#listing-a-particular-patients-appointment-notes-list-an)
-  - [Adding an appointment note](#adding-an-appointment-note-add-an)
-  - [Editing an appointment note](#editing-an-appointment-note-edit-an)
-  - [Deleting an appointment note](#deleting-an-appointment-note--delete-an)
-  - [Clearing all entries](#clearing-all-entries--clear)
-  - [Exiting the program](#exiting-the-program--exit)
-  - [Saving the data](#saving-the-data)
-  - [Editing the data file](#editing-the-data-file)
-- [FAQ](#faq)
-- [Known issues](#known-issues)
-- [Command summary](#command-summary)
+- [Table of Contents](#table-of-contents)
+  - [Quick start](#quick-start)
+  - [Features](#features)
+    - [Viewing Help Information: `help`](#viewing-help-information-help)
+      - [Format:](#format)
+      - [Examples:](#examples)
+    - [Adding a patient medical record: `add`](#adding-a-patient-medical-record-add)
+    - [Listing all patient medical records : `list`](#listing-all-patient-medical-records--list)
+    - [Editing a patient medical record : `edit`](#editing-a-patient-medical-record--edit)
+    - [Deleting a patient medical record : `delete`](#deleting-a-patient-medical-record--delete)
+    - [Locating a patient medical record : `find`](#locating-a-patient-medical-record--find)
+    - [Listing all appointment notes: `list-an`](#listing-all-appointment-notes-list-an)
+    - [Listing a particular patients' appointment notes: `list-an`](#listing-a-particular-patients-appointment-notes-list-an)
+    - [Adding an appointment note: `add-an`](#adding-an-appointment-note-add-an)
+    - [Editing an appointment note: `edit-an`](#editing-an-appointment-note-edit-an)
+    - [Deleting an appointment note : `delete-an`](#deleting-an-appointment-note--delete-an)
+    - [Clearing all entries : `clear`](#clearing-all-entries--clear)
+    - [Undo previous commands : `undo`](#undo-previous-commands--undo)
+    - [Exiting the program : `exit`](#exiting-the-program--exit)
+    - [Saving the data](#saving-the-data)
+    - [Editing the data file](#editing-the-data-file)
+    - [Archiving data files `[coming in v2.0]`](#archiving-data-files-coming-in-v20)
+  - [FAQ](#faq)
+  - [Known issues](#known-issues)
+  - [Command summary](#command-summary)
 
 --------------------------------------------------------------------------------------------------------------------
 
@@ -82,18 +87,20 @@ title: User Guide
 * If you are using a PDF version of this document, be careful when copying and pasting commands that span multiple lines as space characters surrounding line-breaks may be omitted when copied over to the application.
 </div>
 
-### Viewing help : `help`
-Displays a comprehensive list of available commands within the application, assisting users in navigating and utilizing Healthsync effectively for managing patient medical and appointment records.
+### Viewing Help Information: `help`
 
-Format: `help`
+Provides detailed information on how to use commands within the Healthsync application, facilitating effective management of patient medical and appointment records.
 
-- This command does not require any parameters.
-- Upon execution, it presents a list of commands along with their formats, example usages, and descriptions.
+#### Format:
+- `help` Lists all available commands along with their usage.
+- `help COMMAND` Displays detailed help for a specific command.
+- `COMMAND` refers to any available command in Healthsync for which you seek detailed information.
 
-Example:
+#### Examples:
+- Entering `help` in Healthsync will display a comprehensive list of all commands, including their formats and brief descriptions, to assist in navigating the system.
+- Typing `help add` will present detailed information about the `add` command, including its format, required and optional parameters, and examples of usage.
 
-- Entering `help` in Healthsync will produce a list of commands as shown above, guiding users through the process of managing patient records and appointments within the system.
-
+This enhancement to the `help` feature allows for more targeted assistance, enabling users to quickly find the information they need for any specific command, in addition to understanding the overall functionality available within Healthsync.
 
 ### Adding a patient medical record: `add`
 
@@ -310,11 +317,27 @@ If your changes to the data file makes its format invalid, HealthSync will disca
 Furthermore, certain edits can cause the HealthSync to behave in unexpected ways (e.g., if a value entered is outside of the acceptable range). Therefore, edit the data file only if you are confident that you can update it correctly.
 </div>
 
-### Archiving data files `[coming in v2.0]`
+### Archiving Data Files: `archive`
 
-_Details coming soon ..._
+Safeguards your current database by creating a timestamped snapshot, ensuring data integrity during significant updates or before database clearance.
 
---------------------------------------------------------------------------------------------------------------------
+#### Format:
+`archive`
+
+* This command does not require any parameters.
+* Upon execution, it generates a snapshot file named `addressBook_YYYY_MM_DD_T.json` within the `data` folder. This naming convention includes the current year (YYYY), month (MM), day (DD), and a timestamp (T) to ensure uniqueness and easy identification of the backup.
+
+#### Functionality:
+- **Creating a Snapshot**: Running the `archive` command will automatically save a copy of the current `addressBook.json` file. This snapshot is a full backup of your database at the time of execution, allowing you to preserve data before making major changes or clearing the database.
+- **Restoration**: If you need to revert to a previously archived state, manually navigate to the `data` folder. Here, you can rename and replace the current `addressBook.json` with the desired snapshot file. This process restores your database to the snapshot's saved state.
+
+#### Examples:
+- Executing `archive` on April 4, 2024, at 3:00 PM will create a snapshot file named `addressBook_2024_04_04_T150000.json` in the `data` folder. This file represents a complete backup of the database as it existed at that moment.
+
+#### Note:
+To restore from an archive, ensure you correctly rename the desired snapshot file to `addressBook.json` and replace the existing file in the `data` folder. This manual step is crucial for successful restoration and requires careful handling to avoid data loss.
+
+By utilizing the `archive` command, users can confidently manage and implement significant changes to their database, knowing their data is securely backed up and can be restored if necessary.
 
 ## FAQ
 
