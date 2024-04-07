@@ -189,6 +189,21 @@ public class ParserUtil {
     }
 
     /**
+     * Parses a {@code String illness} into a {@code String}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code String} is invalid.
+     */
+    public static String parseFindIllness(String illness) throws ParseException {
+        requireNonNull(illness);
+        String trimmedIllness = illness.trim();
+        if (!Illness.isValidIllnessFind(trimmedIllness)) {
+            throw new ParseException(Illness.FIND_MESSAGE_CONSTRAINTS);
+        }
+        return trimmedIllness;
+    }
+
+    /**
      * Parses a {@code String drugAllergy} into a {@code Drug Allergy}.
      * Leading and trailing whitespaces will be trimmed.
      *

@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_FLU;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -18,6 +19,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
 import seedu.address.testutil.TypicalPersons;
@@ -46,8 +48,8 @@ public class DeleteNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
-            DeleteNoteCommand command =
-                new DeleteNoteCommand(Index.fromOneBased(persons.size() + 1), Index.fromOneBased(1));
+            DeleteNoteCommand command = new DeleteNoteCommand(Index.fromOneBased(persons.size() + 1),
+                    Index.fromOneBased(1));
 
             assertThrows(CommandException.class, () -> command.execute(model));
         }
@@ -57,8 +59,8 @@ public class DeleteNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
-            DeleteNoteCommand command =
-                new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(persons.get(0).getNotes().size() + 1));
+            DeleteNoteCommand command = new DeleteNoteCommand(Index.fromOneBased(1),
+                    Index.fromOneBased(persons.get(0).getNotes().size() + 1));
 
             assertThrows(CommandException.class, () -> command.execute(model));
         }
@@ -68,6 +70,7 @@ public class DeleteNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            Mockito.when(model.getAddressBook()).thenReturn(new AddressBook());
             DeleteNoteCommand command = new DeleteNoteCommand(Index.fromOneBased(1), Index.fromOneBased(1));
 
             CommandResult result = command.execute(model);
@@ -75,8 +78,31 @@ public class DeleteNoteCommandTest {
             Mockito.verify(model).setPerson(Mockito.any(Person.class), Mockito.any(Person.class));
             assertEquals(new CommandResult(
                     String.format(DeleteNoteCommand.MESSAGE_SUCCESS,
-                        Messages.format(persons.get(0).getNotes().get(0)))),
-                result);
+                            Messages.format(persons.get(0).getNotes().get(0)))),
+                    result);
+        }
+
+        @Test
+        public void undo_success() throws CommandException {
+            ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
+
+            Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            Mockito.when(model.getAddressBook()).thenReturn(new AddressBook());
+
+            // Execute the DeleteNoteCommand to delete a note
+            Index patientIndex = Index.fromOneBased(1);
+            Index noteIndex = Index.fromOneBased(1);
+            DeleteNoteCommand command = new DeleteNoteCommand(patientIndex, noteIndex);
+            command.execute(model);
+
+            // Perform undo
+            CommandResult result = command.undo(model);
+
+            // Verify that setAddressBook was called, implying an undo operation
+            Mockito.verify(model).setAddressBook(any(AddressBook.class));
+
+            // Check the command result message
+            assertEquals(DeleteNoteCommand.MESSAGE_UNDO_DELETE_SUCCESS, result.getFeedbackToUser());
         }
     }
 

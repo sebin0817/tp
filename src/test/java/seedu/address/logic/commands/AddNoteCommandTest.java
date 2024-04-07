@@ -2,6 +2,7 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NOTE_FLU;
 import static seedu.address.testutil.Assert.assertThrows;
 
@@ -20,6 +21,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.AddressBook;
 import seedu.address.model.ModelManager;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.note.Note;
@@ -63,6 +65,7 @@ public class AddNoteCommandTest {
             ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
 
             Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+            Mockito.when(model.getAddressBook()).thenReturn(new AddressBook());
             AddNoteCommand command = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
 
             CommandResult result = command.execute(model);
@@ -77,6 +80,32 @@ public class AddNoteCommandTest {
                             false,
                             false),
                     result);
+        }
+
+        @Test
+        public void undo_success() throws CommandException {
+            // Initial setup
+            AddressBook mockAddressBook = new AddressBook();
+            Mockito.when(model.getAddressBook()).thenReturn(mockAddressBook);
+            AddressBook initialAddressBook = new AddressBook(model.getAddressBook());
+
+            ObservableList<Person> persons = TypicalPersons.getTypicalAddressBook().getPersonList();
+            Mockito.when(model.getFilteredPersonList()).thenReturn(new FilteredList<>(persons));
+
+            // Mocking to return initial state after undo for comparison
+            Mockito.when(model.getAddressBook()).thenReturn(initialAddressBook);
+
+            AddNoteCommand command = new AddNoteCommand(Index.fromOneBased(1), VALID_NOTE_FLU);
+            command.execute(model);
+
+            // Perform undo
+            CommandResult result = command.undo(model);
+
+            // Verify that setAddressBook was called, implying an undo operation
+            Mockito.verify(model).setAddressBook(any(AddressBook.class));
+
+            // Check the command result message
+            assertEquals(AddNoteCommand.MESSAGE_UNDO_ADD_SUCCESS, result.getFeedbackToUser());
         }
     }
 
