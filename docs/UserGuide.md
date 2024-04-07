@@ -120,7 +120,7 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 
 - `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 - `NAME` should only contain alphanumeric characters and spaces.
-- `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
+- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _*Case-insensitive e.g. m instead of M._
 - `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
@@ -165,8 +165,7 @@ if new nric is needed.
   with no spaces or other characters.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
-  gender
-  specification and make it 'Prefer not to say'.
+  gender specification and make it 'Prefer not to say'. _*Case-insensitive e.g. m instead of M._
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
@@ -177,8 +176,7 @@ if new nric is needed.
   Examples:
 * `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
   medical record that has the `PATIENT_INDEX` of 1.
-
-- `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
+* `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
   `M` and birthdate of `11-07-1999`.
 
 [//]: # "### Locating persons by name: `find`"
