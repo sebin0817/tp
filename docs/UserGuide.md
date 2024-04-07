@@ -298,13 +298,21 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from the patient medical records.
 
 Format: `clear`
 
 ### Undo previous commands : `undo`
 
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
+
+Here are the list of undoable commands:
+1. `add`
+2. `edit`
+3. `delete`
+4. `add-an`
+5. `edit-an`
+6. `delete-an`
 
 Format: `undo`
 
@@ -374,10 +382,10 @@ the data of your previous HealthSync home folder.
 ## Command summary
 
 | Action                                 | Format, Examples                                                                                                                                                                                                                       |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` |
 | **List All Patient Medical Records**   | `list`                                                                                                                                                                                                                                 |
-| **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                               |
+| **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/M b/11-07-1999`                                                                                  |
 | **Delete Patient Medical Record**      | `delete PATIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                                                            |
 | **Find Patient Medical Record**        | `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]`<br> e.g., `find n/James Jake`                                                                                               |
 | **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                                              |
