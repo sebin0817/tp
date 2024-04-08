@@ -20,13 +20,16 @@
             <HBox spacing="5" alignment="CENTER_LEFT">
                 <Label fx:id="id" styleClass="cell_big_label">
                     <minWidth>
-                        <!-- Ensures that the label text is never truncated -->
                         <Region fx:constant="USE_PREF_SIZE" />
                     </minWidth>
                 </Label>
                 <Label fx:id="datetime" text="datetime" styleClass="cell_big_label" />
             </HBox>
-            <Label fx:id="assessment" styleClass="cell_small_label" text="assessment" />
+            <Label fx:id="assessment" styleClass="cell_small_label" text="assessment" wrapText="true">
+                <maxWidth>
+                    <Region fx:constant="USE_PREF_SIZE" />
+                </maxWidth>
+            </Label>
         </VBox>
     </GridPane>
 </HBox>
