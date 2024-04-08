@@ -31,6 +31,7 @@ public class ParserUtil {
 
     public static final String MESSAGE_INVALID_INDEX = "Index is not a non-zero unsigned integer.";
     public static final String MESSAGE_INVALID_DATE_TIME = "Date or time format is invalid.";
+    public static final String MESSAGE_INVALID_NUM_INDICES = "Patient Index and/or Appointment Note Index not provides";
 
     /**
      * Parses {@code oneBasedIndex} into an {@code Index} and returns it. Leading and trailing whitespaces will be
@@ -59,6 +60,9 @@ public class ParserUtil {
 
         for (int i = 0; i < parts.length; i++) {
             indices[i] = parseIndex(parts[i]);
+        }
+        if (indices.length < 2) {
+            throw new ParseException(MESSAGE_INVALID_NUM_INDICES);
         }
         return indices;
     }
