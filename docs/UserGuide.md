@@ -120,7 +120,7 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 
 - `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 - `NAME` should only contain alphanumeric characters and spaces.
-- `GENDER` M, F or exclude from the command for 'Prefer not to say' option.
+- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _*Case-insensitive e.g. m instead of M._
 - `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
@@ -164,21 +164,19 @@ if new nric is needed.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
 * `EMAIL` should be of the format 'local-part@domain'.
-* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `\g` with empty argument to remove any
-  gender
-  specification and make it 'Prefer not to say'.
+* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
+  gender specification and make it 'Prefer not to say'. _*Case-insensitive e.g. m instead of M._
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `\d` with empty argument to remove any
+* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
-  Environmental Illnesses, Degenerative Diseases or Others. A single `\i` with empty argument would remove
+  Environmental Illnesses, Degenerative Diseases or Others. A single `i/` with empty argument would remove
   all illness category associated with the medical record. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
   Examples:
 * `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
   medical record that has the `PATIENT_INDEX` of 1.
-
-- `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
+* `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
   `M` and birthdate of `11-07-1999`.
 
 [//]: # "### Locating persons by name: `find`"
@@ -298,13 +296,21 @@ Examples:
 
 ### Clearing all entries : `clear`
 
-Clears all entries from the address book.
+Clears all entries from the patient medical records.
 
 Format: `clear`
 
 ### Undo previous commands : `undo`
 
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
+
+Here are the list of undoable commands:
+1. `add`
+2. `edit`
+3. `delete`
+4. `add-an`
+5. `edit-an`
+6. `delete-an`
 
 Format: `undo`
 
@@ -374,10 +380,10 @@ the data of your previous HealthSync home folder.
 ## Command summary
 
 | Action                                 | Format, Examples                                                                                                                                                                                                                       |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` |
 | **List All Patient Medical Records**   | `list`                                                                                                                                                                                                                                 |
-| **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/Male b/11-07-1999`                                                                               |
+| **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/M b/11-07-1999`                                                                                  |
 | **Delete Patient Medical Record**      | `delete PATIENT_INDEX`<br> e.g., `delete 3`                                                                                                                                                                                            |
 | **Find Patient Medical Record**        | `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]`<br> e.g., `find n/James Jake`                                                                                               |
 | **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                                              |
