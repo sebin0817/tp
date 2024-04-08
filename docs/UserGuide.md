@@ -20,7 +20,7 @@ Interface).
     - [Deleting a patient medical record : `delete`](#deleting-a-patient-medical-record--delete)
     - [Locating a patient medical record : `find`](#locating-a-patient-medical-record--find)
     - [Listing all appointment notes: `list-an`](#listing-all-appointment-notes-list-an)
-    - [Listing a particular patients' appointment notes: `list-an`](#listing-a-particular-patients-appointment-notes-list-an)
+    - [Listing a particular patient's appointment notes: `list-an`](#listing-a-particular-patients-appointment-notes-list-an)
     - [Adding an appointment note: `add-an`](#adding-an-appointment-note-add-an)
     - [Editing an appointment note: `edit-an`](#editing-an-appointment-note-edit-an)
     - [Deleting an appointment note : `delete-an`](#deleting-an-appointment-note--delete-an)
@@ -233,9 +233,9 @@ Shows a list of all appointment notes.
 
 Format: `list-an`
 
-### Listing a particular patients' appointment notes: `list-an`
+### Listing a particular patient's appointment notes: `list-an`
 
-Shows a list a particular patient's appointment notes.
+Shows a list of a particular patient's appointment notes.
 
 Format: `list-an PATIENT_INDEX`
 
@@ -389,8 +389,8 @@ the data of your previous HealthSync home folder.
 | **List All Appointment Notes**         | `list-an`                                                                                                                                                                                                                              |
 | **List a Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                                         |
 | **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                                                  |
-| **Edit Appointment Note**              | `edit-an PATIENT_INDEX INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                               |
-| **Delete Appointment Note**            | `delete-an PATIENT_INDEX INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
+| **Edit Appointment Note**              | `edit-an PATIENT_INDEX NOTE_INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                          |
+| **Delete Appointment Note**            | `delete-an PATIENT_INDEX NOTE_INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
 | **Help**                               | `help`                                                                                                                                                                                                                                 |
 | **Clear**                              | `clear`                                                                                                                                                                                                                                |
 | **Undo**                               | `undo`                                                                                                                                                                                                                                 |
