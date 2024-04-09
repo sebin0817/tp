@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DRUG_ALLERGY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_GENDER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ILLNESS;
@@ -40,11 +42,13 @@ public class EditCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
         + "by the index number used in the displayed person list. "
         + "Existing values will be overwritten by the input values.\n"
-        + "Parameters: INDEX (must be a positive integer) "
+        + "Parameters: PATIENT_INDEX (must be a positive integer) "
         + "[" + PREFIX_NAME + "NAME] "
-        + "[" + PREFIX_GENDER + "GENDER] "
-        + "[" + PREFIX_PHONE + "PHONE] "
+        + "[" + PREFIX_PHONE + "PHONE_NUMBER] "
         + "[" + PREFIX_EMAIL + "EMAIL] "
+        + "[" + PREFIX_GENDER + "GENDER] "
+        + "[" + PREFIX_BIRTHDATE + "BIRTHDATE] "
+        + "[" + PREFIX_DRUG_ALLERGY + "DRUG_ALLERGY] "
         + "[" + PREFIX_ILLNESS + "ILLNESS]...\n"
         + "Example: " + COMMAND_WORD + " 1 "
         + PREFIX_PHONE + "91234567 "
