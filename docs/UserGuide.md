@@ -120,12 +120,13 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 
 - `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 - `NAME` should only contain alphanumeric characters and spaces.
-- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _*Case-insensitive e.g. m instead of M._
+- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _\*Case-insensitive e.g. m instead of M._
 - `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
 
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
+  HealthSync will automatically correct dates that are nearly accurate, such as 31-04-2023.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
@@ -165,7 +166,7 @@ if new nric is needed.
   with no spaces or other characters.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
-  gender specification and make it 'Prefer not to say'. _*Case-insensitive e.g. m instead of M._
+  gender specification and make it 'Prefer not to say'. _\*Case-insensitive e.g. m instead of M._
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
@@ -305,6 +306,7 @@ Format: `clear`
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
 
 Here are the list of undoable commands:
+
 1. `add`
 2. `edit`
 3. `delete`
@@ -380,7 +382,7 @@ the data of your previous HealthSync home folder.
 ## Command summary
 
 | Action                                 | Format, Examples                                                                                                                                                                                                                       |
-| -------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` |
 | **List All Patient Medical Records**   | `list`                                                                                                                                                                                                                                 |
 | **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/M b/11-07-1999`                                                                                  |
@@ -390,7 +392,7 @@ the data of your previous HealthSync home folder.
 | **List a Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                                         |
 | **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                                                  |
 | **Edit Appointment Note**              | `edit-an PATIENT_INDEX NOTE_INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                          |
-| **Delete Appointment Note**            | `delete-an PATIENT_INDEX NOTE_INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
+| **Delete Appointment Note**            | `delete-an PATIENT_INDEX NOTE_INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                         |
 | **Help**                               | `help`                                                                                                                                                                                                                                 |
 | **Clear**                              | `clear`                                                                                                                                                                                                                                |
 | **Undo**                               | `undo`                                                                                                                                                                                                                                 |
