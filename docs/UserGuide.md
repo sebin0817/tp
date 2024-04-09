@@ -252,7 +252,7 @@ Examples:
 
 Adds an appointment note to a patient. Please note that the time parameter is in 24-hour format.
 
-- Appointment notes with duplicate timings are allowed to allow doctors to record multiple diagnoses.
+- Appointment notes with duplicate timings are permitted to allow doctors to record multiple diagnoses.
 - Appointment notes date can be before the date of birth of the patient in the event of a maternal checkup.
 
 Format: `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`
