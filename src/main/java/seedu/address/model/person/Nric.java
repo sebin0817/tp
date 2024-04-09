@@ -10,12 +10,12 @@ import static seedu.address.commons.util.AppUtil.checkArgument;
 public class Nric {
 
     public static final String MESSAGE_CONSTRAINTS =
-            "Nric must be an alphanumeric and it must follow Singapore’s NRIC format [S/T/F/G]XXXXXXX[A-Z]";
+            "Nric must be an alphanumeric and it must follow Singapore’s NRIC format [S/T/F/G/M]XXXXXXX[A-Z]";
 
     /*
-     * nric must follow the Singapore's format of [S/T/F/G]XXXXXXX[A-Z]
+     * nric must follow the Singapore's format of [S/T/F/G/M]XXXXXXX[A-Z]
      */
-    public static final String VALIDATION_REGEX = "^[STFG]\\d{7}[A-Z]$";
+    public static final String VALIDATION_REGEX = "^[STFGM]\\d{7}[A-Z]$";
 
     public final String nric;
 
