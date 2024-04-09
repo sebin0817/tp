@@ -120,7 +120,7 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
 
 - `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
 - `NAME` should only contain alphanumeric characters and spaces.
-- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _*Case-insensitive e.g. m instead of M._
+- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _\*Case-insensitive e.g. m instead of M._
 - `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
@@ -165,7 +165,7 @@ if new nric is needed.
   with no spaces or other characters.
 * `EMAIL` should be of the format 'local-part@domain'.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
-  gender specification and make it 'Prefer not to say'. _*Case-insensitive e.g. m instead of M._
+  gender specification and make it 'Prefer not to say'. _\*Case-insensitive e.g. m instead of M._
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
@@ -305,6 +305,7 @@ Format: `clear`
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
 
 Here are the list of undoable commands:
+
 1. `add`
 2. `edit`
 3. `delete`
@@ -323,20 +324,20 @@ Safeguards your current database by creating a timestamped snapshot, ensuring da
 `archive`
 
 - This command does not require any parameters.
-- Upon execution, it generates a snapshot file named `addressBook_YYYY_MM_DD_T.json` within the `data` folder. This naming convention includes the current year (YYYY), month (MM), day (DD), and a timestamp (T) to ensure uniqueness and easy identification of the backup.
+- Upon execution, it generates a snapshot file named `addressbook_YYYY_MM_DD_T.json` within the `data` folder. This naming convention includes the current year (YYYY), month (MM), day (DD), and a timestamp (T) to ensure uniqueness and easy identification of the backup.
 
 **Functionality**:
 
-- **Creating a Snapshot**: Running the `archive` command will automatically save a copy of the current `addressBook.json` file. This snapshot is a full backup of your database at the time of execution, allowing you to preserve data before making major changes or clearing the database.
-- **Restoration**: If you need to revert to a previously archived state, manually navigate to the `data` folder. Here, you can rename and replace the current `addressBook.json` with the desired snapshot file. This process restores your database to the snapshot's saved state.
+- **Creating a Snapshot**: Running the `archive` command will automatically save a copy of the current `addressbook.json` file. This snapshot is a full backup of your database at the time of execution, allowing you to preserve data before making major changes or clearing the database.
+- **Restoration**: If you need to revert to a previously archived state, manually navigate to the `data` folder. Here, you can rename and replace the current `addressbook.json` with the desired snapshot file. This process restores your database to the snapshot's saved state.
 
 **Examples**:
 
-- Executing `archive` on April 4, 2024, at 3:00 PM will create a snapshot file named `addressBook_2024_04_04_T150000.json` in the `data` folder. This file represents a complete backup of the database as it existed at that moment.
+- Executing `archive` on April 4, 2024, at 3:00 PM will create a snapshot file named `addressbook_2024_04_04_T150000.json` in the `data` folder. This file represents a complete backup of the database as it existed at that moment.
 
 **Note**:
 
-To restore from an archive, ensure you correctly rename the desired snapshot file to `addressBook.json` and replace the existing file in the `data` folder. This manual step is crucial for successful restoration and requires careful handling to avoid data loss.
+To restore from an archive, ensure you correctly rename the desired snapshot file to `addressbook.json` and replace the existing file in the `data` folder. This manual step is crucial for successful restoration and requires careful handling to avoid data loss.
 
 By utilizing the `archive` command, users can confidently manage and implement significant changes to their database, knowing their data is securely backed up and can be restored if necessary.
 
@@ -353,7 +354,7 @@ save manually.
 
 ### Editing the data file
 
-HealthSync data are saved automatically as a JSON file `[JAR file location]/data/HealthSync.json`. Advanced users are
+HealthSync data are saved automatically as a JSON file `[JAR file location] /data/addressbook.json`. Advanced users are
 welcome to update data directly by editing that data file.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
@@ -380,7 +381,7 @@ the data of your previous HealthSync home folder.
 ## Command summary
 
 | Action                                 | Format, Examples                                                                                                                                                                                                                       |
-| -------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Add Patient Medical Record**         | `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` |
 | **List All Patient Medical Records**   | `list`                                                                                                                                                                                                                                 |
 | **Edit Patient Medical Record**        | `edit PATIENT_INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS]...` <br> e.g. `edit 1 g/M b/11-07-1999`                                                                                  |
@@ -390,7 +391,7 @@ the data of your previous HealthSync home folder.
 | **List a Patient's Appointment Notes** | `list-an PATIENT_INDEX` <br> e.g., `list-an 1`                                                                                                                                                                                         |
 | **Add Appointment Note**               | `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`<br> e.g., `add-an 1 d/30-12-2023 t/2100 n/Headache`                                                                                                                                  |
 | **Edit Appointment Note**              | `edit-an PATIENT_INDEX NOTE_INDEX [d/DD-MM-YYYY] [t/HHMM] [n/NOTE]`<br> e.g., `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`                                                                                                          |
-| **Delete Appointment Note**            | `delete-an PATIENT_INDEX NOTE_INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                              |
+| **Delete Appointment Note**            | `delete-an PATIENT_INDEX NOTE_INDEX`<br> e.g., `delete-an 1 2`                                                                                                                                                                         |
 | **Help**                               | `help`                                                                                                                                                                                                                                 |
 | **Clear**                              | `clear`                                                                                                                                                                                                                                |
 | **Undo**                               | `undo`                                                                                                                                                                                                                                 |
