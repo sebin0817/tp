@@ -138,14 +138,14 @@ Examples:
   patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
   birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness category of `Infectious Diseases`.
 
-### Listing all patient medical records : `list`
+### Listing all patient medical records: `list`
 
 Displays the list of patients in the application. Each row of patients displays a basic details of the patients
 (e.g. name, gender, age, illness, phone number)
 
 Format: `list`
 
-### Editing a patient medical record : `edit`
+### Editing a patient medical record: `edit`
 
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
@@ -196,7 +196,7 @@ if new nric is needed.
 [//]: # "* `find alex david` returns `Alex Yeoh`, `David Li`<br>"
 [//]: # "  ![result for 'find alex david'](images/findAlexDavidResult.png)"
 
-### Deleting a patient medical record : `delete`
+### Deleting a patient medical record: `delete`
 
 Deletes a particular patient's medical records.
 
@@ -206,7 +206,7 @@ Format: `delete PATIENT_INDEX`
 - The index refers to the index number shown in the displayed patient list.
 - The index **must be a positive integer** 1, 2, 3, …​
 
-### Locating a patient medical record : `find`
+### Locating a patient medical record: `find`
 
 Finds patient whose details contain any of the given keywords.
 
@@ -252,6 +252,9 @@ Examples:
 
 Adds an appointment note to a patient. Please note that the time parameter is in 24-hour format.
 
+- Appointment notes with duplicate timings are allowed to allow doctors to record multiple diagnoses.
+- Appointment notes date can be before the date of birth of the patient in the event of a maternal checkup.
+
 Format: `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -279,7 +282,7 @@ Examples:
 - `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`
 - `edit-an 1 2 t/2100 n/Stomach Virus`
 
-### Deleting an appointment note : `delete-an`
+### Deleting an appointment note: `delete-an`
 
 Deletes the specified appointment note from a patient.
 
@@ -294,13 +297,13 @@ Examples:
 
 - `list-an 1` followed by `delete-an 1 2` deletes the 2nd appointment note from the 1st patient.
 
-### Clearing all entries : `clear`
+### Clearing all entries: `clear`
 
 Clears all entries from the patient medical records.
 
 Format: `clear`
 
-### Undo previous commands : `undo`
+### Undo previous commands: `undo`
 
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
 
