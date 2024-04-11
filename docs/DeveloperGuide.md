@@ -19,7 +19,7 @@ title: Developer Guide
     - [Undo feature](#undo-feature)
       - [Implementation](#implementation-1)
       - [Design considerations:](#design-considerations)
-    - [Find feature (Draft)](#find-feature-draft)
+    - [Find feature](#find-feature)
       - [Implementation](#implementation-2)
       - [Design considerations:](#design-considerations-1)
         - [Predicate Implementation](#predicate-implementation)
@@ -358,7 +358,7 @@ The following activity diagram summarizes what happens when a user executes a ne
   - Pros: Will use less memory (e.g. for `delete`, just save the person being deleted).
   - Cons: We must ensure that the implementation of each individual command are correct.
 
-### Find feature (Draft)
+### Find feature
 
 #### Implementation
 
