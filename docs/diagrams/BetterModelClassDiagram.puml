@@ -14,8 +14,13 @@ UniquePersonList -right-> Person
 
 Person -up-> "*" Tag
 
+Person *--> Nric
 Person *--> Name
+Person *--> Gender
+Person *--> BirthDate
 Person *--> Phone
 Person *--> Email
-Person *--> Address
+Person *--> DrugAllergy
+Person *--> Illness
+Person *--> Note
 @enduml
