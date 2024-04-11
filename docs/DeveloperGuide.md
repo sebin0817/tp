@@ -954,7 +954,7 @@ testers are expected to do more *exploratory* testing.
 
 ## **Planned Enhancements**
 
-3. **UI Improvements**  
+3. **UI Improvements**
    1. **Footer:** In the current design, the footer does not consistently stick to the bottom of the window, especially when resizing to large windows.
    As stated by bug issue: [#117](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/117).
    We plan to update this by modifying the UI layout slightly so that the footer sticks to the bottom of the window at all times.
