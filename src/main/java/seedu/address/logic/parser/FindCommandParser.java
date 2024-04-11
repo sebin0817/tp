@@ -85,11 +85,16 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         if (argMultimap.getValue(PREFIX_GENDER).isPresent()) {
+            int maxValidKeywordLength = 6;
             userKeywords = formatKeywords(argMultimap.getValue(PREFIX_GENDER).get());
             validatedKeywords = new String[userKeywords.length];
 
             for (int i = 0; i < userKeywords.length; i++) {
-                validatedKeywords[i] = ParserUtil.parseGender(userKeywords[i]).toString();
+                String gender = ParserUtil.parseGender(userKeywords[i]).toString();
+                if (gender.length() > 1) {
+                    gender = gender.substring(0, maxValidKeywordLength);
+                }
+                validatedKeywords[i] = gender;
             }
             predicates.add(new GenderContainsKeywordsPredicate(Arrays.asList(validatedKeywords)));
         }
@@ -152,7 +157,6 @@ public class FindCommandParser implements Parser<FindCommand> {
     }
 
     private String[] formatKeywords(String medicalRecord) {
-        assert medicalRecord.length() > 0 : "Medical record should not be empty";
         return medicalRecord.split("\\s+");
     }
 }

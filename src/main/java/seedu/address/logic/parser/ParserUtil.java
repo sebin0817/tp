@@ -106,7 +106,7 @@ public class ParserUtil {
      */
     public static Gender parseGender(String gender) throws ParseException {
         String trimmedGender;
-        if (gender == null) {
+        if (gender == null || gender.isEmpty()) {
             trimmedGender = "Prefer not to say";
         } else {
             trimmedGender = gender.trim();
