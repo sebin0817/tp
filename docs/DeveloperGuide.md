@@ -106,8 +106,8 @@ Given below is a quick overview of main components and how they interact with ea
 **Main components of the architecture**
 
 **`Main`** (consisting of
-classes [`Main`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/Main.java)
-and [`MainApp`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in
+classes [`Main`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/Main.java)
+and [`MainApp`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/MainApp.java)) is in
 charge of the app launch and shut down.
 
 - At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
@@ -147,7 +147,7 @@ The sections below give more details of each component.
 ### UI component
 
 The **API** of this component is specified
-in [`Ui.java`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/ui/Ui.java)
+in [`Ui.java`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/ui/Ui.java)
 
 ![Structure of the UI Component](images/UiClassDiagram.png)
 
@@ -158,9 +158,9 @@ represent parts of the visible GUI.
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that
 are in the `src/main/resources/view` folder. For example, the layout of
-the [`MainWindow`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/ui/MainWindow.java)
+the [`MainWindow`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/ui/MainWindow.java)
 is specified
-in [`MainWindow.fxml`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/resources/view/MainWindow.fxml)
+in [`MainWindow.fxml`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/resources/view/MainWindow.fxml)
 
 The `UI` component,
 
@@ -172,7 +172,7 @@ The `UI` component,
 ### Logic component
 
 **API
-** : [`Logic.java`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/logic/Logic.java)
+** : [`Logic.java`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/logic/Logic.java)
 
 Here's a (partial) class diagram of the `Logic` component:
 
@@ -214,7 +214,7 @@ How the parsing works:
 ### Model component
 
 **API
-** : [`Model.java`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/model/Model.java)
+** : [`Model.java`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/model/Model.java)
 
 <img src="images/ModelClassDiagram.png" width="450" />
 
@@ -245,7 +245,7 @@ The `Note` entity,
 ### Storage component
 
 **API
-** : [`Storage.java`](https://github.com/se-edu/HealthSync-level3/tree/master/src/main/java/seedu/address/storage/Storage.java)
+** : [`Storage.java`](https://github.com/AY2324S2-CS2103-F09-4/tp/tree/master/src/main/java/seedu/address/storage/Storage.java)
 
 <img src="images/StorageClassDiagram.png" width="550" />
 
