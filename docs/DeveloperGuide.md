@@ -62,6 +62,7 @@ title: Developer Guide
     - [Delete a patient’s appointment note](#delete-a-patients-appointment-note)
     - [Undo recent user commands](#undo-recent-user-commands)
     - [Archive Command](#archive-command)
+  - [**Planned Enhancements**](#planned-enhancements)
 
 ---
 
@@ -954,6 +955,30 @@ testers are expected to do more *exploratory* testing.
 
 ## **Planned Enhancements**
 
+Team size: 5
+
+Current behaviour is based of `v1.3 - v1.4`
+
+1. **Improved Success / Error Messages for `add` and `edit`**:
+   1. **Success Messages:** The current behaviour of the application shows success messages with missing information are shown to the user after the commands `add` and `edit` are executed successfully.
+     As stated by bug issues: [#112](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/112), [#108](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/108), [#97](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/97).
+     We plan to update the success messages with the missing attributes of the added or edited medical record.
+     For instance, it should include Drug Allergy, Birthdate, Gender, NRIC for successful commands.
+     For the `edit` success message on top of the missing attributes, edited attributes can be specified as well to the end user.
+
+   2. **Error Messages:** The current behaviour of the application shows vague error messages when an invalid PATIENT_INDEX for `edit` command is entered.
+     To tackle the respective bug issues [#128](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/128) and [#127](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/127) we plan to update the error message for `edit` to account for invalid PATIENT_INDEX and show 'The index provided is invalid'.
+
+   All these message fixes would be formatted better with proper 'break-lines' as well.
+
+2. **Improved validation checking for NRIC and Email for `add` and `edit`**:
+   1. **Improve NRIC digits validation**: The current application only validates whether it is in the format of '[S/T/F/G/M]XXXXXXX[A-Z]'.
+     It does not account the digits whether it is actually valid as addressed by bug issue [#85](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/85).
+     We plan to improve the validation by also considering if the digits are valid with respect to the official Singapore NRIC format which considers birth year and more.
+
+   2. **Improve Email validation**: The current application does not check if the @domain is valid such as whether it contains a top level domain as addressed by bug issues [#114](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/114), [#105](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/105).
+     Hence, we plan on improving the validation to also consider if the domain provided has a top level domain or whether the domain itself corresponds to an actual legitimate domain.
+  
 3. **UI Improvements**
    1. **Footer:** In the current design, the footer does not consistently stick to the bottom of the window, especially when resizing to large windows.
    As stated by bug issue: [#117](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/117).
