@@ -30,6 +30,7 @@ Interface).
     - [Exiting the program : `exit`](#exiting-the-program--exit)
     - [Saving the data](#saving-the-data)
     - [Editing the data file](#editing-the-data-file)
+    - [Legacy Naming Conventions](#legacy-naming-conventions)
   - [FAQ](#faq)
   - [Known issues](#known-issues)
   - [Command summary](#command-summary)
@@ -356,6 +357,10 @@ save manually.
 
 HealthSync data are saved automatically as a JSON file `[JAR file location] /data/addressbook.json`. Advanced users are
 welcome to update data directly by editing that data file.
+
+### Legacy Naming Conventions
+
+Due to historical reasons, the files created and managed by HealthySync are still named using the legacy application’s naming convention, such as `addressbook.json`. This naming is maintained to ensure compatibility and ease of transition for users and developers familiar with the previous application. Future updates may include renaming these files to reflect the new application name more closely.
 
 <div markdown="span" class="alert alert-warning">:exclamation: **Caution:**
 If your changes to the data file makes its format invalid, HealthSync will discard all data and start with an empty data file at the next run. Hence, it is recommended to take a backup of the file before editing it.<br>
