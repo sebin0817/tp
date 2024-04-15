@@ -30,7 +30,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_NAME + "NAME "
             + "[" + PREFIX_GENDER + "GENDER] "
             + PREFIX_BIRTHDATE + "BIRTHDATE "
-            + PREFIX_PHONE + "PHONE "
+            + PREFIX_PHONE + "PHONE_NUMBER "
             + PREFIX_EMAIL + "EMAIL "
             + "[" + PREFIX_DRUG_ALLERGY + "DRUG_ALLERGY] "
             + PREFIX_ILLNESS + "ILLNESS...\n"
@@ -41,7 +41,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_BIRTHDATE + "10-07-1999 "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_DRUG_ALLERGY + "Penicillin and Cephalosporins "
+            + PREFIX_DRUG_ALLERGY + "Penicillin | Cephalosporins "
             + PREFIX_ILLNESS + "Infectious Disease "
             + PREFIX_ILLNESS + "Genetic Disorders ";
 
