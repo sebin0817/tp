@@ -15,17 +15,17 @@ Interface).
   - [Features](#features)
     - [Viewing Help Information: `help`](#viewing-help-information-help)
     - [Adding a patient medical record: `add`](#adding-a-patient-medical-record-add)
-    - [Listing all patient medical records : `list`](#listing-all-patient-medical-records--list)
-    - [Editing a patient medical record : `edit`](#editing-a-patient-medical-record--edit)
-    - [Deleting a patient medical record : `delete`](#deleting-a-patient-medical-record--delete)
-    - [Locating a patient medical record : `find`](#locating-a-patient-medical-record--find)
+    - [Listing all patient medical records: `list`](#listing-all-patient-medical-records-list)
+    - [Editing a patient medical record: `edit`](#editing-a-patient-medical-record-edit)
+    - [Deleting a patient medical record: `delete`](#deleting-a-patient-medical-record-delete)
+    - [Locating a patient medical record: `find`](#locating-a-patient-medical-record-find)
     - [Listing all appointment notes: `list-an`](#listing-all-appointment-notes-list-an)
     - [Listing a particular patient's appointment notes: `list-an`](#listing-a-particular-patients-appointment-notes-list-an)
     - [Adding an appointment note: `add-an`](#adding-an-appointment-note-add-an)
     - [Editing an appointment note: `edit-an`](#editing-an-appointment-note-edit-an)
-    - [Deleting an appointment note : `delete-an`](#deleting-an-appointment-note--delete-an)
-    - [Clearing all entries : `clear`](#clearing-all-entries--clear)
-    - [Undo previous commands : `undo`](#undo-previous-commands--undo)
+    - [Deleting an appointment note: `delete-an`](#deleting-an-appointment-note-delete-an)
+    - [Clearing all entries: `clear`](#clearing-all-entries-clear)
+    - [Undo previous commands: `undo`](#undo-previous-commands-undo)
     - [Archiving Data Files: `archive`](#archiving-data-files-archive)
     - [Exiting the program : `exit`](#exiting-the-program--exit)
     - [Saving the data](#saving-the-data)
@@ -119,17 +119,22 @@ Adds a patient medical record to the system.
 
 Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRUG_ALLERGY] [i/ILLNESS]...`
 
-- `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format
+- `NRIC` must be an alphanumeric and it must follow Singapore's NRIC format '[S/T/F/G/M]XXXXXXX[A-Z]'.
 - `NAME` should only contain alphanumeric characters and spaces.
 - `GENDER` M, F or exclude from the command for 'Prefer not to say' option. _\*Case-insensitive e.g. m instead of M._
 - `PHONE_NUMBER` should be in valid Singapore phone number format.
-  Must start with 6, 8, or 9 and be followed by seven additional digits,
-  with no spaces or other characters.
-
-* `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `EMAIL` should be of the format 'local-part@domain'.
-* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
-* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
+  Must start with 6, 8, or 9 and be followed by seven additional digits, with no spaces or other characters.
+- `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
+- `EMAIL` should be of the format 'local-part@domain'.
+  - 'local-part' constraints:
+    - Should only contain alphanumeric characters and special characters excluding parentheses, +\_.-
+    - May not start or end with any special characters.
+  - 'domain' constraints:
+    - Must end with a domain label at least 2 characters long.
+    - Must have each domain label start and end with alphanumeric characters.
+    - Must have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
+- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
+- `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
 
@@ -139,14 +144,14 @@ Examples:
   patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
   birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness category of `Infectious Diseases`.
 
-### Listing all patient medical records : `list`
+### Listing all patient medical records: `list`
 
 Displays the list of patients in the application. Each row of patients displays a basic details of the patients
 (e.g. name, gender, age, illness, phone number)
 
 Format: `list`
 
-### Editing a patient medical record : `edit`
+### Editing a patient medical record: `edit`
 
 Edits a particular patient medical record. Users can select which particular detail to be updated.
 
@@ -160,44 +165,34 @@ if new nric is needed.
 - Edits the medical record at the specified `PATIENT_INDEX`. The index refers to the index number shown in the
   displayed patient medical record list. The index **must be a positive integer** 1, 2, 3, …​
 
-* `NAME` should only contain alphanumeric characters and spaces.
-* `PHONE_NUMBER` should be in valid Singapore phone number format.
+- `NAME` should only contain alphanumeric characters and spaces.
+- `PHONE_NUMBER` should be in valid Singapore phone number format.
   Must start with 6, 8, or 9 and be followed by seven additional digits,
   with no spaces or other characters.
-* `EMAIL` should be of the format 'local-part@domain'.
-* `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
+- `EMAIL` should be of the format 'local-part@domain'.
+  - 'local-part' constraints:
+    - Should only contain alphanumeric characters and special characters excluding parentheses, +\_.-
+    - May not start or end with any special characters.
+  - 'domain' constraints:
+    - Must end with a domain label at least 2 characters long.
+    - Must have each domain label start and end with alphanumeric characters.
+    - Must have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
+- `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
   gender specification and make it 'Prefer not to say'. _\*Case-insensitive e.g. m instead of M._
-* `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-* `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
+- `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
+- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
-* `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
+- `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. A single `i/` with empty argument would remove
   all illness category associated with the medical record. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
   Examples:
-* `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
+- `edit 1 n/Cindy Tan p/94505333 e/editedmail@mail.com g/F b/11-11-1991 d/Antibiotic Allergy i/Genetic Disorders` Edit the whole patient
   medical record that has the `PATIENT_INDEX` of 1.
-* `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
+- `edit 1 g/M b/11-07-1999` Edits patient medical record that has the `PATIENT_INDEX` of 1 to have a gender of
   `M` and birthdate of `11-07-1999`.
 
-[//]: # "### Locating persons by name: `find`"
-[//]: #
-[//]: # "Finds persons whose names contain any of the given keywords."
-[//]: # "Format: `find KEYWORD [MORE_KEYWORDS]`"
-[//]: #
-[//]: # "* The search is case-insensitive. e.g `hans` will match `Hans`"
-[//]: # "* The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`"
-[//]: # "* Only the name is searched."
-[//]: # "* Only full words will be matched e.g. `Han` will not match `Hans`"
-[//]: # "* Persons matching at least one keyword will be returned (i.e. `OR` search)."
-[//]: # "  e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`"
-[//]: #
-[//]: # "Examples:"
-[//]: # "* `find John` returns `john` and `John Doe`"
-[//]: # "* `find alex david` returns `Alex Yeoh`, `David Li`<br>"
-[//]: # "  ![result for 'find alex david'](images/findAlexDavidResult.png)"
-
-### Deleting a patient medical record : `delete`
+### Deleting a patient medical record: `delete`
 
 Deletes a particular patient's medical records.
 
@@ -207,7 +202,7 @@ Format: `delete PATIENT_INDEX`
 - The index refers to the index number shown in the displayed patient list.
 - The index **must be a positive integer** 1, 2, 3, …​
 
-### Locating a patient medical record : `find`
+### Locating a patient medical record: `find`
 
 Finds patient whose details contain any of the given keywords.
 
@@ -253,6 +248,9 @@ Examples:
 
 Adds an appointment note to a patient. Please note that the time parameter is in 24-hour format.
 
+- Appointment notes with duplicate timings are permitted to allow doctors to record multiple diagnoses.
+- Appointment notes date can be before the date of birth of the patient in the event of a maternal checkup.
+
 Format: `add-an PATIENT_INDEX d/DD-MM-YYYY t/HHMM n/NOTE`
 
 <div markdown="span" class="alert alert-primary">:bulb: **Tip:**
@@ -280,7 +278,7 @@ Examples:
 - `edit-an 1 1 d/19-02-2024 t/1230 n/General Flu`
 - `edit-an 1 2 t/2100 n/Stomach Virus`
 
-### Deleting an appointment note : `delete-an`
+### Deleting an appointment note: `delete-an`
 
 Deletes the specified appointment note from a patient.
 
@@ -295,13 +293,13 @@ Examples:
 
 - `list-an 1` followed by `delete-an 1 2` deletes the 2nd appointment note from the 1st patient.
 
-### Clearing all entries : `clear`
+### Clearing all entries: `clear`
 
 Clears all entries from the patient medical records.
 
 Format: `clear`
 
-### Undo previous commands : `undo`
+### Undo previous commands: `undo`
 
 Undo the most recent command if any (Specifically patient medical record and appointment note related commands).
 

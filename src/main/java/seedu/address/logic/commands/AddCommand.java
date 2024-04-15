@@ -30,7 +30,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_NAME + "NAME "
             + "[" + PREFIX_GENDER + "GENDER] "
             + PREFIX_BIRTHDATE + "BIRTHDATE "
-            + PREFIX_PHONE + "PHONE "
+            + PREFIX_PHONE + "PHONE_NUMBER "
             + PREFIX_EMAIL + "EMAIL "
             + "[" + PREFIX_DRUG_ALLERGY + "DRUG_ALLERGY] "
             + PREFIX_ILLNESS + "ILLNESS...\n"
