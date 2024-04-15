@@ -29,7 +29,7 @@ public class SampleDataUtil {
         return new Person[]{
             new Person(new Nric("S1234567D"), new Name("Alex Yeoh"), new Gender("M"), new BirthDate("10-07-1999"),
                     new Phone("87438807"), new Email("alexyeoh@example.com"),
-                    new DrugAllergy("Penicillin, Antibiotic"),
+                    new DrugAllergy("Penicillin | Antibiotic"),
                 getIllnesses("Mental Disorders"), getNotes(
                     new Note[]{
                         new Note(LocalDateTime.of(2024, 2, 19, 21, 30),

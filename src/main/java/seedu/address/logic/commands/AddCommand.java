@@ -41,7 +41,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_BIRTHDATE + "10-07-1999 "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL + "johnd@example.com "
-            + PREFIX_DRUG_ALLERGY + "Penicillin and Cephalosporins "
+            + PREFIX_DRUG_ALLERGY + "Penicillin | Cephalosporins "
             + PREFIX_ILLNESS + "Infectious Disease "
             + PREFIX_ILLNESS + "Genetic Disorders ";
 

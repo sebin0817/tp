@@ -132,16 +132,16 @@ Format: `add ic/NRIC n/NAME [g/GENDER] b/BIRTHDATE p/PHONE_NUMBER e/EMAIL [d/DRU
     - Must end with a domain label at least 2 characters long.
     - Must have each domain label start and end with alphanumeric characters.
     - Must have each domain label consist of alphanumeric characters, separated only by hyphens, if any.
-- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters.
+- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. Entry of multiple drug allergies should be separated using spaces and special characters, e.g. `|`.
 - `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
   Environmental Illnesses, Degenerative Diseases or Others. You can also type the first few letters / words of the illness name as long it corresponds to a valid name for convenience.
 
 Examples:
 
-- `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol Allergy i/Infectious Diseases` Adds a new
+- `add ic/S9974944F n/John Doe p/91234567 e/johndoe@email.com g/M b/11-11-1990 d/Paracetamol | Penicillin i/Infectious Diseases` Adds a new
   patient record with nric of `S9974944F` name of `John Doe`, phone no. of `+65 91234567`, gender of `Male`,
-  birthdate of `11-11-1990`, allergy of `Paracetamol Allergy`, and an illness category of `Infectious Diseases`.
+  birthdate of `11-11-1990`, allergy of `Paracetamol | Penicillin`, and an illness category of `Infectious Diseases`.
 
 ### Listing all patient medical records: `list`
 
@@ -179,7 +179,7 @@ if new nric is needed.
 - `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
   gender specification and make it 'Prefer not to say'. _*Case-insensitive e.g. m instead of M._
 - `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
-- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
+- `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. Entry of multiple drug allergies should be separated using spaces and special characters, e.g. `|`.
   allergy previously written.
 - `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
   Genetic Disorders, Mental Health Disorders, Neurological Disorders, Metabolic Disorder, Nutritional Deficiencies,
@@ -206,6 +206,10 @@ Format: `delete PATIENT_INDEX`
 Finds patient whose details contain any of the given keywords.
 
 Format: `find [ic/NRIC] [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [g/GENDER] [b/BIRTHDATE] [d/DRUG_ALLERGY] [i/ILLNESS] `
+
+<div markdown="span" class="alert alert-primary">:bulb: **Tip:**
+Find should have at least one parameter to search.
+</div>
 
 - Users can search by NRIC, name, phone number, email, gender, birthdate, drug allergy and illness.
 - The search is case-insensitive. e.g `hans` will match `Hans`
