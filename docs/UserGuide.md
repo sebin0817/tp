@@ -168,6 +168,7 @@ if new nric is needed.
 * `GENDER` M, F or exclude from the command for 'Prefer not to say' option. `g/` with empty argument to remove any
   gender specification and make it 'Prefer not to say'. _\*Case-insensitive e.g. m instead of M._
 * `BIRTHDATE` must be in the form of DD-MM-YYYY and must not be in the future.
+  HealthSync will automatically correct dates that are nearly accurate, such as 31-04-2023.
 * `DRUG_ALLERGY` can contain alphanumerics, spaces and special characters. `d/` with empty argument to remove any
   allergy previously written.
 * `ILLNESS` could be of the following options - Infectious Disease, Chronic Conditions, Autoimmune Disorders,
