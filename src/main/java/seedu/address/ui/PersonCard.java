@@ -53,15 +53,11 @@ public class PersonCard extends UiPart<Region> {
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
 
-        illnesses.setVgap(5);
-        illnesses.setHgap(5);
-        String illnessLabelStyle = "-fx-background-color: #d4c262;"
-                + "-fx-background-radius: 20;"
-                + "-fx-label-padding: 5;"
-                + "-fx-text-fill: #000;"
-                + "-fx-font-size: 13px";
-
         this.person = person;
+        initializeMedicalRecords(person, displayedIndex);
+    }
+
+    private void initializeMedicalRecords(Person person, int displayedIndex) {
         id.setText(displayedIndex + ". ");
         nric.setText(person.getNric().nric);
         name.setText(person.getName().fullName);
@@ -70,12 +66,31 @@ public class PersonCard extends UiPart<Region> {
         phone.setText("Phone Number: " + person.getPhone().value);
         email.setText("Email: " + person.getEmail().value);
         drugAllergy.setText("Drug Allergies: " + person.getDrugAllergy().drugAllergy);
+        setIllnesses(person);
+    }
+
+    private void setIllnesses(Person person) {
+        setIllnessGaps();
         person.getIllnesses().stream()
                 .sorted(Comparator.comparing(illness -> illness.illnessName))
                 .forEach(illness -> {
                     Label illnessLabel = new Label(illness.illnessName);
-                    illnessLabel.setStyle(illnessLabelStyle);
+                    illnessLabel.setStyle(getIllnessLabelStyle());
                     illnesses.getChildren().add(illnessLabel);
                 });
+    }
+
+    private String getIllnessLabelStyle() {
+        String illnessLabelStyle = "-fx-background-color: #d4c262;"
+                + "-fx-background-radius: 20;"
+                + "-fx-label-padding: 5;"
+                + "-fx-text-fill: #000;"
+                + "-fx-font-size: 13px";
+        return illnessLabelStyle;
+    }
+
+    private void setIllnessGaps() {
+        illnesses.setVgap(5);
+        illnesses.setHgap(5);
     }
 }
