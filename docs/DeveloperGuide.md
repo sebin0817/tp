@@ -978,3 +978,8 @@ Current behaviour is based of `v1.3 - v1.4`
 
    2. **Improve Email validation**: The current application does not check if the @domain is valid such as whether it contains a top level domain as addressed by bug issues [#114](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/114), [#105](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/105).
      Hence, we plan on improving the validation to also consider if the domain provided has a top level domain or whether the domain itself corresponds to an actual legitimate domain.
+  
+3. **UI Improvements**
+   1. **Footer:** In the current design, the footer does not consistently stick to the bottom of the window, especially when resizing to large windows.
+   As stated by bug issue: [#117](https://github.com/AY2324S2-CS2103-F09-4/tp/issues/117).
+   We plan to update this by modifying the UI layout slightly so that the footer sticks to the bottom of the window at all times.
