@@ -5,8 +5,8 @@
 
 **HealthSync** helps optimize clinical efficiency with a keyboard-driven system for doctors to manage patient records, notes, medical certificates, and medication dispensing, all in one streamlined interface, enhancing care quality and focus in a busy clinical setting. While it has a GUI, most of the user interactions happen using a CLI (Command Line Interface).
 
-* If you are interested in using HealthSync, head over to the [_Quick Start_ section of the **User Guide**](UserGuide.html#quick-start).
-* If you are interested about developing HealthSync, the [**Developer Guide**](DeveloperGuide.html) is a good place to start.
+* If you are interested in using HealthSync, head over to the [_Quick Start_ section of the **User Guide**](https://ay2324s2-cs2103-f09-4.github.io/tp/UserGuide.html#quick-start).
+* If you are interested about developing HealthSync, the [**Developer Guide**](https://ay2324s2-cs2103-f09-4.github.io/tp/DeveloperGuide.html) is a good place to start.
 
 
 **Acknowledgements**
